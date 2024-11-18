@@ -1,3 +1,51 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "types": [
+      "react-native-reanimated"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@screens": [
+        "src/screens"
+      ],
+      "@api": [
+        "src/api"
+      ],
+      "@hooks": [
+        "src/hooks"
+      ],
+      "@types": [
+        "src/types"
+      ],
+      "@stores": [
+        "src/stores"
+      ],
+      "@constants": [
+        "src/constants"
+      ],
+      "@utils": [
+        "src/utils"
+      ],
+      "@components": [
+        "src/components"
+      ],
+      "@config": [
+        "src/config"
+      ],
+      "@providers": [
+        "src/providers"
+      ],
+      "@services": [
+        "src/services"
+      ],
+//      "@env": [
+//        "node_modules/react-native-dotenv"
+//      ],
+      "@theme": [
+        "src/theme"
+      ]
+    }
+  }
 }

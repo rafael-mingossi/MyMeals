@@ -33,6 +33,10 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+*.jks
+
+android/google-service-account.json
+google-service-account.json
 
 # node.js
 #
@@ -51,9 +55,12 @@ yarn-error.log
 **/fastlane/Preview.html
 **/fastlane/screenshots
 **/fastlane/test_output
+**/fastlane/.env
 
 # Bundle artifact
 *.jsbundle
+
+*dSYM.zip
 
 # Ruby / CocoaPods
 **/Pods/
@@ -65,10 +72,19 @@ yarn-error.log
 # testing
 /coverage
 
-# Yarn
+# Expo
+.expo
+dist/
+web-build/
+/ios/NubbleApp.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Swap the next line with the line above it
+.yarn/install-state.gz
+# .yarn/releases/*

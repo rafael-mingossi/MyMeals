@@ -45,6 +45,7 @@ const lightTheme = {
   paragraphBlue: palette.bluePrimary,
   paragraphOrange: palette.orangePrimary,
   paragraphGray: palette.gray,
+  paragraphGreen: palette.greenPrimary,
 };
 
 const darkTheme: typeof lightTheme = {
@@ -71,6 +72,7 @@ const darkTheme: typeof lightTheme = {
   paragraphBlue: palette.bluePrimary,
   paragraphOrange: palette.orangePrimary,
   paragraphGray: palette.gray,
+  paragraphGreen: palette.greenPrimary,
 };
 
 export const colours = {

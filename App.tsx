@@ -3,7 +3,7 @@ import {SafeAreaView, View} from 'react-native';
 
 import {ThemeProvider} from '@shopify/restyle';
 
-import {Text} from '@components';
+import {Icon, Text} from '@components';
 import {theme} from '@theme';
 
 function App(): React.JSX.Element {
@@ -20,30 +20,15 @@ function App(): React.JSX.Element {
             font="blackItalic">
             headingLarge
           </Text>
-          <Text
-            preset="headingMedium"
-            color="paragraphGreen"
-            font="mediumItalic">
-            headingMedium
-          </Text>
-          <Text preset="headingMedium" color="paragraphGreen">
-            headingMedium
-          </Text>
-          <Text preset="headingSmall" color="paragraphBlue">
-            headingSmall
-          </Text>
-          <Text preset="headingSmall" color="paragraphBlue" font="semiBold">
-            headingSmall
-          </Text>
-          <Text
-            preset="paragraphMedium"
-            color="paragraphBlue"
-            font="semiBoldItalic">
-            paragraphMedium
-          </Text>
-          <Text preset="paragraphSmall" color="greenPrimary" font="thinItalic">
-            paragraphMedium
-          </Text>
+          <Icon size={20} name="arrowLeft" color="primary" />
+          <Icon size={20} name="avatar" color="primary" />
+          <Icon size={20} name="avatarFill" color="primary" />
+          <Icon size={20} name="dashboard" color="primary" />
+          <Icon size={20} name="dashboardFill" color="primary" />
+          <Icon size={20} name="food" color="primary" />
+          <Icon size={20} name="foodFill" color="primary" />
+          <Icon size={20} name="recipe" color="primary" />
+          <Icon size={20} name="recipeFill" color="primary" />
         </View>
       </SafeAreaView>
     </ThemeProvider>

@@ -18,73 +18,28 @@ type TextVariants =
   | 'paragraphCaption'
   | 'paragraphCaptionSmall';
 
+type FontIndex = keyof typeof $fontFamily;
+
 export interface TextProps extends SRTextProps {
   preset?: TextVariants;
-  bold?: boolean;
-  extraBold?: boolean;
-  italic?: boolean;
-  semiBold?: boolean;
+  font?: FontIndex;
 }
 
 export function Text({
   children,
   preset = 'paragraphMedium',
-  bold,
-  extraBold,
-  italic,
-  semiBold,
+  font = 'regular',
   style,
   ...sRTextProps
 }: TextProps) {
-  const fontFamily = getFontFamily(preset, bold, italic, extraBold, semiBold);
-
   return (
     <SRText
       color="paragraph"
-      style={[$fontSizes[preset], {fontFamily}, style]}
+      style={[$fontSizes[preset], {fontFamily: $fontFamily[font]}, style]}
       {...sRTextProps}>
       {children}
     </SRText>
   );
-}
-
-function getFontFamily(
-  preset: TextVariants,
-  bold?: boolean,
-  extraBold?: boolean,
-  italic?: boolean,
-  semiBold?: boolean,
-) {
-  //This if below address the need of every heading being bold, this will avoid the need of passing bold everytime we use a heading
-  if (
-    preset === 'headingLarge' ||
-    preset === 'headingMedium' ||
-    preset === 'headingSmall'
-  ) {
-    return italic
-      ? $fontFamily.boldItalic
-      : extraBold
-        ? $fontFamily.extraBold
-        : $fontFamily.bold;
-  }
-  switch (true) {
-    case bold && italic:
-      return $fontFamily.boldItalic;
-    case bold:
-      return $fontFamily.bold;
-    case extraBold && italic:
-      return $fontFamily.extraBoldItalic;
-    case extraBold:
-      return $fontFamily.extraBold;
-    case italic:
-      return $fontFamily.italic;
-    case semiBold && italic:
-      return $fontFamily.mediumItalic;
-    case semiBold:
-      return $fontFamily.medium;
-    default:
-      return $fontFamily.regular;
-  }
 }
 
 export const $fontSizes: Record<TextVariants, TextStyle> = {

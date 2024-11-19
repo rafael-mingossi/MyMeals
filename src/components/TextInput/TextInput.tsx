@@ -14,6 +14,7 @@ import {Text, $fontFamily, $fontSizes} from '../Text/Text';
 export interface TextInputProps extends RNTextInputProps {
   label?: string;
   errorMessage?: string;
+  isUnderlinedVersion?: boolean;
   RightComponent?: ReactElement;
   LeftComponent?: ReactElement;
   boxProps?: BoxProps;
@@ -23,6 +24,7 @@ export interface TextInputProps extends RNTextInputProps {
 export function TextInput({
   label,
   errorMessage,
+  isUnderlinedVersion = false,
   RightComponent,
   LeftComponent,
   boxProps,
@@ -36,12 +38,20 @@ export function TextInput({
     inputRef.current?.focus();
   }
 
-  const $textInputContainer: BoxProps = {
-    borderWidth: errorMessage ? 2 : 1,
-    padding: 's16',
-    borderRadius: 's12',
-    borderColor: errorMessage ? 'error' : 'gray4',
-  };
+  const $textInputContainer: BoxProps = isUnderlinedVersion
+    ? {
+        borderBottomWidth: errorMessage ? 2 : 1,
+        padding: 's16',
+        borderTopLeftRadius: 's8',
+        borderTopEndRadius: 's8',
+        borderColor: errorMessage ? 'error' : 'black',
+      }
+    : {
+        borderWidth: errorMessage ? 2 : 1,
+        padding: 's16',
+        borderRadius: 's12',
+        borderColor: errorMessage ? 'error' : 'gray4',
+      };
 
   return (
     <Box flexGrow={1} flexShrink={1} {...boxProps}>

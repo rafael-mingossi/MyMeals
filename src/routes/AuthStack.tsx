@@ -1,8 +1,6 @@
 import React from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Video, {VideoRef} from 'react-native-video';
-
 
 import {InitialScreen, LoginScreen} from '@screens';
 

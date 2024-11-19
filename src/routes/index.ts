@@ -5,7 +5,7 @@ export * from './AuthStack';
 // export * from './OnboardingStack';
 
 ///TYPES
-// export * from './navigationType';
+export * from './navigationType';
 
 ///COMPONENTS
 // export * from './AppTabBar';

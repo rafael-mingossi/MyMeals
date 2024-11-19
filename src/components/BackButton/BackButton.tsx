@@ -22,7 +22,7 @@ export function BackButton({showBackLabel}: BackButtonProps) {
       alignItems="center"
       mr={showBackLabel ? 's10' : undefined}
       onPress={navigation.goBack}>
-      <Icon size={ICON_SIZE} name="arrowLeft" color="primary" />
+      <Icon size={ICON_SIZE} name="arrowLeft" color="black" />
       {showBackLabel && (
         <Text preset="paragraphMedium" font="semiBold" ml="s8">
           Back

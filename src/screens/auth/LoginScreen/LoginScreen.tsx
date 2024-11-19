@@ -4,7 +4,7 @@ import {Screen, Text} from '@components';
 
 export function LoginScreen() {
   return (
-    <Screen>
+    <Screen canGoBack title={' '}>
       <Text>LOGIN</Text>
     </Screen>
   );

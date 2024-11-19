@@ -31,13 +31,12 @@ export const buttonPresets: Record<
       content: {colour: 'gray2'},
     },
   },
-  outline: {
+  white: {
     default: {
       container: {
-        borderWidth: 1,
-        borderColor: 'primary',
+        backgroundColor: 'white',
       },
-      content: {colour: 'primary'},
+      content: {colour: 'black'},
     },
     disabled: {
       container: {

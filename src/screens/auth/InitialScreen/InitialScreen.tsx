@@ -1,90 +1,41 @@
-import React, {useRef, useState} from 'react';
-import {Image, StyleSheet} from 'react-native';
-
-import {images, videos} from '@assets';
-import Video, {VideoRef} from 'react-native-video';
+import React from 'react';
 
 import {Box, Button, Screen, Text} from '@components';
+import {AuthScreenProps} from '@routes';
 
-const VideoPlaceholder = () => {
-  return (
-    <Image
-      resizeMode="cover"
-      source={images.introPlaceholder}
-      style={[styles.backgroundVideo, styles.image]}
-    />
-  );
-};
+import {VideoPlayer} from './components/VideoBackground.tsx';
 
-const VideoPlayer = () => {
-  const videoRef = useRef<VideoRef>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+export function InitialScreen({navigation}: AuthScreenProps<'InitialScreen'>) {
+  function navigateToLogin() {
+    navigation.navigate('LoginScreen');
+  }
 
-  const handleLoad = () => {
-    setIsLoading(false);
-  };
-
-  const handleError = (er: any) => {
-    console.error('Video Error:', er);
-    setError(true);
-  };
-
-  return (
-    <>
-      {isLoading && !error && <VideoPlaceholder />}
-      {error && <VideoPlaceholder />}
-      <Video
-        resizeMode="cover"
-        repeat
-        muted
-        source={videos.intro}
-        ref={videoRef}
-        onLoad={handleLoad}
-        onError={handleError}
-        style={styles.backgroundVideo}
-      />
-    </>
-  );
-};
-
-export function InitialScreen() {
   return (
     <Screen flex={1} alignItems={'center'} justifyContent={'space-around'}>
       <VideoPlayer />
       <Box alignItems={'center'}>
         <Text
           style={{zIndex: 1}}
+          mb="s8"
           font="semiBold"
           preset="headingLarge"
           color={'white'}>
           Welcome to
         </Text>
         <Text preset="headingExtraLarge" font="extraBold" color="white">
-          MyMeals
+          <Text preset="headingExtraLarge" font="semiBold" color="white">
+            My
+          </Text>
+          Meals
         </Text>
       </Box>
       <Box>
-        <Button title="Sign in" />
+        <Button title="Sign in" onPress={navigateToLogin} />
         <Text color={'white'} mt="s24" mb="s10">
           No account? Register now!
         </Text>
-        <Button title="Sign up" />
+        <Button title="Sign up" preset="white" />
       </Box>
     </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  backgroundVideo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-});

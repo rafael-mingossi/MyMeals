@@ -13,6 +13,8 @@ export const palette = {
   white: '#ffffff',
   brown: '#4b4b4b',
   gray: '#9e9e9e',
+  gray2: '#8E8E8E',
+  gray4: '#E1E1E1',
 
   /// PRIMARY
   greenPrimary: '#3fae4d',

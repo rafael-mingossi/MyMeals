@@ -1,12 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
 
-import {Text} from '@components';
+import {Screen, Text} from '@components';
 
 export function MeScreen() {
   return (
-    <View>
+    <Screen>
       <Text>ME</Text>
-    </View>
+    </Screen>
   );
 }

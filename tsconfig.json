@@ -40,9 +40,27 @@
       "@services": [
         "src/services"
       ],
-//      "@env": [
-//        "node_modules/react-native-dotenv"
-//      ],
+      "@routes": [
+        "src/routes"
+      ],
+      "@domain": [
+        "src/domain"
+      ],
+      "@infra": [
+        "src/infra"
+      ],
+      "@test": [
+        "src/test"
+      ],
+      "@assets": [
+        "src/assets"
+      ],
+      "@form": [
+        "src/form"
+      ],
+      //      "@env": [
+      //        "node_modules/react-native-dotenv"
+      //      ],
       "@theme": [
         "src/theme"
       ]

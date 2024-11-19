@@ -1,12 +1,23 @@
 import React from 'react';
-import {View} from 'react-native';
+import {ViewStyle} from 'react-native';
 
-import {Text} from '@components';
+import {Text, Screen, TextInput} from '@components';
 
 export function HomeScreen() {
   return (
-    <View>
+    <Screen style={$screen}>
       <Text>HOME</Text>
-    </View>
+      <Text>HOME</Text>
+      <Text>HOME</Text>
+      <Text>HOME</Text>
+      <TextInput placeholder="Testing" />
+    </Screen>
   );
 }
+
+const $screen: ViewStyle = {
+  paddingTop: 0,
+  paddingBottom: 0,
+  paddingHorizontal: 0,
+  flexGrow: 1,
+};

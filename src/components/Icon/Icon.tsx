@@ -1,9 +1,6 @@
 import React, {ComponentProps} from 'react';
 import {Pressable} from 'react-native';
 
-import {useAppTheme} from '@hooks';
-import {ThemeColours} from '@theme';
-
 import {
   ArrowLeftIcon,
   AvatarIcon,
@@ -14,7 +11,11 @@ import {
   FoodIcon,
   RecipeFillIcon,
   RecipeIcon,
-} from '../../assets';
+} from '@assets';
+
+import {useAppTheme} from '@hooks';
+import {ThemeColours} from '@theme';
+
 
 export interface IconBase {
   size?: number;

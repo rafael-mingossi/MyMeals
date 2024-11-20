@@ -7,3 +7,4 @@ export * from './app/RecipesScreen/RecipesScreen';
 //AUTH
 export * from './auth/InitialScreen/InitialScreen';
 export * from './auth/LoginScreen/LoginScreen';
+export * from './auth/SignUpScreen/SignUpScreen';

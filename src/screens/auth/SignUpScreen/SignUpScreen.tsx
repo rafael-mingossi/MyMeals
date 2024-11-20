@@ -14,11 +14,11 @@ import {
 } from '@components';
 import {AuthScreenProps} from '@routes';
 
-import {loginSchema, LoginSchema} from './loginSchema.ts';
+import {signUpSchema, SignUpSchema} from './signUpSchema.ts';
 
-export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
-  const {control, formState, handleSubmit} = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
+  const {control, formState, handleSubmit} = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -26,14 +26,14 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
     mode: 'onChange',
   });
 
-  function submitForm({email, password}: LoginSchema) {
+  function submitForm({email, password}: SignUpSchema) {
     console.log({email, password});
   }
 
   return (
     <Screen canGoBack title={' '} backgroundColor="white" flex={1}>
       <Box justifyContent="flex-start" mt="s32" flex={1}>
-        <AuthScreensHeader title={'Sign in'} />
+        <AuthScreensHeader title={'Sign up'} />
         <FormTextInput
           isUnderlinedVersion
           placeholder="E-mail"
@@ -53,7 +53,7 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
           LeftComponent={<Icon color="grayPrimary" name="padlock" />}
         />
         <Button
-          title="Sign in"
+          title="Sign up"
           mt="s48"
           width="90%"
           alignSelf={'center'}

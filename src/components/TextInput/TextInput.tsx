@@ -54,7 +54,7 @@ export function TextInput({
       };
 
   return (
-    <Box flexGrow={1} flexShrink={1} {...boxProps}>
+    <Box flexShrink={1} {...boxProps}>
       <Pressable onPress={focusInput}>
         {label && (
           <Text preset="paragraphMedium" marginBottom="s4">
@@ -67,7 +67,7 @@ export function TextInput({
           {...containerProps}
           backgroundColor="white">
           {LeftComponent && (
-            <Box mr="s16" justifyContent="center">
+            <Box mr="s16" justifyContent="center" mt="s2">
               {LeftComponent}
             </Box>
           )}

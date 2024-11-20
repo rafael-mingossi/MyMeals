@@ -6,6 +6,7 @@ import {colours} from './colours.ts';
 export const theme = createTheme({
   colors: colours.lightTheme,
   spacing: {
+    s2: 2,
     s4: 4,
     s8: 8,
     s10: 10,

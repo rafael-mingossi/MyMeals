@@ -10,6 +10,10 @@ export function InitialScreen({navigation}: AuthScreenProps<'InitialScreen'>) {
     navigation.navigate('LoginScreen');
   }
 
+  function navigateToSignUp() {
+    navigation.navigate('SignUpScreen');
+  }
+
   return (
     <Screen flex={1} alignItems={'center'} justifyContent={'space-around'}>
       <VideoPlayer />
@@ -34,7 +38,7 @@ export function InitialScreen({navigation}: AuthScreenProps<'InitialScreen'>) {
         <Text color={'white'} mt="s24" mb="s10">
           No account? Register now!
         </Text>
-        <Button title="Sign up" preset="white" />
+        <Button title="Sign up" preset="white" onPress={navigateToSignUp} />
       </Box>
     </Screen>
   );

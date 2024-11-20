@@ -11,8 +11,13 @@ export const palette = {
   /// NEUTRAL
   black: '#000000',
   white: '#ffffff',
-  brown: '#4b4b4b',
   gray: '#9e9e9e',
+  gray2: '#8E8E8E',
+  gray4: '#E1E1E1',
+
+  /// BORDER
+  borderGrayLight: '#c5c5c5',
+  borderGrayDark: '#555555',
 
   /// PRIMARY
   greenPrimary: '#3fae4d',
@@ -39,12 +44,15 @@ const lightTheme = {
 
   success: palette.grayPrimary,
 
+  borderGray: palette.borderGrayLight,
+
   error: palette.red,
 
   paragraph: palette.black,
   paragraphBlue: palette.bluePrimary,
   paragraphOrange: palette.orangePrimary,
   paragraphGray: palette.gray,
+  paragraphGreen: palette.greenPrimary,
 };
 
 const darkTheme: typeof lightTheme = {
@@ -65,12 +73,15 @@ const darkTheme: typeof lightTheme = {
 
   success: palette.grayPrimary,
 
+  borderGray: palette.borderGrayDark,
+
   error: palette.red,
 
   paragraph: palette.white,
   paragraphBlue: palette.bluePrimary,
   paragraphOrange: palette.orangePrimary,
   paragraphGray: palette.gray,
+  paragraphGreen: palette.greenPrimary,
 };
 
 export const colours = {

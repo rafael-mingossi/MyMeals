@@ -9,6 +9,8 @@ const SRText = createText<Theme>();
 type SRTextProps = React.ComponentProps<typeof SRText>;
 
 type TextVariants =
+  | 'headingAuthTitle'
+  | 'headingExtraLarge'
   | 'headingLarge'
   | 'headingMedium'
   | 'headingSmall'
@@ -43,6 +45,9 @@ export function Text({
 }
 
 export const $fontSizes: Record<TextVariants, TextStyle> = {
+  headingAuthTitle: {fontSize: 42, lineHeight: 40},
+
+  headingExtraLarge: {fontSize: 52, lineHeight: 48.4},
   headingLarge: {fontSize: 32, lineHeight: 38.4},
   headingMedium: {fontSize: 22, lineHeight: 26.4},
   headingSmall: {fontSize: 18, lineHeight: 23.4},

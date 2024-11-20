@@ -1,20 +1,24 @@
 import React, {ComponentProps} from 'react';
 import {Pressable} from 'react-native';
 
-import {useAppTheme} from '@hooks';
-import {ThemeColours} from '@theme';
-
 import {
   ArrowLeftIcon,
   AvatarIcon,
   AvatarFillIcon,
   DashboardFillIcon,
   DashboardIcon,
+  EnvelopeIcon,
+  EyeOnIcon,
+  EyeOffIcon,
   FoodFillIcon,
   FoodIcon,
+  PadlockIcon,
   RecipeFillIcon,
   RecipeIcon,
-} from '../../assets';
+} from '@assets';
+
+import {useAppTheme} from '@hooks';
+import {ThemeColours} from '@theme';
 
 export interface IconBase {
   size?: number;
@@ -38,8 +42,12 @@ const iconRegistry = {
   avatarFill: AvatarFillIcon,
   dashboard: DashboardIcon,
   dashboardFill: DashboardFillIcon,
+  envelope: EnvelopeIcon,
+  eyeOn: EyeOnIcon,
+  eyeOff: EyeOffIcon,
   food: FoodIcon,
   foodFill: FoodFillIcon,
+  padlock: PadlockIcon,
   recipe: RecipeIcon,
   recipeFill: RecipeFillIcon,
 };

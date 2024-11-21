@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {useAuthSignIn} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 
@@ -16,7 +17,7 @@ import {AuthScreenProps} from '@routes';
 
 import {loginSchema, LoginSchema} from './loginSchema.ts';
 
-export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
+export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
   const {control, formState, handleSubmit} = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -26,8 +27,13 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
     mode: 'onChange',
   });
 
+  const {isLoading, signIn} = useAuthSignIn({
+    onError: () => console.log('ERROR LOGIN SIGN IN SCREEN'),
+    onSuccess: () => console.log('DONE IN SIGN IN'),
+  });
+
   function submitForm({email, password}: LoginSchema) {
-    console.log({email, password});
+    signIn({email, password});
   }
 
   return (
@@ -58,6 +64,7 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
           width="90%"
           alignSelf={'center'}
           disabled={!formState.isValid}
+          loading={isLoading}
           onPress={handleSubmit(submitForm)}
         />
       </Box>

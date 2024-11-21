@@ -8,6 +8,8 @@ export interface AuthCredentials {
 export interface SignUpData {
   email: string;
   password: string;
+  username: string;
+  full_name: string;
 }
 
 export interface SignInData {

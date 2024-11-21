@@ -9,7 +9,6 @@ async function signIn(signInData: SignInData): Promise<AuthCredentials> {
       user: response.user,
     };
   } catch (error) {
-    console.log('ERROR AUTH SERVICE DOMAIN =>', error);
     throw new Error('Invalid email or password');
   }
 }

@@ -6,14 +6,17 @@ module.exports = {
       {
         moduleName: '@env',
         path: '.env',
-        safe: false,
-        allowUndefined: true,
-        verbose: false,
+        blacklist: null,
+        whitelist: ['SUPABASE_URL', 'SUPABASE_ANON_KEY'],
+        safe: true,
+        allowUndefined: false,
       },
     ],
     [
       'module-resolver',
       {
+        root: ['./src'],
+        extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
           '@screens': './src/screens',
           '@api': './src/api',
@@ -33,7 +36,6 @@ module.exports = {
           '@form': './src/form',
           '@domain': './src/domain',
           '@routes': './src/routes',
-          '@env': ['node_modules/react-native-dotenv'],
         },
       },
     ],

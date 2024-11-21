@@ -9,12 +9,13 @@ export function useAuthSignUp(options?: MutationOptions<AuthCredentials>) {
     mutationFn: data => authService.signUp(data),
     onSuccess: () => {
       if (options?.onSuccess) {
-        options.onSuccess;
+        options.onSuccess({} as AuthCredentials); // We pass empty credentials since SignUp returns void
       }
     },
     onError: error => {
       if (options?.onError) {
         options.onError(error.message);
+        console.log('ERROR SIGN UP USE CASE =>', error);
       }
     },
   });

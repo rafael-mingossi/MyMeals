@@ -15,10 +15,16 @@ async function signIn({email, password}: SignInData) {
   return data;
 }
 
-async function signUp({email, password}: SignUpData) {
+async function signUp({email, password, username, full_name}: SignUpData) {
   const {data, error} = await supabaseClient.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        username,
+        full_name,
+      },
+    },
   });
 
   if (error) {

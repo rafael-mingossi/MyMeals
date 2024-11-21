@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {useAuthSignUp} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 
@@ -16,23 +17,36 @@ import {AuthScreenProps} from '@routes';
 
 import {signUpSchema, SignUpSchema} from './signUpSchema.ts';
 
-export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
-  const {control, formState, handleSubmit} = useForm<SignUpSchema>({
+export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
+  const {control, formState, handleSubmit, reset} = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       password: '',
+      username: '',
+      full_name: '',
     },
     mode: 'onChange',
   });
 
-  function submitForm({email, password}: SignUpSchema) {
-    console.log({email, password});
+  function onSuccessCall() {
+    navigation.navigate('LoginScreen');
+    reset();
+  }
+
+  const {signUp} = useAuthSignUp({
+    onSuccess: () => onSuccessCall(),
+    onError: errorMessage =>
+      console.log('ERROR IN SIGN UP SCREEN', errorMessage),
+  });
+
+  function submitForm({email, password, full_name, username}: SignUpSchema) {
+    signUp({email, password, full_name, username});
   }
 
   return (
     <Screen canGoBack title={' '} backgroundColor="white" flex={1}>
-      <Box justifyContent="flex-start" mt="s32" flex={1}>
+      <Box justifyContent="flex-start" flex={1}>
         <AuthScreensHeader title={'Sign up'} />
         <FormTextInput
           isUnderlinedVersion
@@ -40,6 +54,24 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
           label=""
           boxProps={{marginBottom: 's20'}}
           name="email"
+          control={control}
+          LeftComponent={<Icon color="grayPrimary" name="envelope" />}
+        />
+        <FormTextInput
+          isUnderlinedVersion
+          placeholder="Name"
+          label=""
+          boxProps={{marginBottom: 's20'}}
+          name="full_name"
+          control={control}
+          LeftComponent={<Icon color="grayPrimary" name="envelope" />}
+        />
+        <FormTextInput
+          isUnderlinedVersion
+          placeholder="Username"
+          label=""
+          boxProps={{marginBottom: 's20'}}
+          name="username"
           control={control}
           LeftComponent={<Icon color="grayPrimary" name="envelope" />}
         />

@@ -1,10 +1,13 @@
 import {MutationOptions} from '@infra';
+import {useAuthCredentials} from '@services';
 import {useMutation} from '@tanstack/react-query';
 
 import {authService} from '../authService';
 import {AuthCredentials} from '../authTypes.ts';
 
 export function useAuthSignOut(options?: MutationOptions<AuthCredentials>) {
+  const {removeCredentials} = useAuthCredentials();
+
   const mutation = useMutation<string, Error, void>({
     mutationFn: authService.signOut,
     retry: false,
@@ -14,8 +17,7 @@ export function useAuthSignOut(options?: MutationOptions<AuthCredentials>) {
       }
     },
     onSettled: () => {
-      //TODO: remove credentials and clear user from storage
-      console.log('LOGGED OUT');
+      removeCredentials();
     },
   });
 

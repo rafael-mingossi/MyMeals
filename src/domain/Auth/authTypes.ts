@@ -1,8 +1,8 @@
 import {User, Session} from '@supabase/supabase-js';
 
 export interface AuthCredentials {
-  session: Session; // Replace 'any' with your Supabase session type
-  user: User; // Replace 'any' with your Supabase user type
+  session: Session;
+  user: User;
 }
 
 export interface SignUpData {

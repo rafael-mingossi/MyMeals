@@ -1,4 +1,5 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
 
 import {Box, Button, Screen, Text} from '@components';
 import {AuthScreenProps} from '@routes';
@@ -16,6 +17,11 @@ export function InitialScreen({navigation}: AuthScreenProps<'InitialScreen'>) {
 
   return (
     <Screen flex={1} alignItems={'center'} justifyContent={'space-around'}>
+      <StatusBar
+        translucent
+        backgroundColor={'transparent'}
+        barStyle="light-content"
+      />
       <VideoPlayer />
       <Box alignItems={'center'}>
         <Text

@@ -6,7 +6,19 @@ interface Props {
   backgroundColor: string;
 }
 
+//ALL OTHER SCREENS
 export function ScrollViewContainer({children, backgroundColor}: Props) {
+  return (
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      style={{backgroundColor, flex: 1}}>
+      {children}
+    </ScrollView>
+  );
+}
+
+//BLACK AND WHITE SCREENS LIKE SIGN UP AND SIGN IN
+export function ScrollAuthViewContainer({children, backgroundColor}: Props) {
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"

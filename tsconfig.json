@@ -58,9 +58,9 @@
       "@form": [
         "src/form"
       ],
-      //      "@env": [
-      //        "node_modules/react-native-dotenv"
-      //      ],
+      "@env": [
+        "node_modules/react-native-dotenv"
+      ],
       "@theme": [
         "src/theme"
       ]

@@ -12,8 +12,8 @@ export function AuthScreensHeader({title}: {title: string}) {
         flexDirection="row"
         justifyContent="center"
         alignItems="center"
-        mb="s60"
-        mt="s60"
+        mb="s20"
+        mt="s40"
         columnGap="s8">
         <Image
           source={images.logo}

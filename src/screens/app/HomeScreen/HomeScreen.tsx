@@ -7,9 +7,6 @@ export function HomeScreen() {
   return (
     <Screen style={$screen}>
       <Text>HOME</Text>
-      <Text>HOME</Text>
-      <Text>HOME</Text>
-      <Text>HOME</Text>
       <TextInput placeholder="Testing" label="Testing" />
       <TextInput placeholder="Testing" label="Testing" isUnderlinedVersion />
       <Button title={'Create'} />

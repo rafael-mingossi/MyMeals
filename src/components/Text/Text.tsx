@@ -54,7 +54,7 @@ export const $fontSizes: Record<TextVariants, TextStyle> = {
 
   paragraphLarge: {fontSize: 18, lineHeight: 25.2},
   paragraphMedium: {fontSize: 16, lineHeight: 22.4},
-  paragraphSmall: {fontSize: 14, lineHeight: 19.6},
+  paragraphSmall: {fontSize: 14, lineHeight: 16},
 
   paragraphCaption: {fontSize: 12, lineHeight: 16.8},
   paragraphCaptionSmall: {fontSize: 10, lineHeight: 14},

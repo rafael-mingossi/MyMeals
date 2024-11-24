@@ -68,7 +68,7 @@ export function Screen({
         }>
         <Box
           style={[{paddingTop: top, paddingBottom: bottom}, style]}
-          paddingHorizontal={noPaddingHorizontal ? undefined : 's24'}
+          paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
           {...boxProps}>
           <ScreenHeader
             paddingHorizontal={noPaddingHorizontal ? 's24' : undefined}

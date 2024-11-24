@@ -45,6 +45,8 @@ const lightTheme = {
 
   backgroundInner: palette.backgroundInnerLight,
 
+  onBackgroundGray2: palette.gray4,
+
   success: palette.grayPrimary,
 
   borderGray: palette.borderGrayLight,
@@ -76,6 +78,8 @@ const darkTheme: typeof lightTheme = {
   backgroundScreenContrast: palette.white,
 
   backgroundInner: palette.backgroundInnerDark,
+
+  onBackgroundGray2: palette.borderGrayDark,
 
   success: palette.grayPrimary,
 

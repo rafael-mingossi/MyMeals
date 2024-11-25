@@ -51,11 +51,7 @@ export function FoodsScreen() {
   };
 
   return (
-    <Screen
-      screenScrollType="scrollView"
-      title="Manage Foods"
-      style={$screen}
-      scrollable>
+    <Screen title="Manage Foods" style={$screen}>
       <CustomTabMenu
         tabs={['Add Food', 'Custom Foods', 'Favourite Foods']}
         onTabChange={index => setActiveTabIndex(index as TabScreens)}

@@ -5,18 +5,12 @@ import {useAppSafeArea, useAppTheme} from '@hooks';
 
 import {Box, BoxProps} from '../Box/Box';
 
-import {
-  ScrollViewContainer,
-  ViewContainer,
-  ScreenHeader,
-  ScrollAuthViewContainer,
-} from './components';
+import {ScrollViewContainer, ScreenHeader, ViewContainer} from './components';
 
 export interface ScreenProps extends BoxProps {
   children: ReactNode;
   HeaderComponent?: ReactNode;
   canGoBack?: boolean;
-  scrollable?: boolean;
   screenScrollType?: 'scrollView' | 'scrollViewAuth' | 'viewContainer';
   title?: string;
   noPaddingHorizontal?: boolean;
@@ -26,8 +20,7 @@ export function Screen({
   children,
   HeaderComponent,
   canGoBack = false,
-  scrollable = false,
-  screenScrollType = 'viewContainer',
+  screenScrollType = 'scrollView',
   noPaddingHorizontal = false,
   style,
   title,
@@ -36,25 +29,15 @@ export function Screen({
   const {top, bottom} = useAppSafeArea();
   const {colors} = useAppTheme();
 
-  // const Container = scrollable ? ScrollViewContainer : ViewContainer;
+  const $boxWrapper: BoxProps = {
+    backgroundColor:
+      screenScrollType === 'scrollViewAuth'
+        ? 'backgroundScreen'
+        : 'headerInner',
+  };
 
-  let Container;
-
-  const scrollTypeCondition = `${screenScrollType}-${scrollable}`;
-
-  switch (scrollTypeCondition) {
-    case 'scrollViewAuth-true':
-      Container = ScrollAuthViewContainer;
-      break;
-    case 'scrollView-true':
-      Container = ScrollViewContainer;
-      break;
-    case 'viewContainer-false':
-      Container = ViewContainer;
-      break;
-    default:
-      Container = ViewContainer;
-  }
+  const Container =
+    screenScrollType === 'viewContainer' ? ViewContainer : ScrollViewContainer;
 
   return (
     <KeyboardAvoidingView
@@ -62,7 +45,7 @@ export function Screen({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Container
         backgroundColor={
-          scrollTypeCondition === 'scrollViewAuth-true'
+          screenScrollType === 'scrollViewAuth'
             ? colors.backgroundScreen
             : colors.background
         }>
@@ -87,7 +70,3 @@ export function Screen({
     </KeyboardAvoidingView>
   );
 }
-
-const $boxWrapper: BoxProps = {
-  backgroundColor: 'headerInner',
-};

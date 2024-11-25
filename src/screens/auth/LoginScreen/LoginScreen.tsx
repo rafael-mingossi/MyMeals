@@ -86,11 +86,7 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
   }
 
   return (
-    <Screen
-      canGoBack
-      title={' '}
-      scrollable
-      screenScrollType={'scrollViewAuth'}>
+    <Screen canGoBack title={' '} screenScrollType={'scrollViewAuth'}>
       <Box justifyContent="flex-start" mt="s32" flex={1}>
         <AuthScreensHeader title={'Sign in'} />
         <FormTextInput

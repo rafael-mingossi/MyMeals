@@ -16,7 +16,11 @@ export function InitialScreen({navigation}: AuthScreenProps<'InitialScreen'>) {
   }
 
   return (
-    <Screen flex={1} alignItems={'center'} justifyContent={'space-around'}>
+    <Screen
+      flex={1}
+      alignItems={'center'}
+      justifyContent={'space-around'}
+      screenScrollType={'viewContainer'}>
       <StatusBar
         translucent
         backgroundColor={'transparent'}

@@ -13,7 +13,6 @@ import {
   Icon,
   Screen,
 } from '@components';
-import {useAppTheme} from '@hooks';
 import {AuthScreenProps} from '@routes';
 
 import {signUpSchema, SignUpSchema} from './signUpSchema.ts';
@@ -29,7 +28,6 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
     },
     mode: 'onChange',
   });
-  const {colors} = useAppTheme();
 
   function onSuccessCall() {
     navigation.navigate('LoginScreen');
@@ -47,11 +45,7 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
   }
 
   return (
-    <Screen
-      canGoBack
-      title={' '}
-      scrollable
-      screenScrollType={'scrollViewAuth'}>
+    <Screen canGoBack title={' '} screenScrollType={'scrollViewAuth'}>
       <Box justifyContent="flex-start" flex={1}>
         <AuthScreensHeader title={'Sign up'} />
         <FormTextInput

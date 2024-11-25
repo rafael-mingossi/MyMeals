@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, Animated, Dimensions} from 'react-native';
 
-import {Box, Text, TouchableOpacityBox} from '@components';
+import {Box, BoxProps, Text, TouchableOpacityBox} from '@components';
 import {colours} from '@theme';
 
 const {width} = Dimensions.get('window');
 
-const activeColor = colours.palette.greenPrimary;
+const activeColor = colours.palette.white;
 
 interface CustomTabMenuProps {
   tabs: string[];
@@ -48,13 +48,13 @@ export function CustomTabMenu({
       <Box alignItems="center">
         <Text
           preset="paragraphSmall"
-          color={activeTab === index ? 'greenPrimary' : 'gray4'}
+          color={activeTab === index ? 'white' : 'gray4'}
           font="semiBold">
           {words[0]}
         </Text>
         <Text
           preset="paragraphSmall"
-          color={activeTab === index ? 'greenPrimary' : 'gray4'}
+          color={activeTab === index ? 'white' : 'gray4'}
           font="semiBold">
           {words[1]}
         </Text>
@@ -63,7 +63,7 @@ export function CustomTabMenu({
   };
 
   return (
-    <Box backgroundColor="white" marginHorizontal="s16n">
+    <Box {...$boxWrapper} marginHorizontal="s16n">
       <Box
         justifyContent="center"
         alignItems="center"
@@ -101,3 +101,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
+
+const $boxWrapper: BoxProps = {
+  backgroundColor: 'headerInner',
+};

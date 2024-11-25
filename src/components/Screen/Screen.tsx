@@ -67,18 +67,27 @@ export function Screen({
             : colors.background
         }>
         <Box
-          style={[{paddingTop: top, paddingBottom: bottom}, style]}
+          style={[{paddingBottom: bottom}, style]}
           paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
           {...boxProps}>
-          <ScreenHeader
-            paddingHorizontal={noPaddingHorizontal ? 's24' : undefined}
-            HeaderComponent={HeaderComponent}
-            canGoBack={canGoBack}
-            title={title}
-          />
+          <Box
+            {...$boxWrapper}
+            style={{paddingTop: top}}
+            marginHorizontal={noPaddingHorizontal ? undefined : 's16n'}>
+            <ScreenHeader
+              paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
+              HeaderComponent={HeaderComponent}
+              canGoBack={canGoBack}
+              title={title}
+            />
+          </Box>
           {children}
         </Box>
       </Container>
     </KeyboardAvoidingView>
   );
 }
+
+const $boxWrapper: BoxProps = {
+  backgroundColor: 'headerInner',
+};

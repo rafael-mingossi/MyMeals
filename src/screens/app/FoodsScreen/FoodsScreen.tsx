@@ -1,23 +1,28 @@
 import React, {useState} from 'react';
 import {View, ViewStyle} from 'react-native';
 
-import {CustomTabMenu, Screen} from '@components';
+import {Box, CustomTabMenu, Screen, Text} from '@components';
 
-// Define interfaces for your content component props if needed
-interface ContentProps {
-  style?: ViewStyle;
-}
-
-const AddFood: React.FC<ContentProps> = ({style}) => {
-  return <View style={[style]}>{/* Add Food content */}</View>;
+const AddFood = () => {
+  return (
+    <Box
+      style={{
+        height: 1150,
+        justifyContent: 'space-between',
+        backgroundColor: 'red',
+      }}>
+      <Text>1</Text>
+      <Text>1</Text>
+    </Box>
+  );
 };
 
-const MyFoods: React.FC<ContentProps> = ({style}) => {
-  return <View style={[style]}>{/* My Foods content */}</View>;
+const MyFoods = () => {
+  return <View>{/* My Foods content */}</View>;
 };
 
-const FavouriteFoods: React.FC<ContentProps> = ({style}) => {
-  return <View style={[style]}>{/* Favourite Foods content */}</View>;
+const FavouriteFoods = () => {
+  return <View>{/* Favourite Foods content */}</View>;
 };
 
 // You might want to extract this enum to a separate types file
@@ -46,7 +51,11 @@ export function FoodsScreen() {
   };
 
   return (
-    <Screen screenScrollType="scrollView" title="Manage Foods" style={$screen}>
+    <Screen
+      screenScrollType="scrollView"
+      title="Manage Foods"
+      style={$screen}
+      scrollable>
       <CustomTabMenu
         tabs={['Add Food', 'Custom Foods', 'Favourite Foods']}
         onTabChange={index => setActiveTabIndex(index as TabScreens)}
@@ -58,6 +67,5 @@ export function FoodsScreen() {
 
 const $screen: ViewStyle = {
   paddingBottom: 0,
-  // paddingHorizontal: 0,
   flexGrow: 1,
 };

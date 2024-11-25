@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {View, ViewStyle} from 'react-native';
+import {View} from 'react-native';
 
-import {Box, CustomTabMenu, Screen, Text} from '@components';
+import {Box, CustomTabMenu, ScreenFixedHeader, Text} from '@components';
 
 const AddFood = () => {
   return (
@@ -9,7 +9,6 @@ const AddFood = () => {
       style={{
         height: 1150,
         justifyContent: 'space-between',
-        backgroundColor: 'red',
       }}>
       <Text>1</Text>
       <Text>1</Text>
@@ -51,17 +50,25 @@ export function FoodsScreen() {
   };
 
   return (
-    <Screen title="Manage Foods" style={$screen}>
-      <CustomTabMenu
-        tabs={['Add Food', 'Custom Foods', 'Favourite Foods']}
-        onTabChange={index => setActiveTabIndex(index as TabScreens)}
-      />
+    <ScreenFixedHeader
+      title="Manage Foods"
+      flexGrow={1}
+      fixedHeader={true}
+      fixedTabs={{
+        enabled: true,
+        component: (
+          <CustomTabMenu
+            tabs={['Add Food', 'Custom Foods', 'Favourite Foods']}
+            onTabChange={index => setActiveTabIndex(index as TabScreens)}
+          />
+        ),
+      }}
+      // fixedSearch={{
+      //   enabled: true,
+      //   component: <SearchComponent onSearch={() => {}} />,
+      // }}
+    >
       {renderContent()}
-    </Screen>
+    </ScreenFixedHeader>
   );
 }
-
-const $screen: ViewStyle = {
-  paddingBottom: 0,
-  flexGrow: 1,
-};

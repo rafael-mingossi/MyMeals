@@ -1,30 +1,21 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useCallback, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
+  LayoutChangeEvent,
+  View,
   ScrollView,
-  StyleSheet,
 } from 'react-native';
 
-import {useAppSafeArea, useAppTheme} from '@hooks';
+import {useAppSafeArea} from '@hooks';
 
-import {Box, BoxProps} from '../Box/Box.tsx';
+import {Box, BoxProps} from '../Box/Box';
 
-import {ScrollViewContainer, ScreenHeader} from './components';
+import {ScreenHeader} from './components';
 
-interface FixedHeaderConfig {
+interface FixedComponentConfig {
   enabled: boolean;
-  height?: number;
-}
-
-interface FixedTabConfig {
-  enabled: boolean;
-  height?: number;
-}
-
-interface FixedSearchConfig {
-  enabled: boolean;
-  height?: number;
+  component: ReactNode;
 }
 
 interface ScreenWithFixedProps extends BoxProps {
@@ -33,11 +24,9 @@ interface ScreenWithFixedProps extends BoxProps {
   canGoBack?: boolean;
   title?: string;
   noPaddingHorizontal?: boolean;
-  fixedHeader?: FixedHeaderConfig;
-  fixedTabs?: FixedTabConfig;
-  fixedSearch?: FixedSearchConfig;
-  TopComponent?: ReactNode; // For CustomTabMenu or other fixed components
-  SearchComponent?: ReactNode;
+  fixedHeader?: boolean;
+  fixedTabs?: FixedComponentConfig;
+  fixedSearch?: FixedComponentConfig;
 }
 
 export function ScreenFixedHeader({
@@ -46,25 +35,44 @@ export function ScreenFixedHeader({
   canGoBack = false,
   noPaddingHorizontal = false,
   title,
-  fixedHeader = {enabled: false},
-  fixedTabs = {enabled: false},
-  fixedSearch = {enabled: false},
-  TopComponent,
-  SearchComponent,
+  fixedHeader = true,
+  fixedTabs,
+  fixedSearch,
   ...boxProps
 }: ScreenWithFixedProps) {
   const {top, bottom} = useAppSafeArea();
 
-  // Calculate fixed heights
-  const headerHeight = fixedHeader.enabled
-    ? (fixedHeader.height || 60) + top
-    : 0;
-  const tabsHeight = fixedTabs.enabled ? fixedTabs.height || 50 : 0;
-  const searchHeight = fixedSearch.enabled ? fixedSearch.height || 50 : 0;
+  // Refs for measuring component heights
+  const headerRef = useRef<View>(null);
+  const tabsRef = useRef<View>(null);
+  const searchRef = useRef<View>(null);
 
-  const totalFixedHeight = headerHeight + tabsHeight + searchHeight;
+  // State for component heights
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [tabsHeight, setTabsHeight] = useState(0);
+  const [searchHeight, setSearchHeight] = useState(0);
 
-  const {colors} = useAppTheme();
+  // Handle layout measurements
+  const onHeaderLayout = useCallback((event: LayoutChangeEvent) => {
+    const height = event.nativeEvent.layout.height;
+    setHeaderHeight(height);
+  }, []);
+
+  const onTabsLayout = useCallback((event: LayoutChangeEvent) => {
+    const height = event.nativeEvent.layout.height;
+    setTabsHeight(height);
+  }, []);
+
+  const onSearchLayout = useCallback((event: LayoutChangeEvent) => {
+    const height = event.nativeEvent.layout.height;
+    setSearchHeight(height);
+  }, []);
+
+  // Calculate total fixed height
+  const totalFixedHeight =
+    (fixedHeader ? headerHeight : 0) +
+    (fixedTabs?.enabled ? tabsHeight : 0) +
+    (fixedSearch?.enabled ? searchHeight : 0);
 
   return (
     <KeyboardAvoidingView
@@ -72,57 +80,58 @@ export function ScreenFixedHeader({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Box flex={1} backgroundColor={'background'}>
         {/* Fixed Header */}
-        {fixedHeader.enabled && (
+        {fixedHeader && (
           <Box
+            style={{paddingTop: top}}
+            ref={headerRef}
+            onLayout={onHeaderLayout}
             position="absolute"
             top={0}
             left={0}
             right={0}
             zIndex={2}
-            style={{height: headerHeight}}
             backgroundColor="headerInner">
-            <Box style={{paddingTop: top}}>
-              <ScreenHeader
-                paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
-                HeaderComponent={HeaderComponent}
-                canGoBack={canGoBack}
-                title={title}
-              />
-            </Box>
+            <ScreenHeader
+              paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
+              HeaderComponent={HeaderComponent}
+              canGoBack={canGoBack}
+              title={title}
+            />
           </Box>
         )}
 
         {/* Fixed Tabs */}
-        {fixedTabs.enabled && TopComponent && (
+        {fixedTabs?.enabled && fixedTabs.component && (
           <Box
+            ref={tabsRef}
+            onLayout={onTabsLayout}
             position="absolute"
             top={headerHeight}
             left={0}
             right={0}
             zIndex={2}
-            style={{height: tabsHeight}}
             backgroundColor="headerInner">
-            {TopComponent}
+            {fixedTabs.component}
           </Box>
         )}
 
         {/* Fixed Search */}
-        {fixedSearch.enabled && SearchComponent && (
+        {fixedSearch?.enabled && fixedSearch.component && (
           <Box
+            ref={searchRef}
+            onLayout={onSearchLayout}
             position="absolute"
             top={headerHeight + tabsHeight}
             left={0}
             right={0}
             zIndex={2}
-            style={{height: searchHeight}}
             backgroundColor="headerInner">
-            {SearchComponent}
+            {fixedSearch.component}
           </Box>
         )}
 
         {/* Scrollable Content */}
         <ScrollView
-          keyboardShouldPersistTaps="handled"
           style={{
             flex: 1,
             marginTop: totalFixedHeight,

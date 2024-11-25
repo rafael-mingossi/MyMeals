@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, ViewStyle, TextInput} from 'react-native';
+import {View} from 'react-native';
 
 import {Box, CustomTabMenu, ScreenFixedHeader, Text} from '@components';
 
@@ -15,7 +15,6 @@ const AddFood = () => {
       style={{
         height: 1150,
         justifyContent: 'space-between',
-        backgroundColor: 'red',
       }}>
       <Text>1</Text>
       <Text>1</Text>
@@ -49,33 +48,26 @@ export function RecipesScreen() {
     }
   };
 
-  // Optional Search Component
-  const SearchComponent = (
-    <Box padding="s16">
-      <TextInput placeholder={'TEST'} style={{backgroundColor: 'blue'}} />
-    </Box>
-  );
-
   return (
     <ScreenFixedHeader
       title="Manage Recipes"
-      style={$screen}
-      fixedHeader={{enabled: true}}
-      fixedTabs={{enabled: true}}
-      fixedSearch={{enabled: false}}
-      TopComponent={
-        <CustomTabMenu
-          tabs={['Add Recipe', 'Custom Recipes', 'Favourite Recipes']}
-          onTabChange={index => setActiveTabIndex(index as TabScreens)}
-        />
-      }
-      // SearchComponent={SearchComponent}
+      flexGrow={1}
+      fixedHeader={true}
+      fixedTabs={{
+        enabled: true,
+        component: (
+          <CustomTabMenu
+            tabs={['Add Recipe', 'Custom Recipes', 'Favourite Recipes']}
+            onTabChange={index => setActiveTabIndex(index as TabScreens)}
+          />
+        ),
+      }}
+      // fixedSearch={{
+      //   enabled: true,
+      //   component: <SearchComponent onSearch={() => {}} />,
+      // }}
     >
       {renderContent()}
     </ScreenFixedHeader>
   );
 }
-
-const $screen: ViewStyle = {
-  flexGrow: 1,
-};

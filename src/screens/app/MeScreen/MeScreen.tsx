@@ -3,7 +3,7 @@ import React from 'react';
 import {useAuthSignOut} from '@domain';
 import {useSettingsService, useThemePreference} from '@services';
 
-import {Button, Screen, Text, RadioButtonSelector} from '@components';
+import {Button, RadioButtonSelector, ScreenFixedHeader} from '@components';
 
 type ThemePreference = 'light' | 'dark' | 'system';
 
@@ -46,7 +46,7 @@ export function MeScreen() {
   });
 
   return (
-    <Screen>
+    <ScreenFixedHeader title="Profile" flexGrow={1} fixedHeader={true}>
       <RadioButtonSelector
         items={items}
         selectedItem={selectedItem}
@@ -55,7 +55,12 @@ export function MeScreen() {
         valueKey="themePreference"
         descriptionKey="description"
       />
-      <Button title={'Log out'} disabled={isLoading} onPress={signOut} />
-    </Screen>
+      <Button
+        title={'Log out'}
+        disabled={isLoading}
+        onPress={signOut}
+        mt="s32"
+      />
+    </ScreenFixedHeader>
   );
 }

@@ -10,6 +10,7 @@ export * from './Form/FormTextInput';
 export * from './PasswordInput/PasswordInput';
 export * from './RadioButton';
 export * from './Screen/Screen';
+export * from './Screen/ScreenFixedHeader';
 export * from './Separator/Separator';
 export * from './Text/Text';
 export * from './TextInput/TextInput';

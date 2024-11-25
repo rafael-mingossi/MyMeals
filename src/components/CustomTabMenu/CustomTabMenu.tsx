@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Animated, Dimensions} from 'react-native';
+import {Animated, Dimensions} from 'react-native';
 
 import {Box, BoxProps, Text, TouchableOpacityBox} from '@components';
 import {colours} from '@theme';
@@ -81,26 +81,19 @@ export function CustomTabMenu({
       </Box>
 
       <Animated.View
-        style={[
-          styles.indicator,
-          {
-            width: tabWidth,
-            backgroundColor: activeColor,
-            transform: [{translateX: indicatorPosition}],
-          },
-        ]}
+        style={{
+          marginHorizontal: 16,
+          height: 3,
+          position: 'absolute',
+          bottom: 0,
+          width: tabWidth,
+          backgroundColor: activeColor,
+          transform: [{translateX: indicatorPosition}],
+        }}
       />
     </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  indicator: {
-    height: 3,
-    position: 'absolute',
-    bottom: 0,
-  },
-});
 
 const $boxWrapper: BoxProps = {
   backgroundColor: 'headerInner',

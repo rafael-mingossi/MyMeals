@@ -1,22 +1,24 @@
 import React from 'react';
-import {ViewStyle} from 'react-native';
+import {View} from 'react-native';
 
-import {Text, Screen, TextInput, Button} from '@components';
+import {Text, TextInput, Button, ScreenFixedHeader} from '@components';
 
 export function HomeScreen() {
   return (
-    <Screen style={$screen}>
+    <ScreenFixedHeader
+      fixedHeader={false}
+      fixedCalendar={{
+        enabled: true,
+        component: (
+          <View style={{height: 40}}>
+            <Text>CALENDAR</Text>
+          </View>
+        ),
+      }}>
       <Text>HOME</Text>
       <TextInput placeholder="Testing" label="Testing" />
       <TextInput placeholder="Testing" label="Testing" isUnderlinedVersion />
       <Button title={'Create'} />
-    </Screen>
+    </ScreenFixedHeader>
   );
 }
-
-const $screen: ViewStyle = {
-  paddingTop: 0,
-  paddingBottom: 0,
-  paddingHorizontal: 10,
-  flexGrow: 1,
-};

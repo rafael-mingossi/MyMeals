@@ -52,7 +52,6 @@ export function FoodsScreen() {
   return (
     <ScreenFixedHeader
       title="Manage Foods"
-      flexGrow={1}
       fixedHeader={true}
       fixedTabs={{
         enabled: true,

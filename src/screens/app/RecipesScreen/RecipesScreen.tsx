@@ -51,7 +51,6 @@ export function RecipesScreen() {
   return (
     <ScreenFixedHeader
       title="Manage Recipes"
-      flexGrow={1}
       fixedHeader={true}
       fixedTabs={{
         enabled: true,

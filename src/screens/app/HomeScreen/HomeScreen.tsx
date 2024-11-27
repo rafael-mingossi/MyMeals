@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import {Text, TextInput, Button, ScreenFixedHeader} from '@components';
+import {Text, ScreenFixedHeader, CalendarCustom} from '@components';
 
 export function HomeScreen() {
   return (
@@ -15,10 +15,7 @@ export function HomeScreen() {
           </View>
         ),
       }}>
-      <Text>HOME</Text>
-      <TextInput placeholder="Testing" label="Testing" />
-      <TextInput placeholder="Testing" label="Testing" isUnderlinedVersion />
-      <Button title={'Create'} />
+      <CalendarCustom />
     </ScreenFixedHeader>
   );
 }

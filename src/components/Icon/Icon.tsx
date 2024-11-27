@@ -20,6 +20,9 @@ import {
 import {useAppTheme} from '@hooks';
 import {ThemeColours} from '@theme';
 
+import {ChevronLeftIcon} from '../../assets/icons/ChevronLeftIcon.tsx';
+import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon.tsx';
+
 export interface IconBase {
   size?: number;
   color?: string;
@@ -40,6 +43,8 @@ const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
+  chevronleft: ChevronLeftIcon,
+  chevronright: ChevronRightIcon,
   dashboard: DashboardIcon,
   dashboardFill: DashboardFillIcon,
   envelope: EnvelopeIcon,

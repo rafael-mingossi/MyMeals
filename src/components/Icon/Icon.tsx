@@ -20,6 +20,7 @@ import {
 import {useAppTheme} from '@hooks';
 import {ThemeColours} from '@theme';
 
+import {CalendarIcon} from '../../assets/icons/CalendarIcon.tsx';
 import {ChevronLeftIcon} from '../../assets/icons/ChevronLeftIcon.tsx';
 import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon.tsx';
 
@@ -43,6 +44,7 @@ const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
+  calendar: CalendarIcon,
   chevronleft: ChevronLeftIcon,
   chevronright: ChevronRightIcon,
   dashboard: DashboardIcon,

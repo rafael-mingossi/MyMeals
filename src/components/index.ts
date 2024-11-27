@@ -4,6 +4,7 @@ export * from './BackButton/BackButton';
 export * from './Box/Box';
 export * from './Button/Button';
 export * from './Calendar/Calendar';
+export * from './Calendar/components';
 export * from './CustomTabMenu/CustomTabMenu';
 export * from './Icon/Icon';
 export * from './Form/FormPasswordInput';

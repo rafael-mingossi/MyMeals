@@ -37,10 +37,7 @@ export function CalendarDay({
       onPress={() => onDayPress(date)}>
       <Text
         font={state === 'today' ? 'semiBold' : undefined}
-        preset="paragraphMedium"
-        color={
-          state === 'today' ? 'paragraph' : isSelected ? 'white' : 'paragraph'
-        }>
+        preset="paragraphMedium">
         {date.day}
       </Text>
     </TouchableOpacityBox>

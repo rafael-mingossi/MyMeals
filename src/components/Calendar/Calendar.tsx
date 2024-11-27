@@ -1,6 +1,6 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 
-import {useAppColor} from '@services';
+import {useAppColor, useCalendar, useCalendarService} from '@services';
 import {Calendar, DateData} from 'react-native-calendars';
 import {DayState} from 'react-native-calendars/src/types';
 
@@ -12,31 +12,26 @@ import {CalendarHeader} from './components/CalendarHeader';
 
 export function CalendarCustom() {
   const appColor = useAppColor();
-  const [selectedDate, setSelectedDate] = useState<DateData>(() => {
-    const today = new Date();
-    return {
-      day: today.getDate(),
-      month: today.getMonth() + 1,
-      year: today.getFullYear(),
-      dateString: today.toISOString().split('T')[0],
-      timestamp: today.getTime(),
-    };
-  });
+  const {dateSelected} = useCalendar();
+  const {onDayPress} = useCalendarService();
 
-  const handleDayPress = useCallback((day: DateData) => {
-    setSelectedDate(day);
-  }, []);
+  const handleDayPress = useCallback(
+    (day: DateData) => {
+      onDayPress(day);
+    },
+    [onDayPress],
+  );
 
   const renderDayComponent = useCallback(
     ({date, state}: {date?: string & DateData; state?: DayState}) => (
       <CalendarDay
         date={date}
         state={state}
-        selectedDate={selectedDate}
+        selectedDate={dateSelected}
         onDayPress={handleDayPress}
       />
     ),
-    [selectedDate, handleDayPress],
+    [dateSelected, handleDayPress],
   );
 
   return (
@@ -46,12 +41,12 @@ export function CalendarCustom() {
       backgroundColor="backgroundInner"
       borderRadius="s16">
       <Calendar
-        current={selectedDate.dateString}
+        current={dateSelected.dateString}
         onDayPress={handleDayPress}
         hideExtraDays
         enableSwipeMonths
         renderArrow={(direction: 'right' | 'left') => (
-          <Icon name={`chevron${direction}`} />
+          <Icon name={`chevron${direction}`} size={24} />
         )}
         theme={{
           calendarBackground: 'transparent',
@@ -62,7 +57,7 @@ export function CalendarCustom() {
               : colours.darkTheme.paragraph,
         }}
         markedDates={{
-          [selectedDate.dateString]: {selected: true},
+          [dateSelected.dateString]: {selected: true},
         }}
         dayComponent={renderDayComponent}
         renderHeader={date => (

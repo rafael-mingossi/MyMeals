@@ -3,6 +3,8 @@ import {DateData} from 'react-native-calendars';
 import {create} from 'zustand';
 
 const today = new Date();
+// const weekday = today.toLocaleDateString('en-US', {weekday: 'short'});
+// const month = today.toLocaleDateString('en-US', {month: 'short'}).toUpperCase();
 
 const useCalendarStore = create<CalendarService>(set => ({
   isOpen: false,

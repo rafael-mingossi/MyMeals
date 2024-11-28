@@ -6,6 +6,12 @@ import {Box, Icon, Text} from '@components';
 
 export function CalendarWidget() {
   const {dateSelected} = useCalendar();
+  const today = new Date();
+  // console.log(dateSelected.dateString);
+  console.log(today.toLocaleDateString('en-US', {weekday: 'short'}));
+  // console.log(
+  //   today.toLocaleDateString('en-US', {month: 'short'}).toUpperCase(),
+  // );
   return (
     <Box
       flexDirection="row"

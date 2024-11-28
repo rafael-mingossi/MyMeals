@@ -1,17 +1,15 @@
 import React from 'react';
 
-import {useCalendar} from '@services';
+import {useCalendar, useCalendarService} from '@services';
+import {format} from 'date-fns';
 
 import {Box, Icon, Text} from '@components';
 
 export function CalendarWidget() {
   const {dateSelected} = useCalendar();
-  const today = new Date();
-  // console.log(dateSelected.dateString);
-  console.log(today.toLocaleDateString('en-US', {weekday: 'short'}));
-  // console.log(
-  //   today.toLocaleDateString('en-US', {month: 'short'}).toUpperCase(),
-  // );
+  const {goToPreviousDay, goToNextDay} = useCalendarService();
+  const dateObj = new Date(dateSelected.dateString);
+
   return (
     <Box
       flexDirection="row"
@@ -19,12 +17,12 @@ export function CalendarWidget() {
       columnGap="s10"
       padding="s8"
       alignItems="center">
-      <Icon name="chevronleft" size={26} />
+      <Icon name="chevronleft" size={26} onPress={goToPreviousDay} />
       <Icon name="calendar" size={20} />
       <Text preset="paragraphLarge" font="bold">
-        {`Mon, ${dateSelected.day} Nov`}
+        {format(dateObj, 'EEE, d MMM')}
       </Text>
-      <Icon name="chevronright" size={26} />
+      <Icon name="chevronright" size={26} onPress={goToNextDay} />
     </Box>
   );
 }

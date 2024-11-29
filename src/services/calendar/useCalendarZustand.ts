@@ -56,6 +56,21 @@ const useCalendarStore = create<CalendarService>(set => ({
         },
       };
     }),
+  setDayToday: () => {
+    const today = new Date();
+    const dateString = format(today, 'yyyy-MM-dd');
+
+    set({
+      dateSelected: {
+        day: today.getDate(),
+        month: today.getMonth() + 1,
+        year: today.getFullYear(),
+        dateString,
+        timestamp: today.getTime(),
+      },
+    });
+    set({isOpen: false});
+  },
 }));
 
 export function useCalendarStates(): CalendarStates {
@@ -74,6 +89,7 @@ export function useCalendarFunctions(): CalendarFunctions {
   const onDayPress = useCalendarStore(state => state.onDayPress);
   const goToNextDay = useCalendarStore(state => state.goToNextDay);
   const goToPreviousDay = useCalendarStore(state => state.goToPreviousDay);
+  const setDayToday = useCalendarStore(state => state.setDayToday);
 
   return {
     showCalendar,
@@ -81,5 +97,6 @@ export function useCalendarFunctions(): CalendarFunctions {
     onDayPress,
     goToNextDay,
     goToPreviousDay,
+    setDayToday,
   };
 }

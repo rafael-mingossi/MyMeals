@@ -8,15 +8,12 @@ export interface CalendarService {
   onDayPress: (date: DateData) => void;
   goToNextDay: () => void;
   goToPreviousDay: () => void;
+  setDayToday: () => void;
 }
 
 export type CalendarStates = Pick<CalendarService, 'dateSelected' | 'isOpen'>;
 
-export type CalendarFunctions = Pick<
+export type CalendarFunctions = Omit<
   CalendarService,
-  | 'showCalendar'
-  | 'hideCalendar'
-  | 'onDayPress'
-  | 'goToNextDay'
-  | 'goToPreviousDay'
+  'dateSelected' | 'isOpen'
 >;

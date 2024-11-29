@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ScreenFixedHeader, CalendarCustom, CalendarWidget} from '@components';
+import {ScreenFixedHeader, CalendarModal, CalendarWidget} from '@components';
 
 export function HomeScreen() {
   return (
@@ -10,7 +10,7 @@ export function HomeScreen() {
         enabled: true,
         component: <CalendarWidget />,
       }}>
-      <CalendarCustom />
+      <CalendarModal />
     </ScreenFixedHeader>
   );
 }

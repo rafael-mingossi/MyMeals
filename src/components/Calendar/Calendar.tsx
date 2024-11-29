@@ -35,11 +35,7 @@ export function CalendarCustom() {
   );
 
   return (
-    <Box
-      flex={1}
-      padding="s8"
-      backgroundColor="backgroundInner"
-      borderRadius="s16">
+    <Box padding="s8" backgroundColor="backgroundInner" borderRadius="s16">
       <Calendar
         current={dateSelected.dateString}
         onDayPress={handleDayPress}

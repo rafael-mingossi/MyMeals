@@ -19,8 +19,16 @@ import {mapScreenToProps} from './mapScreenToProps.ts';
 
 export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
   const {bottom} = useAppSafeArea();
+
   return (
-    <Box {...$boxWrapper} style={[{paddingBottom: bottom}, $shadowProps]}>
+    <Box
+      {...$boxWrapper}
+      style={[
+        {
+          paddingBottom: bottom,
+        },
+        $shadowProps,
+      ]}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
 
@@ -87,6 +95,6 @@ const $itemWrapper: TouchableOpacityBoxProps = {
 
 const $boxWrapper: BoxProps = {
   paddingTop: 's12',
-  backgroundColor: 'background',
+  backgroundColor: 'backgroundInner',
   flexDirection: 'row',
 };

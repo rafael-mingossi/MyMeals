@@ -40,7 +40,14 @@ const lightTheme = {
   background: palette.backgroundLight,
   backgroundContrast: palette.black,
 
+  backgroundScreen: palette.white,
+  backgroundScreenContrast: palette.black,
+
   backgroundInner: palette.backgroundInnerLight,
+
+  headerInner: palette.greenPrimary,
+
+  onBackgroundGray2: palette.gray4,
 
   success: palette.grayPrimary,
 
@@ -69,7 +76,14 @@ const darkTheme: typeof lightTheme = {
   background: palette.backgroundDark,
   backgroundContrast: palette.white,
 
+  backgroundScreen: palette.black,
+  backgroundScreenContrast: palette.white,
+
   backgroundInner: palette.backgroundInnerDark,
+
+  headerInner: palette.backgroundInnerDark,
+
+  onBackgroundGray2: palette.borderGrayDark,
 
   success: palette.grayPrimary,
 

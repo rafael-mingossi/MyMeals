@@ -2,8 +2,21 @@ module.exports = {
   presets: ['module:@react-native/babel-preset'],
   plugins: [
     [
+      'module:react-native-dotenv',
+      {
+        moduleName: '@env',
+        path: '.env',
+        blacklist: null,
+        whitelist: ['SUPABASE_URL', 'SUPABASE_ANON_KEY'],
+        safe: true,
+        allowUndefined: false,
+      },
+    ],
+    [
       'module-resolver',
       {
+        root: ['./src'],
+        extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
           '@screens': './src/screens',
           '@api': './src/api',
@@ -23,7 +36,6 @@ module.exports = {
           '@form': './src/form',
           '@domain': './src/domain',
           '@routes': './src/routes',
-          // '@env': ['node_modules/react-native-dotenv'],
         },
       },
     ],

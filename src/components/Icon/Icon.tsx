@@ -17,6 +17,23 @@ import {
   RecipeIcon,
   BeansIcon,
   BeveragesIcon,
+  BreadsIcon,
+  CheeseIcon,
+  CondimentsIcon,
+  DairyIcon,
+  FatsIcon,
+  FishIcon,
+  FruitCannedIcon,
+  FruitRawIcon,
+  GrainsIcon,
+  MeatsIcon,
+  NutsIcon,
+  PoultryIcon,
+  SpicesIcon,
+  StocksIcon,
+  SweetsIcon,
+  VegCannedIcon,
+  VegRawIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -63,6 +80,23 @@ const iconRegistry = {
   // FOOD CATEGORY ICONS
   beans: BeansIcon,
   beverages: BeveragesIcon,
+  breads: BreadsIcon,
+  cheese: CheeseIcon,
+  condiments: CondimentsIcon,
+  dairy: DairyIcon,
+  fats: FatsIcon,
+  fish: FishIcon,
+  fruitCanned: FruitCannedIcon,
+  fruitRaw: FruitRawIcon,
+  grains: GrainsIcon,
+  meats: MeatsIcon,
+  nuts: NutsIcon,
+  poultry: PoultryIcon,
+  spices: SpicesIcon,
+  stocks: StocksIcon,
+  sweets: SweetsIcon,
+  vegCanned: VegCannedIcon,
+  vegRaw: VegRawIcon,
 };
 
 export function Icon({

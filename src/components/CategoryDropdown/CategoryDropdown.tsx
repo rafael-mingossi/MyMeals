@@ -53,7 +53,7 @@ export function CategoryDropdown({
             borderColor={error ? 'error' : 'bluePrimary'}
             {...$dropdownWrapperClosed}>
             {selectedCategory ? (
-              <Icon name={selectedCategory.description} size={24} />
+              <Icon name={selectedCategory.description} size={30} />
             ) : null}
           </Box>
           <Box flex={1}>
@@ -92,7 +92,7 @@ export function CategoryDropdown({
                         : 'transparent',
                   }}>
                   <Box {...$boxClosed}>
-                    <Icon name={category?.description || 'beans'} size={24} />
+                    <Icon name={category?.description || 'beans'} size={25} />
                   </Box>
                   <Text>{category.name}</Text>
                 </TouchableOpacityBox>

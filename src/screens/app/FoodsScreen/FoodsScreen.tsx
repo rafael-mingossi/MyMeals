@@ -1,20 +1,9 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {Box, CustomTabMenu, ScreenFixedHeader, Text} from '@components';
+import {CustomTabMenu, ScreenFixedHeader, Text} from '@components';
 
-const AddFood = () => {
-  return (
-    <Box
-      style={{
-        height: 1150,
-        justifyContent: 'space-between',
-      }}>
-      <Text>1</Text>
-      <Text>1</Text>
-    </Box>
-  );
-};
+import {AddFood} from './tabs/AddFood.tsx';
 
 const MyFoods = () => {
   return <View>{/* My Foods content */}</View>;
@@ -45,7 +34,7 @@ export function FoodsScreen() {
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:
-        return <AddFood />; // Default case
+        return <AddFood />;
     }
   };
 
@@ -61,12 +50,7 @@ export function FoodsScreen() {
             onTabChange={index => setActiveTabIndex(index as TabScreens)}
           />
         ),
-      }}
-      // fixedSearch={{
-      //   enabled: true,
-      //   component: <SearchComponent onSearch={() => {}} />,
-      // }}
-    >
+      }}>
       {renderContent()}
     </ScreenFixedHeader>
   );

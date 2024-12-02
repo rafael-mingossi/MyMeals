@@ -57,16 +57,16 @@ const useCalendarStore = create<CalendarService>(set => ({
       };
     }),
   setDayToday: () => {
-    const today = new Date();
-    const dateString = format(today, 'yyyy-MM-dd');
+    const todayDate = new Date();
+    const dateString = format(todayDate, 'yyyy-MM-dd');
 
     set({
       dateSelected: {
-        day: today.getDate(),
-        month: today.getMonth() + 1,
-        year: today.getFullYear(),
+        day: todayDate.getDate(),
+        month: todayDate.getMonth() + 1,
+        year: todayDate.getFullYear(),
         dateString,
-        timestamp: today.getTime(),
+        timestamp: todayDate.getTime(),
       },
     });
     set({isOpen: false});

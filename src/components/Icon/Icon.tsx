@@ -15,6 +15,8 @@ import {
   PadlockIcon,
   RecipeFillIcon,
   RecipeIcon,
+  BeansIcon,
+  BeveragesIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -57,6 +59,8 @@ const iconRegistry = {
   padlock: PadlockIcon,
   recipe: RecipeIcon,
   recipeFill: RecipeFillIcon,
+  beans: BeansIcon,
+  beverages: BeveragesIcon,
 };
 
 export function Icon({

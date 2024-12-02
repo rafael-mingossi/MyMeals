@@ -6,6 +6,7 @@ export * from './Button/Button';
 export * from './ButtonText/ButtonText';
 export * from './Calendar/Calendar';
 export * from './Calendar/components';
+export * from './CategoryDropdown/CategoryDropdown';
 export * from './CustomTabMenu/CustomTabMenu';
 export * from './Icon/Icon';
 export * from './Form/FormPasswordInput';

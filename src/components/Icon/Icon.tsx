@@ -59,6 +59,8 @@ const iconRegistry = {
   padlock: PadlockIcon,
   recipe: RecipeIcon,
   recipeFill: RecipeFillIcon,
+
+  // FOOD CATEGORY ICONS
   beans: BeansIcon,
   beverages: BeveragesIcon,
 };

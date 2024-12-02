@@ -1,10 +1,12 @@
+import {IconProps} from '@components';
+
 export interface FoodCategoryAPI {
   id: number;
   created_at: string;
   name: string;
   icon_url: string;
   display_order: number;
-  description: string;
+  description: IconProps['name'];
 }
 
 export interface FoodCategory {
@@ -13,5 +15,5 @@ export interface FoodCategory {
   iconUrl: string;
   displayOrder: number;
   createdAt: Date;
-  description: string;
+  description: IconProps['name'];
 }

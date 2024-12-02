@@ -14,7 +14,6 @@ export function useGetFoodCategories() {
   } = useQuery<FoodCategory[], Error>({
     queryKey: [QueryKeys.FoodCategories],
     queryFn: () => foodCategoryService.getAll(),
-
     staleTime: 1000 * 60 * 5,
   });
 

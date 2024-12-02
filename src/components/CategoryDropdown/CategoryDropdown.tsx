@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import {Pressable, ScrollView} from 'react-native';
 
 import {FoodCategory, useGetFoodCategories} from '@domain';
+import {ViewStyle} from 'react-native/types';
 
 import {
   ActivityIndicator,
   Box,
   BoxProps,
   Icon,
-  IconProps,
   Text,
   TouchableOpacityBox,
 } from '@components';
 
 interface CategoryDropdownProps {
-  value?: string;
+  value?: number;
   onChange: (category: FoodCategory) => void;
   error?: string;
 }
@@ -38,11 +38,14 @@ export function CategoryDropdown({
   }
 
   const selectedCategory = foodCategories.find(
-    cat => cat.id === (value ? parseInt(value, 10) : undefined),
+    cat => cat.id === (value ? value : undefined),
   );
 
   return (
     <Box>
+      {isOpen && (
+        <Pressable style={$overlay} onPress={() => setIsOpen(false)} />
+      )}
       <Text mb="s4">Food category</Text>
       <TouchableOpacityBox onPress={toggleDropdown}>
         <Box flexDirection="row" columnGap="s10" alignItems="center">
@@ -50,14 +53,11 @@ export function CategoryDropdown({
             borderColor={error ? 'error' : 'bluePrimary'}
             {...$dropdownWrapperClosed}>
             {selectedCategory ? (
-              <Icon
-                name={selectedCategory.description as IconProps['name']}
-                size={24}
-              />
+              <Icon name={selectedCategory.description} size={24} />
             ) : null}
           </Box>
           <Box flex={1}>
-            <Text>{selectedCategory?.name ?? 'Select category'}</Text>
+            <Text>{selectedCategory?.name}</Text>
           </Box>
           <Box style={{transform: [{rotate: isOpen ? '90deg' : '270deg'}]}}>
             <Icon name="chevronleft" />
@@ -68,7 +68,7 @@ export function CategoryDropdown({
       {isOpen && (
         <Box {...$dropdownWrapperOpen}>
           <ScrollView
-            // Add these props for Android
+            // props to fix scroll on Android
             nestedScrollEnabled
             showsVerticalScrollIndicator={true}
             contentContainerStyle={{
@@ -92,13 +92,7 @@ export function CategoryDropdown({
                         : 'transparent',
                   }}>
                   <Box {...$boxClosed}>
-                    <Icon
-                      name={
-                        (selectedCategory?.description as IconProps['name']) ||
-                        'beans'
-                      }
-                      size={24}
-                    />
+                    <Icon name={category?.description || 'beans'} size={24} />
                   </Box>
                   <Text>{category.name}</Text>
                 </TouchableOpacityBox>
@@ -108,13 +102,23 @@ export function CategoryDropdown({
         </Box>
       )}
       {error && (
-        <Text color="error" fontSize={12} mt="s4">
+        <Text preset="paragraphSmall" font="bold" color="error" mt="s4">
           {error}
         </Text>
       )}
     </Box>
   );
 }
+
+const $overlay: ViewStyle = {
+  position: 'absolute',
+  top: -60,
+  left: -20,
+  right: -20,
+  bottom: -700,
+  backgroundColor: 'transparent',
+  zIndex: 1,
+};
 
 const $dropdownWrapperClosed: BoxProps = {
   borderWidth: 1,
@@ -130,13 +134,13 @@ const $dropdownWrapperOpen: BoxProps = {
   top: 70,
   left: 0,
   right: 0,
-  maxHeight: 300,
+  maxHeight: 310,
   backgroundColor: 'background',
   borderRadius: 's8',
   borderWidth: 1,
   borderColor: 'bluePrimary',
   elevation: 5,
-  zIndex: 2,
+  zIndex: 3,
 };
 
 const $boxClosed: BoxProps = {

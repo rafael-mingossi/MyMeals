@@ -19,14 +19,14 @@ export function AddFood() {
       resolver: zodResolver(addFoodSchema),
       defaultValues: {
         label: '',
-        category_id: '1',
-        protein: '',
-        carbs: '',
-        fat: '',
-        calories: '',
-        fibre: '',
-        sodium: '',
-        serv_size: '',
+        category_id: 1,
+        protein: undefined,
+        carbs: undefined,
+        fat: undefined,
+        calories: undefined,
+        fibre: undefined,
+        sodium: undefined,
+        serv_size: undefined,
         serv_unit: '',
       },
       mode: 'onChange',
@@ -45,7 +45,7 @@ export function AddFood() {
       <Box rowGap="s20" mt={'s20'}>
         <CategoryDropdown
           value={selectedCategoryId}
-          onChange={category => setValue('category_id', category.id.toString())}
+          onChange={category => setValue('category_id', category.id)}
           error={formState.errors.category_id?.message}
         />
         <FormTextInput

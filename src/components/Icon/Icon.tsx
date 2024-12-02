@@ -15,10 +15,16 @@ import {
   PadlockIcon,
   RecipeFillIcon,
   RecipeIcon,
+  BeansIcon,
+  BeveragesIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
 import {ThemeColours} from '@theme';
+
+import {CalendarIcon} from '../../assets/icons/CalendarIcon.tsx';
+import {ChevronLeftIcon} from '../../assets/icons/ChevronLeftIcon.tsx';
+import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon.tsx';
 
 export interface IconBase {
   size?: number;
@@ -40,6 +46,9 @@ const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
+  calendar: CalendarIcon,
+  chevronleft: ChevronLeftIcon,
+  chevronright: ChevronRightIcon,
   dashboard: DashboardIcon,
   dashboardFill: DashboardFillIcon,
   envelope: EnvelopeIcon,
@@ -50,6 +59,10 @@ const iconRegistry = {
   padlock: PadlockIcon,
   recipe: RecipeIcon,
   recipeFill: RecipeFillIcon,
+
+  // FOOD CATEGORY ICONS
+  beans: BeansIcon,
+  beverages: BeveragesIcon,
 };
 
 export function Icon({

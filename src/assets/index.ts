@@ -11,6 +11,9 @@ export * from './icons/FoodFillIcon.tsx';
 export * from './icons/Padlock.tsx';
 export * from './icons/RecipeIcon.tsx';
 export * from './icons/RecipeFillIcon.tsx';
+//FOOD CATEGORY ICONS
+export * from './food_icons/BeansIcon.tsx';
+export * from './food_icons/BeveragesIcon.tsx';
 
 export const videos = {intro: require('../assets/videos/intro.mp4')};
 

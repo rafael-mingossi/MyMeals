@@ -1,5 +1,6 @@
 import 'react-native-url-polyfill/auto';
 import {SUPABASE_URL, SUPABASE_ANON_KEY} from '@env';
+import {supabaseStorage} from '@services';
 import {createClient} from '@supabase/supabase-js';
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
@@ -12,7 +13,8 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 
 export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
-    autoRefreshToken: false,
+    storage: supabaseStorage,
+    autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,
   },

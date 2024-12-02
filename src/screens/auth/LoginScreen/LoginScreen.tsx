@@ -92,7 +92,6 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
         <FormTextInput
           isUnderlinedVersion
           placeholder="E-mail"
-          label=""
           boxProps={{marginBottom: 's20'}}
           name="email"
           control={control}
@@ -102,7 +101,6 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
           isUnderlinedVersion
           control={control}
           name="password"
-          label=""
           placeholder="Password"
           boxProps={{marginBottom: 's10'}}
           LeftComponent={<Icon color="grayPrimary" name="padlock" />}

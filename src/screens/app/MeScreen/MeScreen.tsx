@@ -46,7 +46,7 @@ export function MeScreen() {
   });
 
   return (
-    <ScreenFixedHeader title="Profile" flexGrow={1} fixedHeader={true}>
+    <ScreenFixedHeader title="Profile" fixedHeader={true}>
       <RadioButtonSelector
         items={items}
         selectedItem={selectedItem}

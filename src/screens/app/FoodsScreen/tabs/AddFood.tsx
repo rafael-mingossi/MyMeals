@@ -2,7 +2,7 @@ import React from 'react';
 
 import {AddFoodParams, useAddFood} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useAuthCredentials} from '@services';
+import {useAuthCredentials, useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -18,6 +18,7 @@ import {addFoodSchema, AddFoodSchema} from './addFoodSchema.ts';
 
 export function AddFood() {
   const {authCredentials} = useAuthCredentials();
+  const {showToast} = useToastService();
 
   const {control, formState, handleSubmit, setValue, watch, reset} =
     useForm<AddFoodSchema>({
@@ -39,11 +40,11 @@ export function AddFood() {
 
   const {mutate: addFood, isPending} = useAddFood({
     onSuccess: () => {
-      console.log('FOOD WAS ADDED');
+      showToast({message: 'Food was added!', type: 'success'});
       reset();
     },
     onError: error => {
-      console.error(error);
+      showToast({message: error, type: 'success'});
     },
   });
 

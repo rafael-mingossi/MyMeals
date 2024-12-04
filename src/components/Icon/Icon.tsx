@@ -34,6 +34,8 @@ import {
   SweetsIcon,
   VegCannedIcon,
   VegRawIcon,
+  CheckRoundIcon,
+  ErrorRoundIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -64,11 +66,13 @@ const iconRegistry = {
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
   calendar: CalendarIcon,
+  checkRound: CheckRoundIcon,
   chevronleft: ChevronLeftIcon,
   chevronright: ChevronRightIcon,
   dashboard: DashboardIcon,
   dashboardFill: DashboardFillIcon,
   envelope: EnvelopeIcon,
+  errorRound: ErrorRoundIcon,
   eyeOn: EyeOnIcon,
   eyeOff: EyeOffIcon,
   food: FoodIcon,

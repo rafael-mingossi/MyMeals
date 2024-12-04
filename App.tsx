@@ -8,6 +8,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 // import {theme} from '@theme';
 
+import {Toast} from '@components';
 import {useAppColorScheme} from '@hooks';
 import {darkTheme, theme} from '@theme';
 
@@ -34,6 +35,7 @@ function App(): React.JSX.Element {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={appColor === 'dark' ? darkTheme : theme}>
           <Router />
+          <Toast />
         </ThemeProvider>
       </QueryClientProvider>
     </AuthCredentialsProvider>

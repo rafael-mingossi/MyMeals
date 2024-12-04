@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Svg, {Path, Polygon, Rect, G} from 'react-native-svg';
+import Svg, {Path, Polygon, G} from 'react-native-svg';
 
 import {IconBase} from '@components';
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import {useAuthSignUp} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -18,6 +19,7 @@ import {AuthScreenProps} from '@routes';
 import {signUpSchema, SignUpSchema} from './signUpSchema.ts';
 
 export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
+  const {showToast} = useToastService();
   const {control, formState, handleSubmit, reset} = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -30,14 +32,14 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
   });
 
   function onSuccessCall() {
+    showToast({message: 'Sign up successful!', type: 'success'});
     navigation.navigate('LoginScreen');
     reset();
   }
 
   const {signUp} = useAuthSignUp({
     onSuccess: () => onSuccessCall(),
-    onError: errorMessage =>
-      console.log('ERROR IN SIGN UP SCREEN', errorMessage),
+    onError: errorMessage => showToast({message: errorMessage, type: 'error'}),
   });
 
   function submitForm({email, password, full_name, username}: SignUpSchema) {

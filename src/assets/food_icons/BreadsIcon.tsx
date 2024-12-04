@@ -4,7 +4,7 @@ import Svg, {Path, Circle, Ellipse} from 'react-native-svg';
 
 import {IconBase} from '@components';
 
-export function BreadsIcon({size = 512, color = '#ad6143'}: IconBase) {
+export function BreadsIcon({size = 512}: IconBase) {
   return (
     <Svg width={size} height={size} viewBox="0 0 512 512">
       <Path

@@ -19,3 +19,4 @@ export * from './Screen/ScreenFixedHeader';
 export * from './Separator/Separator';
 export * from './Text/Text';
 export * from './TextInput/TextInput';
+export * from './Toast/Toast';

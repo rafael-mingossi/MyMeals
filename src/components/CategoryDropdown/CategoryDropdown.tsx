@@ -47,23 +47,27 @@ export function CategoryDropdown({
         <Pressable style={$overlay} onPress={() => setIsOpen(false)} />
       )}
       <Text mb="s4">Food category</Text>
-      <TouchableOpacityBox onPress={toggleDropdown}>
-        <Box flexDirection="row" columnGap="s10" alignItems="center">
-          <Box
-            borderColor={error ? 'error' : 'bluePrimary'}
-            {...$dropdownWrapperClosed}>
-            {selectedCategory ? (
-              <Icon name={selectedCategory.description} size={30} />
-            ) : null}
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <TouchableOpacityBox onPress={toggleDropdown}>
+          <Box flexDirection="row" columnGap="s10" alignItems="center">
+            <Box
+              borderColor={error ? 'error' : 'bluePrimary'}
+              {...$dropdownWrapperClosed}>
+              {selectedCategory ? (
+                <Icon name={selectedCategory.description} size={30} />
+              ) : null}
+            </Box>
+            <Box flex={1}>
+              <Text>{selectedCategory?.name}</Text>
+            </Box>
+            <Box style={{transform: [{rotate: isOpen ? '90deg' : '270deg'}]}}>
+              <Icon name="chevronleft" />
+            </Box>
           </Box>
-          <Box flex={1}>
-            <Text>{selectedCategory?.name}</Text>
-          </Box>
-          <Box style={{transform: [{rotate: isOpen ? '90deg' : '270deg'}]}}>
-            <Icon name="chevronleft" />
-          </Box>
-        </Box>
-      </TouchableOpacityBox>
+        </TouchableOpacityBox>
+      )}
 
       {isOpen && (
         <Box {...$dropdownWrapperOpen}>
@@ -74,30 +78,26 @@ export function CategoryDropdown({
             contentContainerStyle={{
               flexGrow: 1,
             }}>
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              foodCategories.map(category => (
-                <TouchableOpacityBox
-                  key={category.id}
-                  padding="s12"
-                  flexDirection="row"
-                  alignItems="center"
-                  columnGap="s10"
-                  onPress={() => handleSelect(category)}
-                  style={{
-                    backgroundColor:
-                      selectedCategory?.id === category.id
-                        ? 'backgroundSelected'
-                        : 'transparent',
-                  }}>
-                  <Box {...$boxClosed}>
-                    <Icon name={category?.description || 'beans'} size={25} />
-                  </Box>
-                  <Text>{category.name}</Text>
-                </TouchableOpacityBox>
-              ))
-            )}
+            {foodCategories.map(category => (
+              <TouchableOpacityBox
+                key={category.id}
+                padding="s12"
+                flexDirection="row"
+                alignItems="center"
+                columnGap="s10"
+                onPress={() => handleSelect(category)}
+                style={{
+                  backgroundColor:
+                    selectedCategory?.id === category.id
+                      ? 'backgroundSelected'
+                      : 'transparent',
+                }}>
+                <Box {...$boxClosed}>
+                  <Icon name={category?.description || 'beans'} size={25} />
+                </Box>
+                <Text>{category.name}</Text>
+              </TouchableOpacityBox>
+            ))}
           </ScrollView>
         </Box>
       )}

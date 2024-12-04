@@ -2,7 +2,7 @@ import {supabaseClient} from '@api';
 
 import {FoodCategoryAPI} from './foodCategoryTypes';
 
-async function getAll(): Promise<FoodCategoryAPI[]> {
+async function getAllCategories(): Promise<FoodCategoryAPI[]> {
   const {data, error} = await supabaseClient
     .from('food_categories')
     .select('*')
@@ -20,5 +20,5 @@ async function getAll(): Promise<FoodCategoryAPI[]> {
 }
 
 export const foodCategoryApi = {
-  getAll,
+  getAllCategories,
 };

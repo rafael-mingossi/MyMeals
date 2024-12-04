@@ -1,10 +1,13 @@
 import React from 'react';
 
+import {AddFoodParams, useAddFood} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useAuthCredentials} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
   Box,
+  ButtonText,
   CategoryDropdown,
   FormTextInput,
   Separator,
@@ -14,7 +17,9 @@ import {
 import {addFoodSchema, AddFoodSchema} from './addFoodSchema.ts';
 
 export function AddFood() {
-  const {control, formState, handleSubmit, setValue, watch} =
+  const {authCredentials} = useAuthCredentials();
+
+  const {control, formState, handleSubmit, setValue, watch, reset} =
     useForm<AddFoodSchema>({
       resolver: zodResolver(addFoodSchema),
       defaultValues: {
@@ -31,6 +36,39 @@ export function AddFood() {
       },
       mode: 'onChange',
     });
+
+  const {mutate: addFood, isPending} = useAddFood({
+    onSuccess: () => {
+      console.log('FOOD WAS ADDED');
+      reset();
+    },
+    onError: error => {
+      console.error(error);
+    },
+  });
+
+  const onSubmit = handleSubmit(data => {
+    if (!authCredentials?.session.user.id) {
+      return;
+    }
+
+    const foodData: AddFoodParams = {
+      userId: authCredentials.session.user.id,
+      label: data.label,
+      categoryId: data.category_id,
+      protein: Number(data.protein),
+      carbs: Number(data.carbs),
+      fat: Number(data.fat),
+      calories: Number(data.calories),
+      fibre: data.fibre ? Number(data.fibre) : 0,
+      sodium: data.sodium ? Number(data.sodium) : 0,
+      servSize: Number(data.serv_size),
+      servUnit: data.serv_unit,
+      foodImg: '',
+    };
+
+    addFood(foodData);
+  });
 
   const selectedCategoryId = watch('category_id');
 
@@ -131,6 +169,21 @@ export function AddFood() {
             keyboardType="number-pad"
           />
         </Box>
+      </Box>
+      <Box style={{marginHorizontal: -20}} mt="s24">
+        <Separator />
+      </Box>
+      <Box
+        flexDirection="row"
+        columnGap="s10"
+        paddingTop={'s10'}
+        justifyContent={'flex-end'}>
+        <ButtonText title={'Reset'} onPress={() => reset()} />
+        <ButtonText
+          title={'Save'}
+          onPress={onSubmit}
+          disabled={!formState.isValid || isPending}
+        />
       </Box>
     </Box>
   );

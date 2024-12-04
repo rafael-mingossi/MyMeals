@@ -13,7 +13,7 @@ export function useGetFoodCategories() {
     refetch,
   } = useQuery<FoodCategory[], Error>({
     queryKey: [QueryKeys.FoodCategories],
-    queryFn: () => foodCategoryService.getAll(),
+    queryFn: () => foodCategoryService.getAllCategories(),
     staleTime: 1000 * 60 * 5,
   });
 

@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {CustomTabMenu, ScreenFixedHeader, Text} from '@components';
+import {CustomTabMenu, ScreenFixedHeader} from '@components';
 
 import {AddFood} from './tabs/AddFood.tsx';
-
-const MyFoods = () => {
-  return <View>{/* My Foods content */}</View>;
-};
+import {Foods} from './tabs/Foods.tsx';
 
 const FavouriteFoods = () => {
   return <View>{/* Favourite Foods content */}</View>;
@@ -30,7 +27,7 @@ export function FoodsScreen() {
       case TabScreens.ADD_FOOD:
         return <AddFood />;
       case TabScreens.MY_FOODS:
-        return <MyFoods />;
+        return <Foods />;
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:

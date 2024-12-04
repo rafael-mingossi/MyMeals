@@ -17,7 +17,7 @@ export function Foods() {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <Text>{foods?.length ? foods[0].label : 'NO FOOD'}</Text>
+        foods.map(item => <Text key={item.id}>{item.label}</Text>)
       )}
     </Box>
   );

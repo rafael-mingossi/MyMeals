@@ -32,5 +32,4 @@ export interface Foods {
   categoryId: number;
 }
 
-export type AddFoodParams = Omit<Foods, 'createdAt' | 'id'>;
-export type AddFoodParamsAPI = Omit<FoodsAPI, 'id' | 'created_at'>;
+export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'>;

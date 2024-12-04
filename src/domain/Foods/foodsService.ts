@@ -8,8 +8,7 @@ async function getFoodsByUser(userId: string): Promise<Foods[]> {
 }
 
 async function addFood(params: AddFoodParams): Promise<Foods> {
-  const foodAPIData = foodsAdapter.toFoodAPI(params);
-  const addFoodAPI = await foodsApi.addFood(foodAPIData);
+  const addFoodAPI = await foodsApi.addFood(params);
   return foodsAdapter.toFood(addFoodAPI);
 }
 

@@ -1,6 +1,6 @@
 import {supabaseClient} from '@api';
 
-import {AddFoodParamsAPI, FoodsAPI} from './foodsTypes.ts';
+import {AddFoodParams, FoodsAPI} from './foodsTypes.ts';
 
 async function getFoodsByUser(userId: string): Promise<FoodsAPI[]> {
   const {data, error} = await supabaseClient
@@ -13,14 +13,10 @@ async function getFoodsByUser(userId: string): Promise<FoodsAPI[]> {
     throw new Error(`Failed to fetch foods: ${error.message}`);
   }
 
-  if (!data) {
-    return [];
-  }
-
-  return data;
+  return data || [];
 }
 
-async function addFood(foodData: AddFoodParamsAPI): Promise<FoodsAPI> {
+async function addFood(foodData: AddFoodParams): Promise<FoodsAPI> {
   const {data, error} = await supabaseClient
     .from('foods')
     .insert(foodData)

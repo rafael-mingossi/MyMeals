@@ -53,18 +53,18 @@ export function AddFood() {
     }
 
     const foodData: AddFoodParams = {
-      userId: authCredentials.session.user.id,
+      user_id: authCredentials.session.user.id,
       label: data.label,
-      categoryId: data.category_id,
-      protein: Number(data.protein),
-      carbs: Number(data.carbs),
-      fat: Number(data.fat),
-      calories: Number(data.calories),
-      fibre: data.fibre ? Number(data.fibre) : 0,
-      sodium: data.sodium ? Number(data.sodium) : 0,
-      servSize: Number(data.serv_size),
-      servUnit: data.serv_unit,
-      foodImg: '',
+      category_id: data.category_id,
+      protein: data.protein,
+      carbs: data.carbs,
+      fat: data.fat,
+      calories: data.calories,
+      fibre: data.fibre ?? 0,
+      sodium: data.sodium ?? 0,
+      serv_size: data.serv_size,
+      serv_unit: data.serv_unit,
+      food_img: '',
     };
 
     addFood(foodData);

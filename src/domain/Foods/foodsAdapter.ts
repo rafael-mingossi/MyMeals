@@ -1,4 +1,4 @@
-import {FoodsAPI, Foods, AddFoodParams} from './foodsTypes';
+import {FoodsAPI, Foods} from './foodsTypes';
 
 function toFood(foodAPI: FoodsAPI): Foods {
   return {
@@ -19,23 +19,6 @@ function toFood(foodAPI: FoodsAPI): Foods {
   };
 }
 
-function toFoodAPI(food: AddFoodParams): Omit<FoodsAPI, 'id' | 'created_at'> {
-  return {
-    user_id: food.userId,
-    label: food.label,
-    protein: food.protein,
-    carbs: food.carbs,
-    fat: food.fat,
-    calories: food.calories,
-    fibre: food.fibre,
-    sodium: food.sodium,
-    serv_unit: food.servUnit,
-    serv_size: food.servSize,
-    food_img: food.foodImg,
-    category_id: food.categoryId,
-  };
-}
-
 function toFoodsList(foodsAPI: FoodsAPI[]): Foods[] {
   return foodsAPI.map(toFood);
 }
@@ -43,5 +26,4 @@ function toFoodsList(foodsAPI: FoodsAPI[]): Foods[] {
 export const foodsAdapter = {
   toFoodsList,
   toFood,
-  toFoodAPI,
 };

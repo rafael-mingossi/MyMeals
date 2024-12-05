@@ -2,9 +2,6 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "strict": true,
-    "types": [
-      "react-native-reanimated"
-    ],
     "baseUrl": ".",
     "paths": {
       "@screens": [

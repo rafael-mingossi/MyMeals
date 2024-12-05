@@ -15,10 +15,36 @@ import {
   PadlockIcon,
   RecipeFillIcon,
   RecipeIcon,
+  BeansIcon,
+  BeveragesIcon,
+  BreadsIcon,
+  CheeseIcon,
+  CondimentsIcon,
+  DairyIcon,
+  FatsIcon,
+  FishIcon,
+  FruitCannedIcon,
+  FruitRawIcon,
+  GrainsIcon,
+  MeatsIcon,
+  NutsIcon,
+  PoultryIcon,
+  SpicesIcon,
+  StocksIcon,
+  SweetsIcon,
+  VegCannedIcon,
+  VegRawIcon,
+  CheckRoundIcon,
+  ErrorRoundIcon,
+  MoreIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
 import {ThemeColours} from '@theme';
+
+import {CalendarIcon} from '../../assets/icons/CalendarIcon.tsx';
+import {ChevronLeftIcon} from '../../assets/icons/ChevronLeftIcon.tsx';
+import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon.tsx';
 
 export interface IconBase {
   size?: number;
@@ -40,16 +66,43 @@ const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
+  calendar: CalendarIcon,
+  checkRound: CheckRoundIcon,
+  chevronleft: ChevronLeftIcon,
+  chevronright: ChevronRightIcon,
   dashboard: DashboardIcon,
   dashboardFill: DashboardFillIcon,
   envelope: EnvelopeIcon,
+  errorRound: ErrorRoundIcon,
   eyeOn: EyeOnIcon,
   eyeOff: EyeOffIcon,
   food: FoodIcon,
   foodFill: FoodFillIcon,
+  more: MoreIcon,
   padlock: PadlockIcon,
   recipe: RecipeIcon,
   recipeFill: RecipeFillIcon,
+
+  // FOOD CATEGORY ICONS
+  beans: BeansIcon,
+  beverages: BeveragesIcon,
+  breads: BreadsIcon,
+  cheese: CheeseIcon,
+  condiments: CondimentsIcon,
+  dairy: DairyIcon,
+  fats: FatsIcon,
+  fish: FishIcon,
+  fruitCanned: FruitCannedIcon,
+  fruitRaw: FruitRawIcon,
+  grains: GrainsIcon,
+  meats: MeatsIcon,
+  nuts: NutsIcon,
+  poultry: PoultryIcon,
+  spices: SpicesIcon,
+  stocks: StocksIcon,
+  sweets: SweetsIcon,
+  vegCanned: VegCannedIcon,
+  vegRaw: VegRawIcon,
 };
 
 export function Icon({

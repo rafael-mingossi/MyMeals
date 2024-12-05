@@ -2,6 +2,7 @@ import React from 'react';
 
 import {useAuthSignIn} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -18,6 +19,8 @@ import {AuthScreenProps} from '@routes';
 import {loginSchema, LoginSchema} from './loginSchema.ts';
 
 export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
+  const {showToast} = useToastService();
+
   const {control, formState, handleSubmit} = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -27,7 +30,7 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
     mode: 'onChange',
   });
   const {isLoading, signIn} = useAuthSignIn({
-    onError: () => console.log('ERROR LOGIN SIGN IN SCREEN'),
+    onError: error => showToast({message: error, type: 'error'}),
     onSuccess: () => console.log('DONE IN SIGN IN'),
   });
 
@@ -92,7 +95,6 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
         <FormTextInput
           isUnderlinedVersion
           placeholder="E-mail"
-          label=""
           boxProps={{marginBottom: 's20'}}
           name="email"
           control={control}
@@ -102,7 +104,6 @@ export function LoginScreen({}: AuthScreenProps<'LoginScreen'>) {
           isUnderlinedVersion
           control={control}
           name="password"
-          label=""
           placeholder="Password"
           boxProps={{marginBottom: 's10'}}
           LeftComponent={<Icon color="grayPrimary" name="padlock" />}

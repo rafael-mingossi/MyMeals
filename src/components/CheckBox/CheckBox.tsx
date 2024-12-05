@@ -1,0 +1,37 @@
+import React from 'react';
+
+import {TouchableOpacityBox, Text, Box} from '@components';
+
+interface CheckBoxProps {
+  isChecked: boolean;
+  onChange: (isChecked: boolean) => void;
+  label?: string;
+}
+
+export function CheckBox({isChecked, onChange, label}: CheckBoxProps) {
+  return (
+    <TouchableOpacityBox
+      flexDirection={'row'}
+      alignItems={'center'}
+      onPress={() => {
+        onChange(!isChecked);
+      }}>
+      <Box
+        width={22}
+        height={22}
+        backgroundColor={'background'}
+        borderColor={'gray4'}
+        borderWidth={1}
+        borderRadius={'s2'}
+        alignItems={'center'}
+        justifyContent={'center'}>
+        {isChecked ? (
+          <Text preset={'paragraphSmall'} color={'primary'}>
+            ✓
+          </Text>
+        ) : null}
+      </Box>
+      <Text font={'semiBold'}>{label}</Text>
+    </TouchableOpacityBox>
+  );
+}

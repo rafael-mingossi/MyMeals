@@ -1,24 +1,10 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {Box, CustomTabMenu, ScreenFixedHeader, Text} from '@components';
+import {CustomTabMenu, ScreenFixedHeader} from '@components';
 
-const AddFood = () => {
-  return (
-    <Box
-      style={{
-        height: 1150,
-        justifyContent: 'space-between',
-      }}>
-      <Text>1</Text>
-      <Text>1</Text>
-    </Box>
-  );
-};
-
-const MyFoods = () => {
-  return <View>{/* My Foods content */}</View>;
-};
+import {AddFood} from './tabs/AddFood.tsx';
+import {FoodsList} from './tabs/FoodsList.tsx';
 
 const FavouriteFoods = () => {
   return <View>{/* Favourite Foods content */}</View>;
@@ -41,18 +27,17 @@ export function FoodsScreen() {
       case TabScreens.ADD_FOOD:
         return <AddFood />;
       case TabScreens.MY_FOODS:
-        return <MyFoods />;
+        return <FoodsList />;
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:
-        return <AddFood />; // Default case
+        return <AddFood />;
     }
   };
 
   return (
     <ScreenFixedHeader
       title="Manage Foods"
-      flexGrow={1}
       fixedHeader={true}
       fixedTabs={{
         enabled: true,
@@ -62,12 +47,7 @@ export function FoodsScreen() {
             onTabChange={index => setActiveTabIndex(index as TabScreens)}
           />
         ),
-      }}
-      // fixedSearch={{
-      //   enabled: true,
-      //   component: <SearchComponent onSearch={() => {}} />,
-      // }}
-    >
+      }}>
       {renderContent()}
     </ScreenFixedHeader>
   );

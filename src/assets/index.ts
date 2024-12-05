@@ -10,6 +10,7 @@ export * from './icons/EyeOn.tsx';
 export * from './icons/EyeOff.tsx';
 export * from './icons/FoodIcon.tsx';
 export * from './icons/FoodFillIcon.tsx';
+export * from './icons/MoreIcon.tsx';
 export * from './icons/Padlock.tsx';
 export * from './icons/RecipeIcon.tsx';
 export * from './icons/RecipeFillIcon.tsx';

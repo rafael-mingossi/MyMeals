@@ -14,6 +14,7 @@ export * from './Ingredient/Ingredient';
 export * from './Form/FormPasswordInput';
 export * from './Form/FormTextInput';
 export * from './Modal/Modal';
+export * from './OptionsDropdown/OptionsDropdown';
 export * from './PasswordInput/PasswordInput';
 export * from './RadioButton';
 export * from './Screen/Screen';

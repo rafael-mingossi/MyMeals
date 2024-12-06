@@ -20,7 +20,7 @@ export interface TextInputProps extends RNTextInputProps {
   LeftComponent?: ReactElement;
   boxProps?: BoxProps;
   containerProps?: BoxProps;
-  fieldUnit?: 'g' | 'cals' | 'mg';
+  fieldUnit?: 'g' | 'cals' | 'mg' | '';
 }
 
 export function TextInput({

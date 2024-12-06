@@ -37,6 +37,7 @@ import {
   CheckRoundIcon,
   ErrorRoundIcon,
   MoreIcon,
+  RecipesIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -81,6 +82,7 @@ const iconRegistry = {
   more: MoreIcon,
   padlock: PadlockIcon,
   recipe: RecipeIcon,
+  recipes: RecipesIcon,
   recipeFill: RecipeFillIcon,
 
   // FOOD CATEGORY ICONS

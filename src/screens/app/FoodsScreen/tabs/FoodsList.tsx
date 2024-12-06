@@ -19,6 +19,8 @@ export function FoodsList() {
     return (
       <Ingredient
         food={item}
+        isEditing
+        onIngredientPress={() => console.log(item.id)}
         isChecked={checkedItems.has(item.id.toString())}
         onToggleCheck={() => handleToggleCheck(item.id.toString())}
       />
@@ -38,7 +40,7 @@ export function FoodsList() {
   };
 
   return (
-    <Box>
+    <Box flex={1}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (

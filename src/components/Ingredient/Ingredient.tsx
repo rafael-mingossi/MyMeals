@@ -2,18 +2,29 @@ import React from 'react';
 
 import {FoodCategory, Foods, useGetFoodCategories} from '@domain';
 
-import {Box, CheckBox, Icon, Text} from '@components';
+import {
+  Box,
+  CheckBox,
+  Icon,
+  OptionsDropdown,
+  Text,
+  TouchableOpacityBox,
+} from '@components';
 
 interface IngredientProps {
   food: Foods;
   isChecked?: boolean;
   onToggleCheck?: () => void;
+  isEditing?: boolean;
+  onIngredientPress?: () => void;
 }
 
 export function Ingredient({
   food,
   isChecked = false,
   onToggleCheck = () => {},
+  isEditing = false,
+  onIngredientPress = () => {},
 }: IngredientProps) {
   const {foodCategories} = useGetFoodCategories();
 
@@ -21,15 +32,20 @@ export function Ingredient({
     cat => cat.id === food.categoryId,
   );
 
+  const list = [{label: 'Edit'}, {label: 'Delete'}];
+
   return (
-    <Box
+    <TouchableOpacityBox
+      onPress={onIngredientPress}
       flexDirection="row"
       alignItems={'center'}
       columnGap={'s10'}
       paddingVertical={'s4'}
       justifyContent={'space-between'}>
       <Box flexDirection="row" alignItems={'center'} columnGap={'s10'}>
-        <CheckBox isChecked={isChecked} onChange={onToggleCheck} />
+        {!isEditing ? (
+          <CheckBox isChecked={isChecked} onChange={onToggleCheck} />
+        ) : null}
         {selectedCategory && (
           <Icon name={selectedCategory.description} size={30} />
         )}
@@ -48,7 +64,14 @@ export function Ingredient({
           </Box>
         </Box>
       </Box>
-      <Icon name={'more'} size={18} />
-    </Box>
+      {isEditing ? (
+        <OptionsDropdown
+          items={list}
+          onChange={selected => {
+            console.log(selected.label);
+          }}
+        />
+      ) : null}
+    </TouchableOpacityBox>
   );
 }

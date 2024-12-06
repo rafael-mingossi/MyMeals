@@ -1,26 +1,15 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {Box, CustomTabMenu, ScreenFixedHeader, Text} from '@components';
+import {CustomTabMenu, ScreenFixedHeader} from '@components';
+
+import {AddRecipe} from './tabs/AddRecipe.tsx';
 
 enum TabScreens {
-  ADD_FOOD = 0,
-  MY_FOODS = 1,
-  FAVOURITE_FOODS = 2,
+  ADD_RECIPE = 0,
+  MY_RECIPES = 1,
+  FAVOURITE_RECIPES = 2,
 }
-
-const AddFood = () => {
-  return (
-    <Box
-      style={{
-        height: 1150,
-        justifyContent: 'space-between',
-      }}>
-      <Text>1</Text>
-      <Text>1</Text>
-    </Box>
-  );
-};
 
 const MyFoods = () => {
   return <View>{/* My Foods content */}</View>;
@@ -32,19 +21,19 @@ const FavouriteFoods = () => {
 
 export function RecipesScreen() {
   const [activeTabIndex, setActiveTabIndex] = useState<TabScreens>(
-    TabScreens.ADD_FOOD,
+    TabScreens.ADD_RECIPE,
   );
 
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
-      case TabScreens.ADD_FOOD:
-        return <AddFood />;
-      case TabScreens.MY_FOODS:
+      case TabScreens.ADD_RECIPE:
+        return <AddRecipe />;
+      case TabScreens.MY_RECIPES:
         return <MyFoods />;
-      case TabScreens.FAVOURITE_FOODS:
+      case TabScreens.FAVOURITE_RECIPES:
         return <FavouriteFoods />;
       default:
-        return <AddFood />;
+        return <AddRecipe />;
     }
   };
 

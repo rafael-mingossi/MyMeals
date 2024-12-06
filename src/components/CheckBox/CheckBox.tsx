@@ -21,7 +21,7 @@ export function CheckBox({isChecked, onChange, label}: CheckBoxProps) {
         height={22}
         backgroundColor={'background'}
         borderColor={'gray4'}
-        borderWidth={1}
+        borderWidth={2}
         borderRadius={'s2'}
         alignItems={'center'}
         justifyContent={'center'}>

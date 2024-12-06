@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
 
 import {CustomTabMenu, ScreenFixedHeader} from '@components';
 
@@ -7,10 +6,9 @@ import {AddFood} from './tabs/AddFood.tsx';
 import {FoodsList} from './tabs/FoodsList.tsx';
 
 const FavouriteFoods = () => {
-  return <View>{/* Favourite Foods content */}</View>;
+  return <></>;
 };
 
-// You might want to extract this enum to a separate types file
 enum TabScreens {
   ADD_FOOD = 0,
   MY_FOODS = 1,

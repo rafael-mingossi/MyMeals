@@ -88,7 +88,7 @@ export function ScreenFixedHeader({
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <Box flex={1} backgroundColor={'background'}>
+      <Box backgroundColor={'background'} flex={1}>
         {/* Fixed Header */}
         {fixedHeader && (
           <Box
@@ -168,9 +168,11 @@ export function ScreenFixedHeader({
         {/* Scrollable Content */}
         <ScrollView
           style={{
-            flex: 1,
             marginTop: totalFixedHeight,
             paddingBottom: bottom,
+          }}
+          contentContainerStyle={{
+            flexGrow: 1, // This allows content to grow but still be scrollable
           }}>
           <Box
             flex={1}

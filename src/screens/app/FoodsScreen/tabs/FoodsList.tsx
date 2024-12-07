@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
 import {Foods, useGetFoodsByUser} from '@domain';
@@ -6,10 +6,22 @@ import {useAuthCredentials} from '@services';
 
 import {ActivityIndicator, Box, Ingredient} from '@components';
 
-export function FoodsList() {
-  const {authCredentials} = useAuthCredentials();
+interface FoodsListProps {
+  checkedItems?: Set<string>;
+  onToggleCheck?: (foodId: string) => void;
+  isEditing?: boolean;
+  onItemPress?: (food: Foods) => void;
+  scrollEnabled?: boolean;
+}
 
-  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
+export function FoodsList({
+  checkedItems,
+  onToggleCheck,
+  onItemPress,
+  isEditing = false,
+  scrollEnabled = false,
+}: FoodsListProps) {
+  const {authCredentials} = useAuthCredentials();
 
   const {foods, isLoading} = useGetFoodsByUser(
     authCredentials?.session.user.id as string,
@@ -19,33 +31,29 @@ export function FoodsList() {
     return (
       <Ingredient
         food={item}
-        isEditing
-        onIngredientPress={() => console.log(item.id)}
-        isChecked={checkedItems.has(item.id.toString())}
-        onToggleCheck={() => handleToggleCheck(item.id.toString())}
+        isEditing={isEditing}
+        onIngredientPress={() => onItemPress?.(item)}
+        isChecked={checkedItems?.has(item.id.toString())}
+        onToggleCheck={() => onToggleCheck?.(item.id.toString())}
       />
     );
   }
 
-  const handleToggleCheck = (foodId: string) => {
-    setCheckedItems(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(foodId)) {
-        newSet.delete(foodId);
-      } else {
-        newSet.add(foodId);
-      }
-      return newSet;
-    });
-  };
+  if (isLoading) {
+    return (
+      <Box flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator />
+      </Box>
+    );
+  }
 
   return (
     <Box flex={1}>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList data={foods} renderItem={renderItem} scrollEnabled={false} />
-      )}
+      <FlatList
+        data={foods}
+        renderItem={renderItem}
+        scrollEnabled={scrollEnabled}
+      />
     </Box>
   );
 }

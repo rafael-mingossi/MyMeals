@@ -1,6 +1,8 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -17,6 +19,7 @@ import {addRecipeSchema, AddRecipeSchema} from './addRecipeSchema.ts';
 const list = [{label: 'Add Ingredient'}];
 
 export function AddRecipe() {
+  const navigation = useNavigation();
   const {control, formState, handleSubmit} = useForm<AddRecipeSchema>({
     resolver: zodResolver(addRecipeSchema),
     defaultValues: {
@@ -31,7 +34,7 @@ export function AddRecipe() {
   });
 
   return (
-    <Box>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <Box rowGap="s20">
         <Box rowGap="s20" mt="s8">
           <FormTextInput
@@ -73,7 +76,8 @@ export function AddRecipe() {
             <OptionsDropdown
               items={list}
               onChange={selected => {
-                console.log(selected.label);
+                selected.label === 'Add Ingredient' &&
+                  navigation.navigate('FoodsSelectionScreen');
               }}
             />
           </Box>
@@ -122,10 +126,7 @@ export function AddRecipe() {
         <Box style={{marginHorizontal: -20}} mt="s24">
           <Separator />
         </Box>
-        <Box
-          flexDirection="row"
-          paddingVertical={'s10'}
-          justifyContent={'flex-end'}>
+        <Box flexDirection="row" paddingTop={'s14'} justifyContent={'flex-end'}>
           <ButtonText
             title={'Save Recipe'}
             disabled={!formState.isValid}
@@ -133,6 +134,6 @@ export function AddRecipe() {
           />
         </Box>
       </Box>
-    </Box>
+    </ScrollView>
   );
 }

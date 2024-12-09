@@ -4,7 +4,6 @@ import {
   Platform,
   LayoutChangeEvent,
   View,
-  ScrollView,
 } from 'react-native';
 
 import {useAppSafeArea} from '@hooks';
@@ -166,21 +165,23 @@ export function ScreenFixedHeader({
         )}
 
         {/* Scrollable Content */}
-        <ScrollView
+        <Box
           style={{
             marginTop: totalFixedHeight,
             paddingBottom: bottom,
+            flexGrow: 1,
           }}
-          contentContainerStyle={{
-            flexGrow: 1, // This allows content to grow but still be scrollable
-          }}>
+          // contentContainerStyle={{
+          //   flexGrow: 1, // This allows content to grow but still be scrollable
+          // }}
+        >
           <Box
             flex={1}
             paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
             {...boxProps}>
             {children}
           </Box>
-        </ScrollView>
+        </Box>
       </Box>
     </KeyboardAvoidingView>
   );

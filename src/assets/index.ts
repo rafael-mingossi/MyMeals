@@ -1,7 +1,10 @@
 export * from './icons/ArrowLeftIcon.tsx';
 export * from './icons/AvatarIcon.tsx';
 export * from './icons/AvatarFillIcon.tsx';
+export * from './icons/CalendarIcon.tsx';
 export * from './icons/CheckRoundIcon.tsx';
+export * from './icons/ChevronRightIcon.tsx';
+export * from './icons/ChevronLeftIcon.tsx';
 export * from './icons/DashboardIcon.tsx';
 export * from './icons/DashboardFillIcon.tsx';
 export * from './icons/Envelope.tsx';
@@ -15,6 +18,7 @@ export * from './icons/Padlock.tsx';
 export * from './icons/RecipeIcon.tsx';
 export * from './icons/RecipesIcon.tsx';
 export * from './icons/RecipeFillIcon.tsx';
+export * from './icons/SearchIcon.tsx';
 //FOOD CATEGORY ICONS
 export * from './food_icons/BeansIcon.tsx';
 export * from './food_icons/BeveragesIcon.tsx';
@@ -41,4 +45,5 @@ export const videos = {intro: require('../assets/videos/intro.mp4')};
 export const images = {
   introPlaceholder: require('./images/intro-image.png'),
   logo: require('./images/logoBgWhite.png'),
+  singleFoodBg: require('./images/singleFoodBg.png'),
 };

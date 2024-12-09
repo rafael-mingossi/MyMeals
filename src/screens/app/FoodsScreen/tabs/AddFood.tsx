@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 
 import {AddFoodParams, useAddFood} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -74,7 +75,7 @@ export function AddFood() {
   const selectedCategoryId = watch('category_id');
 
   return (
-    <Box paddingVertical="s16">
+    <ScrollView style={{marginTop: 10}} showsVerticalScrollIndicator={false}>
       <Text preset="paragraphLarge" font="medium">
         General details
       </Text>
@@ -177,7 +178,7 @@ export function AddFood() {
       <Box
         flexDirection="row"
         columnGap="s10"
-        paddingTop={'s10'}
+        paddingTop={'s14'}
         justifyContent={'flex-end'}>
         <ButtonText title={'Reset'} onPress={() => reset()} />
         <ButtonText
@@ -186,6 +187,6 @@ export function AddFood() {
           disabled={!formState.isValid || isPending}
         />
       </Box>
-    </Box>
+    </ScrollView>
   );
 }

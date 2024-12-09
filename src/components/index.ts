@@ -19,6 +19,7 @@ export * from './PasswordInput/PasswordInput';
 export * from './RadioButton';
 export * from './Screen/Screen';
 export * from './Screen/ScreenFixedHeader';
+export * from './SearchInput/SearchInput';
 export * from './Separator/Separator';
 export * from './Text/Text';
 export * from './TextInput/TextInput';

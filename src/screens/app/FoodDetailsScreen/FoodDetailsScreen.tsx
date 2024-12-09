@@ -36,7 +36,10 @@ export function FoodDetailsScreen({
           </Text>
 
           <Box flexDirection="row" alignItems={'center'} columnGap={'s24'}>
-            <Text>
+            <Text
+              preset={'paragraphLarge'}
+              font={'semiBold'}
+              color={'bluePrimary'}>
               {prop?.servSize} {prop?.servUnit}
             </Text>
             <Text preset={'paragraphLarge'} font={'bold'}>
@@ -76,7 +79,7 @@ export function FoodDetailsScreen({
             </Box>
             <Box flexDirection={'row'} justifyContent={'space-between'}>
               <Text font={'semiBold'}>Sodium</Text>
-              <Text>{prop?.sodium} gram</Text>
+              <Text>{prop?.sodium} mg</Text>
             </Box>
           </Box>
         </Box>

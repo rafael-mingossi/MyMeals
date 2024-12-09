@@ -3,6 +3,7 @@ export * from './AuthScreensHeader/AuthScreensHeader';
 export * from './BackButton/BackButton';
 export * from './Box/Box';
 export * from './Button/Button';
+export * from './ButtonFloat/ButtonFloat';
 export * from './ButtonText/ButtonText';
 export * from './Calendar/Calendar';
 export * from './Calendar/components';

@@ -7,7 +7,7 @@ const requiredPositiveNumber = z.preprocess(
       invalid_type_error: 'Expected a number',
       required_error: 'Field is required',
     })
-    .min(1, 'Must be greater than 0'),
+    .min(0.1, 'Must be greater than 0'),
 );
 
 export const foodDetailsSchema = z.object({

@@ -11,7 +11,7 @@ import {
   ButtonText,
   CategoryDropdown,
   FormTextInput,
-  Separator,
+  SeparatorBox,
   Text,
 } from '@components';
 
@@ -75,13 +75,13 @@ export function AddFood() {
   const selectedCategoryId = watch('category_id');
 
   return (
-    <ScrollView style={{marginTop: 10}} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{marginTop: 10, paddingHorizontal: 16}}
+      showsVerticalScrollIndicator={false}>
       <Text preset="paragraphLarge" font="medium">
         General details
       </Text>
-      <Box style={{marginHorizontal: -20}}>
-        <Separator />
-      </Box>
+      <SeparatorBox />
       <Box rowGap="s20" mt={'s20'}>
         <CategoryDropdown
           value={selectedCategoryId}
@@ -114,10 +114,8 @@ export function AddFood() {
       <Text preset="paragraphLarge" font="medium" mt="s24">
         All Nutrients
       </Text>
-      <Box style={{marginHorizontal: -20}}>
-        <Separator />
-      </Box>
-      <Box padding={'s16'} rowGap={'s10'}>
+      <SeparatorBox />
+      <Box padding={'s16'} rowGap={'s10'} mb={'s24'}>
         <Box flexDirection={'row'} justifyContent={'space-between'}>
           <Text font={'semiBold'}>Calories</Text>
           <FormTextInput
@@ -172,9 +170,7 @@ export function AddFood() {
           />
         </Box>
       </Box>
-      <Box style={{marginHorizontal: -20}} mt="s24">
-        <Separator />
-      </Box>
+      <SeparatorBox />
       <Box
         flexDirection="row"
         columnGap="s10"

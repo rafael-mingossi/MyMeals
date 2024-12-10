@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {CustomTabMenu, ScreenFixedHeader} from '@components';
+import {Box, CustomTabMenu, ScreenFixedHeader} from '@components';
 
 import {AddFood} from './tabs/AddFood.tsx';
 import {FoodsList} from './tabs/FoodsList.tsx';
@@ -46,7 +46,7 @@ export function FoodsScreen() {
           />
         ),
       }}>
-      {renderContent()}
+      <Box style={{marginHorizontal: -16}}>{renderContent()}</Box>
     </ScreenFixedHeader>
   );
 }

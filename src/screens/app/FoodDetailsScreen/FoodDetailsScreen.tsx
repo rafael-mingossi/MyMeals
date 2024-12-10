@@ -3,6 +3,7 @@ import React, {useCallback, useMemo} from 'react';
 import {FoodCategory, useGetFoodCategories} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useRecipeListService} from '@services';
+import {macrosCalculations} from '@utils';
 import {useForm, useWatch} from 'react-hook-form';
 
 import {
@@ -11,7 +12,7 @@ import {
   FormTextInput,
   Icon,
   Screen,
-  Separator,
+  SeparatorBox,
   Text,
 } from '@components';
 import {AppScreenProps} from '@routes';
@@ -24,6 +25,9 @@ export function FoodDetailsScreen({
 }: AppScreenProps<'FoodDetailsScreen'>) {
   const prop = route?.params?.food;
   const isEditing = route?.params?.isViewOnly;
+
+  const {foodCategories} = useGetFoodCategories();
+  const {addFoodToRecipe} = useRecipeListService();
 
   const {control, formState, handleSubmit} = useForm<FoodDetailsSchema>({
     resolver: zodResolver(foodDetailsSchema),
@@ -38,21 +42,10 @@ export function FoodDetailsScreen({
     defaultValue: 1,
   });
 
-  const calculatedValues = useMemo(() => {
-    const parsedQuantity = parseFloat(quantity.toString()) || 1;
-    return {
-      servSize: prop.servSize * parsedQuantity,
-      calories: prop.calories * parsedQuantity,
-      protein: prop.protein * parsedQuantity,
-      fat: prop.fat * parsedQuantity,
-      carbs: prop.carbs * parsedQuantity,
-      fibre: (prop.fibre || 0) * parsedQuantity,
-      sodium: (prop.sodium || 0) * parsedQuantity,
-    };
-  }, [quantity, prop]);
-
-  const {foodCategories} = useGetFoodCategories();
-  const {addFoodToRecipe} = useRecipeListService();
+  const calculatedValues = useMemo(
+    () => macrosCalculations.calculateFoodMacros(prop, quantity),
+    [quantity, prop],
+  );
 
   const selectedCategory: FoodCategory | undefined = foodCategories.find(
     cat => cat.id === prop.categoryId,
@@ -92,16 +85,16 @@ export function FoodDetailsScreen({
         </Box>
         {!isEditing && (
           <Box>
-            <Box style={{marginHorizontal: -16}} mb="s8">
-              <Separator />
-            </Box>
-
-            <Text font={'semiBold'} preset={'paragraphLarge'} mb={'s8'}>
+            <SeparatorBox />
+            <Text
+              font={'semiBold'}
+              preset={'paragraphLarge'}
+              marginVertical={'s8'}>
               Quantity:
             </Text>
             <FormTextInput
               keyboardType="decimal-pad"
-              placeholder="Qty"
+              placeholder="1"
               name="quantity"
               fieldUnit=""
               control={control}
@@ -109,10 +102,11 @@ export function FoodDetailsScreen({
           </Box>
         )}
         <Box>
-          <Box style={{marginHorizontal: -16}} mb="s8">
-            <Separator />
-          </Box>
-          <Text font={'semiBold'} preset={'paragraphLarge'} mb={'s8'}>
+          <SeparatorBox />
+          <Text
+            font={'semiBold'}
+            preset={'paragraphLarge'}
+            marginVertical={'s8'}>
             Per serving:
           </Text>
 
@@ -136,10 +130,11 @@ export function FoodDetailsScreen({
         </Box>
 
         <Box>
-          <Box style={{marginHorizontal: -16}} mb="s8">
-            <Separator />
-          </Box>
-          <Text font={'semiBold'} preset={'paragraphLarge'} mb={'s8'}>
+          <SeparatorBox />
+          <Text
+            font={'semiBold'}
+            preset={'paragraphLarge'}
+            marginVertical={'s8'}>
             Total macros:
           </Text>
           <Box rowGap={'s10'} mt={'s14'} paddingHorizontal={'s10'}>
@@ -151,26 +146,27 @@ export function FoodDetailsScreen({
           </Box>
         </Box>
         <Box>
-          <Box style={{marginHorizontal: -16}} mb="s8">
-            <Separator />
-          </Box>
-          <Text font={'semiBold'} preset={'paragraphLarge'} mb={'s8'}>
+          <SeparatorBox />
+          <Text
+            font={'semiBold'}
+            preset={'paragraphLarge'}
+            marginVertical={'s8'}>
             Macros chart:
           </Text>
         </Box>
       </Box>
-      <Box>
-        <Box style={{marginHorizontal: -16}} mb="s8">
-          <Separator />
-        </Box>
+      {!isEditing && (
         <Box>
-          <ButtonText
-            title={'Add Item'}
-            disabled={!formState.isValid}
-            onPress={onSubmit}
-          />
+          <SeparatorBox />
+          <Box mt={'s8'} alignSelf={'flex-end'}>
+            <ButtonText
+              title={'Add Item'}
+              disabled={!formState.isValid}
+              onPress={onSubmit}
+            />
+          </Box>
         </Box>
-      </Box>
+      )}
     </Screen>
   );
 }

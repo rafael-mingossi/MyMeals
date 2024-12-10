@@ -7,7 +7,7 @@ import {
   useRecipeListService,
 } from '@services';
 
-import {Box, ButtonText, Screen, Separator} from '@components';
+import {Box, ButtonText, Screen, SeparatorBox} from '@components';
 import {AppScreenProps} from '@routes';
 
 import {FoodsList} from '../FoodsScreen/tabs/FoodsList';
@@ -42,9 +42,7 @@ export function FoodsSelectionScreen({
         onIngredientPress={food => navigateToFoodDetails(food)}
       />
       <Box>
-        <Box style={{marginHorizontal: -20}} mt="s24">
-          <Separator />
-        </Box>
+        <SeparatorBox />
         <Box flexDirection="row" paddingTop={'s14'} justifyContent={'flex-end'}>
           <ButtonText
             title={'Clear'}

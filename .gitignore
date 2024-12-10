@@ -88,3 +88,5 @@ web-build/
 # Swap the next line with the line above it
 .yarn/install-state.gz
 # .yarn/releases/*
+.env
+package-lock.json

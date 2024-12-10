@@ -5,13 +5,13 @@ import {useAppSafeArea, useAppTheme} from '@hooks';
 
 import {Box, BoxProps} from '../Box/Box';
 
-import {ScrollViewContainer, ViewContainer, ScreenHeader} from './components';
+import {ScrollViewContainer, ScreenHeader, ViewContainer} from './components';
 
 export interface ScreenProps extends BoxProps {
   children: ReactNode;
   HeaderComponent?: ReactNode;
   canGoBack?: boolean;
-  scrollable?: boolean;
+  screenScrollType?: 'scrollView' | 'scrollViewAuth' | 'viewContainer';
   title?: string;
   noPaddingHorizontal?: boolean;
 }
@@ -20,7 +20,7 @@ export function Screen({
   children,
   HeaderComponent,
   canGoBack = false,
-  scrollable = false,
+  screenScrollType = 'scrollView',
   noPaddingHorizontal = false,
   style,
   title,
@@ -29,23 +29,41 @@ export function Screen({
   const {top, bottom} = useAppSafeArea();
   const {colors} = useAppTheme();
 
-  const Container = scrollable ? ScrollViewContainer : ViewContainer;
+  const $boxWrapper: BoxProps = {
+    backgroundColor:
+      screenScrollType === 'scrollViewAuth'
+        ? 'backgroundScreen'
+        : 'headerInner',
+  };
+
+  const Container =
+    screenScrollType === 'viewContainer' ? ViewContainer : ScrollViewContainer;
 
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <Container backgroundColor={colors.background}>
+      <Container
+        backgroundColor={
+          screenScrollType === 'scrollViewAuth'
+            ? colors.backgroundScreen
+            : colors.background
+        }>
         <Box
-          style={[{paddingTop: top, paddingBottom: bottom}, style]}
-          paddingHorizontal={noPaddingHorizontal ? undefined : 's24'}
+          style={[{paddingBottom: bottom}, style]}
+          paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
           {...boxProps}>
-          <ScreenHeader
-            paddingHorizontal={noPaddingHorizontal ? 's24' : undefined}
-            HeaderComponent={HeaderComponent}
-            canGoBack={canGoBack}
-            title={title}
-          />
+          <Box
+            {...$boxWrapper}
+            style={{paddingTop: top}}
+            marginHorizontal={noPaddingHorizontal ? undefined : 's16n'}>
+            <ScreenHeader
+              paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
+              HeaderComponent={HeaderComponent}
+              canGoBack={canGoBack}
+              title={title}
+            />
+          </Box>
           {children}
         </Box>
       </Container>

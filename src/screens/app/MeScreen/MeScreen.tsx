@@ -1,11 +1,66 @@
 import React from 'react';
 
-import {Screen, Text} from '@components';
+import {useAuthSignOut} from '@domain';
+import {useSettingsService, useThemePreference} from '@services';
+
+import {Button, RadioButtonSelector, ScreenFixedHeader} from '@components';
+
+type ThemePreference = 'light' | 'dark' | 'system';
+
+type Option = {
+  label: string;
+  description?: string;
+  themePreference: ThemePreference;
+};
+
+const items: Option[] = [
+  {
+    label: 'Activate',
+    themePreference: 'dark',
+  },
+  {
+    label: 'Deactivate',
+    themePreference: 'light',
+  },
+  {
+    label: 'System default',
+    themePreference: 'system',
+    description: 'It will follow your phone system default',
+  },
+];
 
 export function MeScreen() {
+  const themePreference = useThemePreference();
+  const {setThemePreference} = useSettingsService();
+
+  const selectedItem = items.find(
+    item => item.themePreference === themePreference,
+  );
+
+  function setSelectedItem(item: Option) {
+    setThemePreference(item.themePreference);
+  }
+
+  const {isLoading, signOut} = useAuthSignOut({
+    onSuccess: () => console.log('SIGN OUT COMPLETE'),
+  });
+
   return (
-    <Screen>
-      <Text>ME</Text>
-    </Screen>
+    <ScreenFixedHeader title="Profile" fixedHeader={true}>
+      <RadioButtonSelector
+        items={items}
+        selectedItem={selectedItem}
+        onSelect={setSelectedItem}
+        labelKey="label"
+        valueKey="themePreference"
+        descriptionKey="description"
+      />
+      <Button
+        title={'Log out'}
+        disabled={isLoading}
+        onPress={signOut}
+        mt="s32"
+      />
+    </ScreenFixedHeader>
   );
 }

@@ -2,9 +2,6 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "strict": true,
-    "types": [
-      "react-native-reanimated"
-    ],
     "baseUrl": ".",
     "paths": {
       "@screens": [
@@ -58,9 +55,9 @@
       "@form": [
         "src/form"
       ],
-      //      "@env": [
-      //        "node_modules/react-native-dotenv"
-      //      ],
+      "@env": [
+        "node_modules/react-native-dotenv"
+      ],
       "@theme": [
         "src/theme"
       ]

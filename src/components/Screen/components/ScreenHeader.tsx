@@ -29,7 +29,7 @@ export function ScreenHeader({
       {canGoBack && <BackButton showBackLabel={showBackLabel} />}
       {HeaderComponent}
       {title && (
-        <Text font="bold" preset="headingSmall">
+        <Text font="bold" preset="headingMedium" color="white">
           {title}
         </Text>
       )}

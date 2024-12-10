@@ -5,6 +5,7 @@ import {
   ArrowLeftIcon,
   AvatarIcon,
   AvatarFillIcon,
+  CalendarIcon,
   DashboardFillIcon,
   DashboardIcon,
   EnvelopeIcon,
@@ -37,14 +38,14 @@ import {
   CheckRoundIcon,
   ErrorRoundIcon,
   MoreIcon,
+  RecipesIcon,
+  SearchIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
 import {ThemeColours} from '@theme';
-
-import {CalendarIcon} from '../../assets/icons/CalendarIcon.tsx';
-import {ChevronLeftIcon} from '../../assets/icons/ChevronLeftIcon.tsx';
-import {ChevronRightIcon} from '../../assets/icons/ChevronRightIcon.tsx';
 
 export interface IconBase {
   size?: number;
@@ -81,7 +82,9 @@ const iconRegistry = {
   more: MoreIcon,
   padlock: PadlockIcon,
   recipe: RecipeIcon,
+  recipes: RecipesIcon,
   recipeFill: RecipeFillIcon,
+  search: SearchIcon,
 
   // FOOD CATEGORY ICONS
   beans: BeansIcon,

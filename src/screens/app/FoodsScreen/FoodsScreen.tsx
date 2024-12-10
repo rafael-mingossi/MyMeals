@@ -1,16 +1,14 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
 
-import {CustomTabMenu, ScreenFixedHeader} from '@components';
+import {Box, CustomTabMenu, ScreenFixedHeader} from '@components';
 
 import {AddFood} from './tabs/AddFood.tsx';
 import {FoodsList} from './tabs/FoodsList.tsx';
 
 const FavouriteFoods = () => {
-  return <View>{/* Favourite Foods content */}</View>;
+  return <></>;
 };
 
-// You might want to extract this enum to a separate types file
 enum TabScreens {
   ADD_FOOD = 0,
   MY_FOODS = 1,
@@ -27,7 +25,7 @@ export function FoodsScreen() {
       case TabScreens.ADD_FOOD:
         return <AddFood />;
       case TabScreens.MY_FOODS:
-        return <FoodsList />;
+        return <FoodsList isEditing />;
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:
@@ -48,7 +46,7 @@ export function FoodsScreen() {
           />
         ),
       }}>
-      {renderContent()}
+      <Box style={{marginHorizontal: -16}}>{renderContent()}</Box>
     </ScreenFixedHeader>
   );
 }

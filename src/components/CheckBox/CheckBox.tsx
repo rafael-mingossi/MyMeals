@@ -19,14 +19,16 @@ export function CheckBox({isChecked, onChange, label}: CheckBoxProps) {
       <Box
         width={22}
         height={22}
-        backgroundColor={'background'}
-        borderColor={'gray4'}
-        borderWidth={1}
+        backgroundColor={isChecked ? 'bluePrimary' : 'background'}
+        borderColor={isChecked ? 'bluePrimary' : 'gray4'}
+        borderWidth={2}
         borderRadius={'s2'}
         alignItems={'center'}
         justifyContent={'center'}>
         {isChecked ? (
-          <Text preset={'paragraphSmall'} color={'primary'}>
+          <Text
+            preset={'paragraphSmall'}
+            color={isChecked ? 'background' : 'primary'}>
             ✓
           </Text>
         ) : null}

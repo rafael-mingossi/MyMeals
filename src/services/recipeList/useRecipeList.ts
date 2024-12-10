@@ -2,33 +2,48 @@ import {create} from 'zustand';
 
 import {RecipeListTypes} from './recipeListTypes.ts';
 
-const useRecipeListStore = create<RecipeListTypes>((set, get) => ({
-  recipeList: [],
-  addFoodToRecipe: food => {
-    const recipeList = get().recipeList;
-    const foodExistInList = recipeList.find(item => item.id === food.id);
+const useRecipeListStore = create<RecipeListTypes>(set => ({
+  recipeItems: new Map(),
 
-    if (!foodExistInList) {
-      const updatedRecipeList = [...recipeList, food];
-      set({recipeList: updatedRecipeList});
-    }
+  addFoodToRecipe: (food, quantity) => {
+    set(state => {
+      const newItems = new Map(state.recipeItems);
+      newItems.set(food.id, {food, quantity});
+      return {recipeItems: newItems};
+    });
   },
+
+  updateIngredient: (foodId, quantity) => {
+    set(state => {
+      const newItems = new Map(state.recipeItems);
+      const item = newItems.get(foodId);
+      if (item) {
+        newItems.set(foodId, {...item, quantity});
+      }
+      return {recipeItems: newItems};
+    });
+  },
+
   removeFoodFromRecipe: foodId => {
-    const foodList = get().recipeList;
-    const updatedRecipeList = foodList.filter(food => food.id !== foodId);
-    set({recipeList: updatedRecipeList});
+    set(state => {
+      const newItems = new Map(state.recipeItems);
+      newItems.delete(foodId);
+      return {recipeItems: newItems};
+    });
   },
+
   clearRecipeList: () => {
-    set({recipeList: []});
+    set({recipeItems: new Map()});
   },
 }));
 
-export function useRecipeList(): RecipeListTypes['recipeList'] {
-  return useRecipeListStore(state => state.recipeList);
+export function useRecipeItems() {
+  return useRecipeListStore(state => state.recipeItems);
 }
 
-export function useRecipeListService(): Omit<RecipeListTypes, 'recipeList'> {
+export function useRecipeListService() {
   const addFoodToRecipe = useRecipeListStore(state => state.addFoodToRecipe);
+  const updateIngredient = useRecipeListStore(state => state.updateIngredient);
   const removeFoodFromRecipe = useRecipeListStore(
     state => state.removeFoodFromRecipe,
   );
@@ -36,6 +51,7 @@ export function useRecipeListService(): Omit<RecipeListTypes, 'recipeList'> {
 
   return {
     addFoodToRecipe,
+    updateIngredient,
     removeFoodFromRecipe,
     clearRecipeList,
   };

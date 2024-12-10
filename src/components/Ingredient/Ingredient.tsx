@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
-import {FoodCategory, Foods, useGetFoodCategories} from '@domain';
+import {Foods, useGetFoodCategories} from '@domain';
 
 import {
   Box,
@@ -13,26 +13,49 @@ import {
 
 interface IngredientProps {
   food: Foods;
-  isChecked?: boolean;
-  onToggleCheck?: () => void;
+  isSelected?: boolean;
+  onSelect?: (food: Foods) => void;
   isEditing?: boolean;
+  onEdit?: (food: Foods) => void;
+  onDelete?: (food: Foods) => void;
+  quantity?: number;
   onIngredientPress?: () => void;
 }
 
 export function Ingredient({
   food,
-  isChecked = false,
-  onToggleCheck = () => {},
+  isSelected = false,
+  onSelect,
   isEditing = false,
-  onIngredientPress = () => {},
+  onEdit,
+  onDelete,
+  quantity = 1,
+  onIngredientPress,
 }: IngredientProps) {
   const {foodCategories} = useGetFoodCategories();
 
-  const selectedCategory: FoodCategory | undefined = foodCategories.find(
+  const selectedCategory = foodCategories.find(
     cat => cat.id === food.categoryId,
   );
 
-  const list = [{label: 'Edit'}, {label: 'Delete'}];
+  const list = [
+    {label: 'Edit', onPress: () => onEdit?.(food)},
+    {label: 'Delete', onPress: () => onDelete?.(food)},
+  ];
+
+  const handlePress = () => {
+    if (onSelect) {
+      onSelect(food);
+    }
+  };
+
+  const adjustedValues = useMemo(
+    () => ({
+      calories: food.calories * quantity,
+      servSize: food.servSize * quantity,
+    }),
+    [food.calories, food.servSize, quantity],
+  );
 
   return (
     <TouchableOpacityBox
@@ -43,9 +66,9 @@ export function Ingredient({
       paddingVertical={'s4'}
       justifyContent={'space-between'}>
       <Box flexDirection="row" alignItems={'center'} columnGap={'s10'}>
-        {!isEditing ? (
-          <CheckBox isChecked={isChecked} onChange={onToggleCheck} />
-        ) : null}
+        {!isEditing && onSelect && (
+          <CheckBox isChecked={isSelected} onChange={handlePress} />
+        )}
         {selectedCategory && (
           <Icon name={selectedCategory.description} size={30} />
         )}
@@ -56,22 +79,23 @@ export function Ingredient({
               font={'semiBold'}
               color={'greenPrimary'}
               preset={'paragraphSmall'}>
-              {food.calories} cals /{' '}
+              {adjustedValues.calories.toFixed(1)} cals /{' '}
             </Text>
             <Text preset={'paragraphSmall'}>
-              {food.servSize} {food.servUnit}
+              {adjustedValues.servSize.toFixed(1)} {food.servUnit}
             </Text>
           </Box>
         </Box>
       </Box>
-      {isEditing ? (
+      {isEditing && (
         <OptionsDropdown
           items={list}
           onChange={selected => {
-            console.log(selected.label);
+            const item = list.find(i => i.label === selected.label);
+            item?.onPress?.();
           }}
         />
-      ) : null}
+      )}
     </TouchableOpacityBox>
   );
 }

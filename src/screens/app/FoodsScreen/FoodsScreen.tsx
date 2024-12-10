@@ -20,32 +20,12 @@ export function FoodsScreen() {
     TabScreens.ADD_FOOD,
   );
 
-  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-
-  const handleToggleCheck = (foodId: string) => {
-    setCheckedItems(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(foodId)) {
-        newSet.delete(foodId);
-      } else {
-        newSet.add(foodId);
-      }
-      return newSet;
-    });
-  };
-
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
       case TabScreens.ADD_FOOD:
         return <AddFood />;
       case TabScreens.MY_FOODS:
-        return (
-          <FoodsList
-            isEditing
-            checkedItems={checkedItems}
-            onToggleCheck={handleToggleCheck}
-          />
-        );
+        return <FoodsList isEditing />;
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:

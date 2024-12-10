@@ -1,43 +1,60 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
+
+import {FoodNavigationParams} from '@domain';
+import {
+  useFoodSelection,
+  useFoodSelectionService,
+  useRecipeListService,
+} from '@services';
 
 import {Box, ButtonText, Screen, Separator} from '@components';
+import {AppScreenProps} from '@routes';
 
-import {FoodsList} from '../FoodsScreen/tabs/FoodsList.tsx';
+import {FoodsList} from '../FoodsScreen/tabs/FoodsList';
 
-export function FoodsSelectionScreen() {
-  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-  console.log({checkedItems});
-  const handleToggleCheck = (foodId: string) => {
-    setCheckedItems(prevItems => {
-      const newItems = new Set(prevItems);
-      if (newItems.has(foodId)) {
-        newItems.delete(foodId);
-      } else {
-        newItems.add(foodId);
-      }
-      return newItems;
-    });
+export function FoodsSelectionScreen({
+  navigation,
+}: AppScreenProps<'FoodsSelectionScreen'>) {
+  const {toggleFood, addSelectedFoods, clearSelection} =
+    useFoodSelectionService();
+  const selectedFoods = useFoodSelection();
+  const {addFoodToRecipe} = useRecipeListService();
+
+  const handleAddToRecipe = () => {
+    const selectedFoodsList = addSelectedFoods();
+    selectedFoodsList.forEach(food => addFoodToRecipe(food, 1));
+    clearSelection();
+    navigation.goBack();
   };
 
-  const clearSelection = useCallback(() => {
-    setCheckedItems(new Set());
-  }, []);
+  const navigateToFoodDetails = (food: FoodNavigationParams) => {
+    navigation.navigate('FoodDetailsScreen', {
+      isViewOnly: false,
+      food: food,
+    });
+  };
 
   return (
     <Screen canGoBack screenScrollType="viewContainer" flexGrow={1}>
       <FoodsList
-        checkedItems={checkedItems}
-        onToggleCheck={handleToggleCheck}
+        selectedFoods={selectedFoods}
+        onToggleCheck={food => toggleFood(food)}
+        onIngredientPress={food => navigateToFoodDetails(food)}
       />
       <Box>
         <Box style={{marginHorizontal: -20}} mt="s24">
           <Separator />
         </Box>
         <Box flexDirection="row" paddingTop={'s14'} justifyContent={'flex-end'}>
-          <ButtonText title={'Clear'} onPress={clearSelection} />
+          <ButtonText
+            title={'Clear'}
+            onPress={clearSelection}
+            disabled={selectedFoods.size === 0}
+          />
           <ButtonText
             title={'Add to recipe'}
-            // onPress={onSubmit}
+            onPress={handleAddToRecipe}
+            disabled={selectedFoods.size === 0}
           />
         </Box>
       </Box>

@@ -21,6 +21,7 @@ interface FoodsListProps {
   onEdit?: (food: Foods) => void;
   onDelete?: (food: Foods) => void;
   onIngredientPress?: (food: FoodNavigationParams) => void;
+  hasHorizontalPadding?: boolean;
 }
 
 export function FoodsList({
@@ -30,6 +31,7 @@ export function FoodsList({
   onToggleCheck,
   isEditing = false,
   onIngredientPress,
+  hasHorizontalPadding = true,
 }: FoodsListProps) {
   const {authCredentials} = useAuthCredentials();
   const navigation = useNavigation();
@@ -104,7 +106,7 @@ export function FoodsList({
   );
 
   return (
-    <Box flex={1} paddingHorizontal={'s16'}>
+    <Box flex={1} paddingHorizontal={hasHorizontalPadding ? 's16' : undefined}>
       {foods.length > 0 && (
         <SearchInput
           placeholder="Search for a food"

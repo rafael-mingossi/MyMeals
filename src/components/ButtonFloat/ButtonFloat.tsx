@@ -3,25 +3,26 @@ import React, {ReactElement} from 'react';
 import {TouchableOpacityBox, TouchableOpacityBoxProps} from '@components';
 
 export interface ButtonFloatProps extends TouchableOpacityBoxProps {
-  content: ReactElement;
+  children: ReactElement;
   disabled?: boolean;
 }
 
 export function ButtonFloat({
-  content,
+  children,
   disabled,
   ...touchableOpacityBoxProps
 }: ButtonFloatProps) {
   return (
     <TouchableOpacityBox
-      style={{position: 'absolute', bottom: 20, right: 20}}
+      style={{position: 'absolute', bottom: 10, right: 20}}
       disabled={disabled}
-      padding="s32"
+      padding="s14"
       backgroundColor={'bluePrimary'}
       alignItems={'center'}
       justifyContent={'center'}
+      borderRadius="s12"
       {...touchableOpacityBoxProps}>
-      {content}
+      {children}
     </TouchableOpacityBox>
   );
 }

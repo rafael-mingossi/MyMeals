@@ -15,6 +15,7 @@ export * from './icons/FoodIcon.tsx';
 export * from './icons/FoodFillIcon.tsx';
 export * from './icons/MoreIcon.tsx';
 export * from './icons/Padlock.tsx';
+export * from './icons/PlusIcon.tsx';
 export * from './icons/RecipeIcon.tsx';
 export * from './icons/RecipesIcon.tsx';
 export * from './icons/RecipeFillIcon.tsx';

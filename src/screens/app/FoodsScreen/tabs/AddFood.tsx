@@ -45,7 +45,7 @@ export function AddFood() {
       reset();
     },
     onError: error => {
-      showToast({message: error, type: 'success'});
+      showToast({message: error, type: 'error'});
     },
   });
 

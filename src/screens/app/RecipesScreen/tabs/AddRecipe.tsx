@@ -17,6 +17,8 @@ import {
   Text,
 } from '@components';
 
+import {useCreateRecipeForm} from '../hooks/useCreateRecipeForm.ts';
+
 import {addRecipeSchema, AddRecipeSchema} from './addRecipeSchema.ts';
 import {NutritionalInfo} from './components/NutritionalInfo.tsx';
 
@@ -26,17 +28,20 @@ export function AddRecipe() {
   const navigation = useNavigation();
   const recipeItems = useRecipeItems();
   const {removeFoodFromRecipe} = useRecipeListService();
+  const {handleCreateRecipe, isPending} = useCreateRecipeForm();
+
   const {control, formState, handleSubmit} = useForm<AddRecipeSchema>({
     resolver: zodResolver(addRecipeSchema),
     defaultValues: {
-      label: '',
-      serv_unit: '',
-      serv_size: undefined,
+      name: '',
+      serving: undefined,
+      servingUnit: '',
     },
   });
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data);
+  const onSubmit = handleSubmit(formData => {
+    console.log('formData =>>>', formData);
+    handleCreateRecipe(formData);
   });
 
   return (
@@ -47,14 +52,14 @@ export function AddRecipe() {
             isUnderlinedVersion
             placeholder="Recipe name"
             label="New recipe name"
-            name="label"
+            name="name"
             control={control}
           />
           <FormTextInput
             isUnderlinedVersion
             placeholder="Serving size"
             label="Serving Size of the portion being logged"
-            name="serv_size"
+            name="serving"
             keyboardType="number-pad"
             control={control}
           />
@@ -62,7 +67,7 @@ export function AddRecipe() {
             isUnderlinedVersion
             placeholder="Serving unit"
             label="Serving unit, (grams, slice, spoon, etc...)"
-            name="serv_unit"
+            name="servingUnit"
             control={control}
           />
         </Box>
@@ -118,7 +123,7 @@ export function AddRecipe() {
         <Box flexDirection="row" paddingTop={'s14'} justifyContent={'flex-end'}>
           <ButtonText
             title={'Save Recipe'}
-            disabled={!formState.isValid}
+            disabled={!formState.isValid || isPending}
             onPress={onSubmit}
           />
         </Box>

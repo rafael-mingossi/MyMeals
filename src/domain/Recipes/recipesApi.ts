@@ -6,35 +6,35 @@ async function getRecipesByUser(userId: string): Promise<{
   recipes: RecipesAPI[];
   recipeItems: RecipeItemsAPI[];
 }> {
-  const recipesPromise = supabaseClient
+  // First, fetch recipes
+  const {data: recipes, error: recipesError} = await supabaseClient
     .from('recipes')
     .select('*')
     .eq('user_id', userId)
     .order('created_at', {ascending: false});
 
-  const recipeItemsPromise = supabaseClient
-    .from('recipe_items')
-    .select('*')
-    .eq('recipe_id', recipesPromise);
-
-  const [recipesResult, recipeItemsResult] = await Promise.all([
-    recipesPromise,
-    recipeItemsPromise,
-  ]);
-
-  if (recipesResult.error) {
-    throw new Error(`Failed to fetch recipes: ${recipesResult.error.message}`);
+  if (recipesError) {
+    throw new Error(`Failed to fetch recipes: ${recipesError.message}`);
   }
 
-  if (recipeItemsResult.error) {
-    throw new Error(
-      `Failed to fetch recipe items: ${recipeItemsResult.error.message}`,
-    );
+  if (!recipes || recipes.length === 0) {
+    return {recipes: [], recipeItems: []};
+  }
+
+  // Then, fetch recipe items using the recipe IDs
+  const recipeIds = recipes.map(recipe => recipe.id);
+  const {data: recipeItems, error: itemsError} = await supabaseClient
+    .from('recipe_items')
+    .select('*')
+    .in('recipe_id', recipeIds);
+
+  if (itemsError) {
+    throw new Error(`Failed to fetch recipe items: ${itemsError.message}`);
   }
 
   return {
-    recipes: recipesResult.data || [],
-    recipeItems: recipeItemsResult.data || [],
+    recipes: recipes,
+    recipeItems: recipeItems || [],
   };
 }
 

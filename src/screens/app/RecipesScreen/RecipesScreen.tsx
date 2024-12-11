@@ -4,16 +4,13 @@ import {View} from 'react-native';
 import {CustomTabMenu, ScreenFixedHeader} from '@components';
 
 import {AddRecipe} from './tabs/AddRecipe.tsx';
+import {RecipesList} from './tabs/RecipesList.tsx';
 
 enum TabScreens {
   ADD_RECIPE = 0,
   MY_RECIPES = 1,
   FAVOURITE_RECIPES = 2,
 }
-
-const MyFoods = () => {
-  return <View>{/* My Foods content */}</View>;
-};
 
 const FavouriteFoods = () => {
   return <View>{/* Favourite Foods content */}</View>;
@@ -29,7 +26,7 @@ export function RecipesScreen() {
       case TabScreens.ADD_RECIPE:
         return <AddRecipe />;
       case TabScreens.MY_RECIPES:
-        return <MyFoods />;
+        return <RecipesList />;
       case TabScreens.FAVOURITE_RECIPES:
         return <FavouriteFoods />;
       default:
@@ -49,12 +46,7 @@ export function RecipesScreen() {
             onTabChange={index => setActiveTabIndex(index as TabScreens)}
           />
         ),
-      }}
-      // fixedSearch={{
-      //   enabled: true,
-      //   component: <SearchComponent onSearch={() => {}} />,
-      // }}
-    >
+      }}>
       {renderContent()}
     </ScreenFixedHeader>
   );

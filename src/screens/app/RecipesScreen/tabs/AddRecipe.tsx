@@ -30,7 +30,7 @@ export function AddRecipe() {
   const {removeFoodFromRecipe} = useRecipeListService();
   const {handleCreateRecipe, isPending} = useCreateRecipeForm();
 
-  const {control, formState, handleSubmit} = useForm<AddRecipeSchema>({
+  const {control, formState, handleSubmit, reset} = useForm<AddRecipeSchema>({
     resolver: zodResolver(addRecipeSchema),
     defaultValues: {
       name: '',
@@ -42,6 +42,7 @@ export function AddRecipe() {
   const onSubmit = handleSubmit(formData => {
     console.log('formData =>>>', formData);
     handleCreateRecipe(formData);
+    reset();
   });
 
   return (

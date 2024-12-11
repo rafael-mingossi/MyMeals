@@ -29,7 +29,7 @@ export interface Foods {
   servSize: number;
   servUnit: string;
   foodImg: string;
-  categoryId: number;
+  categoryId: number | null;
 }
 
 export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'>;

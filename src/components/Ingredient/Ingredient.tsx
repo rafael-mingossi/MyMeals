@@ -69,8 +69,10 @@ export function Ingredient({
         {!isEditing && onSelect && (
           <CheckBox isChecked={isSelected} onChange={handlePress} />
         )}
-        {selectedCategory && (
+        {selectedCategory ? (
           <Icon name={selectedCategory.description} size={30} />
+        ) : (
+          <Icon name={'recipes'} size={30} />
         )}
         <Box>
           <Text font={'bold'}>{food.label}</Text>
@@ -79,10 +81,10 @@ export function Ingredient({
               font={'semiBold'}
               color={'greenPrimary'}
               preset={'paragraphSmall'}>
-              {adjustedValues.calories.toFixed(1)} cals /{' '}
+              {adjustedValues.calories.toFixed(0)} cals /{' '}
             </Text>
             <Text preset={'paragraphSmall'}>
-              {adjustedValues.servSize.toFixed(1)} {food.servUnit}
+              {adjustedValues.servSize.toFixed(0)} {food.servUnit}
             </Text>
           </Box>
         </Box>

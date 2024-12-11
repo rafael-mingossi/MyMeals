@@ -77,7 +77,7 @@ export function FoodsList({
 
   function renderEmptyItem() {
     return (
-      <Box>
+      <Box mt={'s16'}>
         <Text>You don't have foods logged in!</Text>
       </Box>
     );
@@ -104,13 +104,15 @@ export function FoodsList({
   );
 
   return (
-    <Box flex={1}>
-      <SearchInput
-        placeholder="Search for a food"
-        value={search}
-        onChangeText={setSearch}
-        LeftComponent={<Icon color="gray4" name="search" size={18} />}
-      />
+    <Box flex={1} paddingHorizontal={'s16'}>
+      {foods.length > 0 && (
+        <SearchInput
+          placeholder="Search for a food"
+          value={search}
+          onChangeText={setSearch}
+          LeftComponent={<Icon color="gray4" name="search" size={18} />}
+        />
+      )}
       <FlatList
         data={search.length === 0 ? foods : filteredFoods}
         renderItem={renderItem}

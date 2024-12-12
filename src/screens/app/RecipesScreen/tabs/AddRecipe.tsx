@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, ScrollView} from 'react-native';
 
+import {Foods} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useNavigation} from '@react-navigation/native';
 import {useRecipeItems, useRecipeListService} from '@services';
@@ -96,8 +97,8 @@ export function AddRecipe() {
             scrollEnabled={false}
             data={Array.from(recipeItems.values())}
             renderItem={({item}) => (
-              <Ingredient
-                food={item.food}
+              <Ingredient<Foods>
+                item={item.food}
                 quantity={item.quantity}
                 isEditing={true}
                 onEdit={() => {

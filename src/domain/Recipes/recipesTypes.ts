@@ -16,7 +16,7 @@ export interface RecipesAPI {
 
 export interface RecipeItemsAPI {
   id: number;
-  created_at: string;
+  created_at: Date;
   recipe_id: number;
   food_id: number;
   quantity: number;
@@ -26,15 +26,15 @@ export interface Recipe {
   id: number;
   createdAt: Date;
   userId: string;
-  name: string;
+  label: string;
   totalCalories: number;
   totalCarbs: number;
   totalFat: number;
   totalProtein: number;
   totalFibre: number;
   totalSodium: number;
-  serving: number;
-  servingUnit: string;
+  servSize: number;
+  servUnit: string;
   image?: string;
   recipeItems?: RecipeItem[];
 }
@@ -54,6 +54,6 @@ export interface CreateRecipeParams extends Omit<AddRecipeParams, 'id'> {
   items: Omit<AddRecipeItemParams, 'recipe_id'>[];
 }
 
-export interface RecipeNavigationParams extends Omit<Recipe, 'createdAt'> {
+export interface OnItemPressRecipeNavigation extends Omit<Recipe, 'createdAt'> {
   createdAt: string;
 }

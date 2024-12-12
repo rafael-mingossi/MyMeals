@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {Recipe, useGetRecipesByUser} from '@domain';
+import {
+  Recipe,
+  OnItemPressRecipeNavigation,
+  useGetRecipesByUser,
+} from '@domain';
+import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
 import {
@@ -13,25 +18,25 @@ import {
   Text,
 } from '@components';
 
-// export interface Foods {
-//   id: number;
-//   createdAt: Date;
-//   userId: string;
-//   label: string;
-//   protein: number;
-//   carbs: number;
-//   fat: number;
-//   calories: number;
-//   fibre: number;
-//   sodium: number;
-//   servSize: number;
-//   servUnit: string;
-//   foodImg: string;
-//   categoryId: number;
-// }
+interface RecipesListProps {
+  selectedRecipes?: Map<number, Recipe>;
+  onToggleCheck?: (recipe: Recipe) => void;
+  isEditing?: boolean;
+  onEdit?: (recipe: Recipe) => void;
+  onDelete?: (recipe: Recipe) => void;
+  onIngredientPress?: (recipe: OnItemPressRecipeNavigation) => void;
+}
 
-export function RecipesList() {
+export function RecipesList({
+  selectedRecipes = new Map(),
+  onEdit,
+  onDelete,
+  onToggleCheck,
+  isEditing = false,
+  onIngredientPress,
+}: RecipesListProps) {
   const {authCredentials} = useAuthCredentials();
+  const navigation = useNavigation();
   const [search, setSearch] = useState('');
 
   const {recipes, isLoading} = useGetRecipesByUser(
@@ -47,24 +52,39 @@ export function RecipesList() {
   }
 
   function renderItem({item}: ListRenderItemInfo<Recipe>) {
-    const recipeToFood = {
-      id: item.id,
-      createdAt: item.createdAt,
-      userId: item.userId,
-      label: item.name,
-      protein: item.totalProtein,
-      carbs: item.totalCarbs,
-      fat: item.totalFat,
-      calories: item.totalCalories,
-      fibre: item.totalFibre,
-      sodium: item.totalSodium,
-      servSize: item.serving,
-      servUnit: item.servingUnit,
-      foodImg: '',
-      categoryId: null,
+    const recipeForNavigation = {
+      ...item,
+      createdAt: item.createdAt.toISOString(),
     };
 
-    return <Ingredient food={recipeToFood} />;
+    const handlePress = () => {
+      if (isEditing) {
+        navigation.navigate('RecipeDetailsScreen', {
+          isViewOnly: true,
+          item: recipeForNavigation,
+        });
+      } else {
+        onIngredientPress && onIngredientPress(recipeForNavigation);
+      }
+    };
+
+    return (
+      <Ingredient<Recipe>
+        item={item}
+        isEditing={isEditing}
+        isSelected={selectedRecipes.has(item.id)}
+        onSelect={onToggleCheck}
+        onIngredientPress={handlePress}
+        onDelete={recipe => {
+          onDelete && onDelete(recipe);
+          console.log('DELETE =>', recipe);
+        }}
+        onEdit={recipe => {
+          onEdit && onEdit(recipe);
+          console.log('EDIT =>', recipe);
+        }}
+      />
+    );
   }
 
   function renderEmptyItem() {
@@ -84,7 +104,7 @@ export function RecipesList() {
   }
 
   const filteredRecipes = recipes.filter(item =>
-    item.name.toLowerCase().includes(search.toLowerCase()),
+    item.label.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (

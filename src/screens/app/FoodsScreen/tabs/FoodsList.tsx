@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {FoodNavigationParams, Foods, useGetFoodsByUser} from '@domain';
+import {OnItemPressFoodNavigation, Foods, useGetFoodsByUser} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -20,7 +20,7 @@ interface FoodsListProps {
   isEditing?: boolean;
   onEdit?: (food: Foods) => void;
   onDelete?: (food: Foods) => void;
-  onIngredientPress?: (food: FoodNavigationParams) => void;
+  onIngredientPress?: (food: OnItemPressFoodNavigation) => void;
   hasHorizontalPadding?: boolean;
 }
 
@@ -51,7 +51,7 @@ export function FoodsList({
       if (isEditing) {
         navigation.navigate('FoodDetailsScreen', {
           isViewOnly: true,
-          food: foodForNavigation,
+          item: foodForNavigation,
         });
       } else {
         onIngredientPress && onIngredientPress(foodForNavigation);
@@ -59,8 +59,8 @@ export function FoodsList({
     };
 
     return (
-      <Ingredient
-        food={item}
+      <Ingredient<Foods>
+        item={item}
         isEditing={isEditing}
         isSelected={selectedFoods.has(item.id)}
         onSelect={onToggleCheck}

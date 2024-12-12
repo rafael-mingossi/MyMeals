@@ -1,7 +1,5 @@
 import React from 'react';
 
-import {useNavigation} from '@react-navigation/native';
-
 import {
   ScreenFixedHeader,
   CalendarModal,
@@ -9,10 +7,9 @@ import {
   ButtonFloat,
   Icon,
 } from '@components';
+import {AppTabScreenProps} from '@routes';
 
-export function HomeScreen() {
-  const navigation = useNavigation();
-
+export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
   function navigateToMeals() {
     navigation.navigate('MealsSelectionScreen', {mealType: 'breakfast'});
   }

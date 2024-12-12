@@ -23,7 +23,7 @@ export function FoodDetailsScreen({
   route,
   navigation,
 }: AppScreenProps<'FoodDetailsScreen'>) {
-  const prop = route?.params?.food;
+  const prop = route?.params?.item;
   const isEditing = route?.params?.isViewOnly;
 
   const {foodCategories} = useGetFoodCategories();

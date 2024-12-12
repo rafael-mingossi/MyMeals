@@ -1,4 +1,4 @@
-import {Foods, FoodNavigationParams} from '@domain';
+import {Foods, OnItemPressFoodNavigation} from '@domain';
 
 export interface CalculatedMacros {
   servSize: number;
@@ -11,7 +11,7 @@ export interface CalculatedMacros {
 }
 
 const calculateFoodMacros = (
-  food: FoodNavigationParams,
+  food: OnItemPressFoodNavigation,
   quantity: number,
 ): CalculatedMacros => {
   const parsedQuantity = parseFloat(quantity.toString()) || 1;

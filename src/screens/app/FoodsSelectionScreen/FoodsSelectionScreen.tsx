@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FoodNavigationParams} from '@domain';
+import {OnItemPressFoodNavigation} from '@domain';
 import {
   useFoodSelection,
   useFoodSelectionService,
@@ -27,10 +27,10 @@ export function FoodsSelectionScreen({
     navigation.goBack();
   };
 
-  const navigateToFoodDetails = (food: FoodNavigationParams) => {
+  const navigateToFoodDetails = (item: OnItemPressFoodNavigation) => {
     navigation.navigate('FoodDetailsScreen', {
       isViewOnly: false,
-      food: food,
+      item: item,
     });
   };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {MealsTypes, RecipeItem} from '@domain';
+import {MealsTypes, RecipeItemNavigation} from '@domain';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -44,7 +44,7 @@ export interface RecipeNavigationParams extends BaseNavigationParams {
   totalFibre: number;
   totalSodium: number;
   image?: string;
-  recipeItems?: RecipeItem[];
+  recipeItems?: RecipeItemNavigation[];
 }
 
 // Generic type for screen props

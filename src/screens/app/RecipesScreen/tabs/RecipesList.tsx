@@ -55,6 +55,10 @@ export function RecipesList({
     const recipeForNavigation = {
       ...item,
       createdAt: item.createdAt.toISOString(),
+      recipeItems: item.recipeItems?.map(itemRec => ({
+        ...itemRec,
+        createdAt: itemRec.createdAt.toISOString(),
+      })),
     };
 
     const handlePress = () => {

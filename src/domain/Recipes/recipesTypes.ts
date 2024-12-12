@@ -47,6 +47,10 @@ export interface RecipeItem {
   quantity: number;
 }
 
+export interface RecipeItemNavigation extends Omit<RecipeItem, 'createdAt'> {
+  createdAt: string;
+}
+
 export type AddRecipeParams = Omit<RecipesAPI, 'id' | 'created_at'>;
 export type AddRecipeItemParams = Omit<RecipeItemsAPI, 'id' | 'created_at'>;
 
@@ -54,6 +58,8 @@ export interface CreateRecipeParams extends Omit<AddRecipeParams, 'id'> {
   items: Omit<AddRecipeItemParams, 'recipe_id'>[];
 }
 
-export interface OnItemPressRecipeNavigation extends Omit<Recipe, 'createdAt'> {
+export interface OnItemPressRecipeNavigation
+  extends Omit<Recipe, 'createdAt' | 'recipeItems'> {
   createdAt: string;
+  recipeItems?: RecipeItemNavigation[];
 }

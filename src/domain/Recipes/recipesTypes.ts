@@ -58,6 +58,7 @@ export interface CreateRecipeParams extends Omit<AddRecipeParams, 'id'> {
   items: Omit<AddRecipeItemParams, 'recipe_id'>[];
 }
 
+//TO FIX WARNING: Non-serializable values were found in the navigation state.
 export interface OnItemPressRecipeNavigation
   extends Omit<Recipe, 'createdAt' | 'recipeItems'> {
   createdAt: string;

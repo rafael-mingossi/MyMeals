@@ -4,7 +4,8 @@ import {OnItemPressFoodNavigation, OnItemPressRecipeNavigation} from '@domain';
 import {
   useFoodSelection,
   useFoodSelectionService,
-  // useRecipeListService,
+  useRecipeSelection,
+  useRecipeSelectionService,
 } from '@services';
 
 import {CustomTabMenu, ScreenFixedHeader} from '@components';
@@ -25,10 +26,10 @@ export function MealsSelectionScreen({
     TabScreens.FOODS,
   );
 
-  const {toggleFood} = useFoodSelectionService();
+  const {toggleItem: toggleRecipes} = useRecipeSelectionService();
+  const {toggleItem: toggleFoods} = useFoodSelectionService();
   const selectedFoods = useFoodSelection();
-
-  // const {addFoodToRecipe} = useRecipeListService();
+  const selectedRecipes = useRecipeSelection();
 
   const navigateToFoodDetails = (food: OnItemPressFoodNavigation) => {
     navigation.navigate('FoodDetailsScreen', {
@@ -51,13 +52,15 @@ export function MealsSelectionScreen({
           <FoodsList
             hasHorizontalPadding={false}
             selectedFoods={selectedFoods}
-            onToggleCheck={food => toggleFood(food)}
+            onToggleCheck={food => toggleFoods(food)}
             onIngredientPress={food => navigateToFoodDetails(food)}
           />
         );
       case TabScreens.RECIPES:
         return (
           <RecipesList
+            onToggleCheck={recipe => toggleRecipes(recipe)}
+            selectedRecipes={selectedRecipes}
             onIngredientPress={recipe => navigateToRecipeDetails(recipe)}
           />
         );

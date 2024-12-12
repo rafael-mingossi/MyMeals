@@ -26,7 +26,7 @@ export function RecipesScreen() {
       case TabScreens.ADD_RECIPE:
         return <AddRecipe />;
       case TabScreens.MY_RECIPES:
-        return <RecipesList />;
+        return <RecipesList isEditing />;
       case TabScreens.FAVOURITE_RECIPES:
         return <FavouriteFoods />;
       default:

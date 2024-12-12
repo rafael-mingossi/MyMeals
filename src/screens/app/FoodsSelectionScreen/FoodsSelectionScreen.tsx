@@ -15,13 +15,13 @@ import {FoodsList} from '../FoodsScreen/tabs/FoodsList';
 export function FoodsSelectionScreen({
   navigation,
 }: AppScreenProps<'FoodsSelectionScreen'>) {
-  const {toggleFood, addSelectedFoods, clearSelection} =
+  const {toggleItem, addSelectedItems, clearSelection} =
     useFoodSelectionService();
   const selectedFoods = useFoodSelection();
   const {addFoodToRecipe} = useRecipeListService();
 
   const handleAddToRecipe = () => {
-    const selectedFoodsList = addSelectedFoods();
+    const selectedFoodsList = addSelectedItems();
     selectedFoodsList.forEach(food => addFoodToRecipe(food, 1));
     clearSelection();
     navigation.goBack();
@@ -38,7 +38,7 @@ export function FoodsSelectionScreen({
     <Screen canGoBack screenScrollType="viewContainer" flexGrow={1}>
       <FoodsList
         selectedFoods={selectedFoods}
-        onToggleCheck={food => toggleFood(food)}
+        onToggleCheck={food => toggleItem(food)}
         onIngredientPress={food => navigateToFoodDetails(food)}
       />
       <Box>

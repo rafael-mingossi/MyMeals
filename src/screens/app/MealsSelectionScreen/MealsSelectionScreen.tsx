@@ -8,7 +8,15 @@ import {
   useRecipeSelectionService,
 } from '@services';
 
-import {CustomTabMenu, ScreenFixedHeader} from '@components';
+import {
+  Box,
+  ButtonFloat,
+  ButtonText,
+  CustomTabMenu,
+  Icon,
+  ScreenFixedHeader,
+  Text,
+} from '@components';
 import {AppScreenProps} from '@routes';
 
 import {FoodsList} from '../FoodsScreen/tabs/FoodsList.tsx';
@@ -80,6 +88,32 @@ export function MealsSelectionScreen({
         ),
       }}>
       {renderContent()}
+      {(selectedFoods.size > 0 || selectedRecipes.size > 0) && (
+        <ButtonFloat preset="secondary">
+          <Box alignItems={'center'} justifyContent={'center'}>
+            <Box position={'absolute'} bottom={0} left={8.5}>
+              <Text font={'semiBold'}>
+                {selectedFoods.size + selectedRecipes.size}
+              </Text>
+            </Box>
+            <Icon name={'bag'} size={27} />
+          </Box>
+        </ButtonFloat>
+      )}
+      {(selectedFoods.size > 0 || selectedRecipes.size > 0) && (
+        <ButtonFloat>
+          <Box flexDirection={'row'} columnGap={'s8'} alignItems={'center'}>
+            <Icon name={'check'} size={18} />
+            <Text font={'semiBold'}>Log</Text>
+          </Box>
+        </ButtonFloat>
+      )}
+      <Box>
+        <ButtonText
+          title={'Cancel & Go Back'}
+          onPress={() => navigation.goBack()}
+        />
+      </Box>
     </ScreenFixedHeader>
   );
 }

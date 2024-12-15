@@ -1,7 +1,7 @@
 import {RecipeItemNavigation} from '@domain';
 
 // Base navigation params type
-interface BaseNavigationParams {
+export interface BaseNavigationParams {
   id: number;
   createdAt: string;
   userId: string;

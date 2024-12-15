@@ -1,4 +1,8 @@
-import {Foods, OnItemPressFoodNavigation} from '@domain';
+import {
+  Foods,
+  OnItemPressFoodNavigation,
+  OnItemPressRecipeNavigation,
+} from '@domain';
 
 export interface CalculatedMacros {
   servSize: number;
@@ -10,6 +14,16 @@ export interface CalculatedMacros {
   sodium: number;
 }
 
+export interface CalculatedRecipeMacros {
+  servSize: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFat: number;
+  totalCalories: number;
+  totalFibre: number;
+  totalSodium: number;
+}
+
 const calculateFoodMacros = (
   food: OnItemPressFoodNavigation,
   quantity: number,
@@ -17,13 +31,34 @@ const calculateFoodMacros = (
   const parsedQuantity = parseFloat(quantity.toString()) || 1;
 
   return {
-    servSize: parseFloat((food.servSize * parsedQuantity).toFixed(1)),
-    calories: parseFloat((food.calories * parsedQuantity).toFixed(1)),
-    protein: parseFloat((food.protein * parsedQuantity).toFixed(1)),
-    fat: parseFloat((food.fat * parsedQuantity).toFixed(1)),
-    carbs: parseFloat((food.carbs * parsedQuantity).toFixed(1)),
-    fibre: parseFloat(((food.fibre || 0) * parsedQuantity).toFixed(1)),
-    sodium: parseFloat(((food.sodium || 0) * parsedQuantity).toFixed(1)),
+    servSize: parseFloat((food.servSize * parsedQuantity).toFixed(0)),
+    calories: parseFloat((food.calories * parsedQuantity).toFixed(0)),
+    protein: parseFloat((food.protein * parsedQuantity).toFixed(0)),
+    fat: parseFloat((food.fat * parsedQuantity).toFixed(0)),
+    carbs: parseFloat((food.carbs * parsedQuantity).toFixed(0)),
+    fibre: parseFloat(((food.fibre || 0) * parsedQuantity).toFixed(0)),
+    sodium: parseFloat(((food.sodium || 0) * parsedQuantity).toFixed(0)),
+  };
+};
+
+const calculateRecipeMacros = (
+  food: OnItemPressRecipeNavigation,
+  quantity: number,
+): CalculatedRecipeMacros => {
+  const parsedQuantity = parseFloat(quantity.toString()) || 1;
+
+  return {
+    servSize: parseFloat((food.servSize * parsedQuantity).toFixed(0)),
+    totalCalories: parseFloat((food.totalCalories * parsedQuantity).toFixed(0)),
+    totalProtein: parseFloat((food.totalProtein * parsedQuantity).toFixed(0)),
+    totalFat: parseFloat((food.totalFat * parsedQuantity).toFixed(0)),
+    totalCarbs: parseFloat((food.totalCarbs * parsedQuantity).toFixed(0)),
+    totalFibre: parseFloat(
+      ((food.totalFibre || 0) * parsedQuantity).toFixed(0),
+    ),
+    totalSodium: parseFloat(
+      ((food.totalSodium || 0) * parsedQuantity).toFixed(0),
+    ),
   };
 };
 
@@ -53,4 +88,5 @@ const recipeTotals = (items: Map<number, {food: Foods; quantity: number}>) => {
 export const macrosCalculations = {
   recipeTotals,
   calculateFoodMacros,
+  calculateRecipeMacros,
 };

@@ -5,6 +5,7 @@ import {
   ArrowLeftIcon,
   AvatarIcon,
   AvatarFillIcon,
+  BagIcon,
   CalendarIcon,
   DashboardFillIcon,
   DashboardIcon,
@@ -43,6 +44,7 @@ import {
   SearchIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CheckIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -68,7 +70,9 @@ const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
+  bag: BagIcon,
   calendar: CalendarIcon,
+  check: CheckIcon,
   checkRound: CheckRoundIcon,
   chevronleft: ChevronLeftIcon,
   chevronright: ChevronRightIcon,

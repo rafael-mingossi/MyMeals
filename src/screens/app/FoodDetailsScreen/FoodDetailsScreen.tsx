@@ -10,7 +10,8 @@ import {
   Box,
   ButtonText,
   FormTextInput,
-  Icon,
+  ItemHeader,
+  ItemServing,
   Screen,
   SeparatorBox,
   Text,
@@ -66,7 +67,7 @@ export function FoodDetailsScreen({
       <Box flexDirection={'row'} justifyContent={'space-between'}>
         <Text font={'semiBold'}>{label}</Text>
         <Text>
-          {value.toFixed(1)} {unit}
+          {value.toFixed(0)} {unit}
         </Text>
       </Box>
     ),
@@ -75,14 +76,10 @@ export function FoodDetailsScreen({
   return (
     <Screen canGoBack>
       <Box marginTop="s14" rowGap={'s14'}>
-        <Box flexDirection="row" alignItems="center" columnGap="s8">
-          {selectedCategory && (
-            <Icon name={selectedCategory.description} size={33} />
-          )}
-          <Text preset="headingLarge" font={'semiBold'}>
-            {prop?.label}
-          </Text>
-        </Box>
+        <ItemHeader
+          prop={prop?.label}
+          selectedCategory={selectedCategory?.description}
+        />
         {!isEditing && (
           <Box>
             <SeparatorBox />
@@ -101,33 +98,10 @@ export function FoodDetailsScreen({
             />
           </Box>
         )}
-        <Box>
-          <SeparatorBox />
-          <Text
-            font={'semiBold'}
-            preset={'paragraphLarge'}
-            marginVertical={'s8'}>
-            Per serving:
-          </Text>
-
-          <Box flexDirection="row" alignItems={'center'} columnGap={'s24'}>
-            <Text
-              preset={'paragraphLarge'}
-              font={'semiBold'}
-              color={'bluePrimary'}>
-              {calculatedValues.servSize} {prop?.servUnit}
-            </Text>
-            <Text preset={'paragraphLarge'} font={'bold'}>
-              |
-            </Text>
-            <Text
-              preset={'paragraphLarge'}
-              font={'semiBold'}
-              color={'greenPrimary'}>
-              {calculatedValues.calories.toFixed(1)} cals
-            </Text>
-          </Box>
-        </Box>
+        <ItemServing
+          prop={prop?.servUnit}
+          calculatedValues={calculatedValues}
+        />
 
         <Box>
           <SeparatorBox />

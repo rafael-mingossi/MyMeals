@@ -45,6 +45,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CheckIcon,
+  BreakfastIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -112,6 +113,9 @@ const iconRegistry = {
   sweets: SweetsIcon,
   vegCanned: VegCannedIcon,
   vegRaw: VegRawIcon,
+
+  // MENU ICONS
+  breakfast: BreakfastIcon,
 };
 
 export function Icon({

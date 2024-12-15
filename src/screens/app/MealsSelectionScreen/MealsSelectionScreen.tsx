@@ -61,7 +61,7 @@ export function MealsSelectionScreen({
             hasHorizontalPadding={false}
             selectedFoods={selectedFoods}
             onToggleCheck={food => toggleFoods(food)}
-            onIngredientPress={food => navigateToFoodDetails(food)}
+            onIngredientPress={navigateToFoodDetails}
           />
         );
       case TabScreens.RECIPES:
@@ -69,7 +69,7 @@ export function MealsSelectionScreen({
           <RecipesList
             onToggleCheck={recipe => toggleRecipes(recipe)}
             selectedRecipes={selectedRecipes}
-            onIngredientPress={recipe => navigateToRecipeDetails(recipe)}
+            onIngredientPress={navigateToRecipeDetails}
           />
         );
       default:

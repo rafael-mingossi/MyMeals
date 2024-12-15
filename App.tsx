@@ -5,18 +5,15 @@ import {initialiseStorage, MMKVStorage} from '@services';
 import {useAppColor} from '@services';
 import {ThemeProvider} from '@shopify/restyle';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-
-// import {theme} from '@theme';
+import {SheetProvider} from 'react-native-actions-sheet';
 
 import {Toast} from '@components';
 import {useAppColorScheme} from '@hooks';
 import {darkTheme, theme} from '@theme';
+import '@types/sheets';
 
 import {Router} from './src/routes/Routes.tsx';
 import {settingsService} from './src/services/settings/settingsService.ts';
-// import {useAppColor} from './src/services/settings';
-// import {AuthCredentialsProvider} from './src/services/authCredentials/Providers/AuthCredentialsProvider';
-// import {initialiseStorage, MMKVStorage} from './src/services/storage';
 
 initialiseStorage(MMKVStorage);
 
@@ -34,8 +31,10 @@ function App(): React.JSX.Element {
     <AuthCredentialsProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={appColor === 'dark' ? darkTheme : theme}>
-          <Router />
-          <Toast />
+          <SheetProvider>
+            <Router />
+            <Toast />
+          </SheetProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </AuthCredentialsProvider>

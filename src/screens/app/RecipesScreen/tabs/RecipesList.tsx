@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {OnItemPressFoodNavigation, Foods, useGetFoodsByUser} from '@domain';
+import {
+  Recipe,
+  OnItemPressRecipeNavigation,
+  useGetRecipesByUser,
+} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -14,84 +18,30 @@ import {
   Text,
 } from '@components';
 
-interface FoodsListProps {
-  selectedFoods?: Map<number, Foods>;
-  onToggleCheck?: (food: Foods) => void;
+interface RecipesListProps {
+  selectedRecipes?: Map<number, Recipe>;
+  onToggleCheck?: (recipe: Recipe) => void;
   isEditing?: boolean;
-  onEdit?: (food: Foods) => void;
-  onDelete?: (food: Foods) => void;
-  onIngredientPress?: (food: OnItemPressFoodNavigation) => void;
-  hasHorizontalPadding?: boolean;
+  onEdit?: (recipe: Recipe) => void;
+  onDelete?: (recipe: Recipe) => void;
+  onIngredientPress?: (recipe: OnItemPressRecipeNavigation) => void;
 }
 
-export function FoodsList({
-  selectedFoods = new Map(),
+export function RecipesList({
+  selectedRecipes = new Map(),
   onEdit,
   onDelete,
   onToggleCheck,
   isEditing = false,
   onIngredientPress,
-  hasHorizontalPadding = true,
-}: FoodsListProps) {
+}: RecipesListProps) {
   const {authCredentials} = useAuthCredentials();
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
 
-  const {foods, isLoading} = useGetFoodsByUser(
+  const {recipes, isLoading} = useGetRecipesByUser(
     authCredentials?.session.user.id as string,
   );
-
-  function renderItem({item}: ListRenderItemInfo<Foods>) {
-    const foodForNavigation = {
-      ...item,
-      createdAt: item.createdAt.toISOString(),
-    };
-
-    const handlePress = () => {
-      if (isEditing) {
-        navigation.navigate('FoodDetailsScreen', {
-          isViewOnly: true,
-          item: foodForNavigation,
-        });
-      } else {
-        onIngredientPress && onIngredientPress(foodForNavigation);
-      }
-    };
-
-    return (
-      <Ingredient<Foods>
-        item={item}
-        isEditing={isEditing}
-        isSelected={selectedFoods.has(item.id)}
-        onSelect={onToggleCheck}
-        onIngredientPress={handlePress}
-        onDelete={food => {
-          onDelete && onDelete(food);
-          console.log('DELETE =>', food);
-        }}
-        onEdit={food => {
-          onEdit && onEdit(food);
-          console.log('EDIT =>', food);
-        }}
-      />
-    );
-  }
-
-  function renderEmptyItem() {
-    return (
-      <Box mt={'s16'}>
-        <Text>You don't have foods logged in!</Text>
-      </Box>
-    );
-  }
-
-  function renderEmptyFilteredItem() {
-    return (
-      <Box>
-        <Text>No food entries found!</Text>
-      </Box>
-    );
-  }
 
   if (isLoading) {
     return (
@@ -101,22 +51,78 @@ export function FoodsList({
     );
   }
 
-  const filteredFoods = foods.filter(item =>
+  function renderItem({item}: ListRenderItemInfo<Recipe>) {
+    const recipeForNavigation = {
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+      recipeItems: item.recipeItems?.map(itemRec => ({
+        ...itemRec,
+        createdAt: itemRec.createdAt.toISOString(),
+      })),
+    };
+
+    const handlePress = () => {
+      if (isEditing) {
+        navigation.navigate('RecipeDetailsScreen', {
+          isViewOnly: true,
+          item: recipeForNavigation,
+        });
+      } else {
+        onIngredientPress && onIngredientPress(recipeForNavigation);
+      }
+    };
+
+    return (
+      <Ingredient<Recipe>
+        item={item}
+        isEditing={isEditing}
+        isSelected={selectedRecipes.has(item.id)}
+        onSelect={onToggleCheck}
+        onIngredientPress={handlePress}
+        onDelete={recipe => {
+          onDelete && onDelete(recipe);
+          console.log('DELETE =>', recipe);
+        }}
+        onEdit={recipe => {
+          onEdit && onEdit(recipe);
+          console.log('EDIT =>', recipe);
+        }}
+      />
+    );
+  }
+
+  function renderEmptyItem() {
+    return (
+      <Box mt={'s16'}>
+        <Text>You don't have recipes created!</Text>
+      </Box>
+    );
+  }
+
+  function renderEmptyFilteredItem() {
+    return (
+      <Box>
+        <Text>No recipes entries found!</Text>
+      </Box>
+    );
+  }
+
+  const filteredRecipes = recipes.filter(item =>
     item.label.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
-    <Box flex={1} paddingHorizontal={hasHorizontalPadding ? 's16' : undefined}>
-      {foods.length > 0 && (
+    <Box flex={1}>
+      {recipes.length > 0 && (
         <SearchInput
-          placeholder="Search for a food"
+          placeholder="Search for a recipe"
           value={search}
           onChangeText={setSearch}
           LeftComponent={<Icon color="gray4" name="search" size={18} />}
         />
       )}
       <FlatList
-        data={search.length === 0 ? foods : filteredFoods}
+        data={search.length === 0 ? recipes : filteredRecipes}
         renderItem={renderItem}
         ListEmptyComponent={
           search.length === 0 ? renderEmptyItem : renderEmptyFilteredItem

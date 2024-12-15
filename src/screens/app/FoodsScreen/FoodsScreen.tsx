@@ -46,7 +46,9 @@ export function FoodsScreen() {
           />
         ),
       }}>
-      <Box style={{marginHorizontal: -16}}>{renderContent()}</Box>
+      <Box flex={1} style={{marginHorizontal: -16}}>
+        {renderContent()}
+      </Box>
     </ScreenFixedHeader>
   );
 }

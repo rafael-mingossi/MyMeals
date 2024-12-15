@@ -5,6 +5,7 @@ import {
   ArrowLeftIcon,
   AvatarIcon,
   AvatarFillIcon,
+  BagIcon,
   CalendarIcon,
   DashboardFillIcon,
   DashboardIcon,
@@ -29,6 +30,7 @@ import {
   GrainsIcon,
   MeatsIcon,
   NutsIcon,
+  PlusIcon,
   PoultryIcon,
   SpicesIcon,
   StocksIcon,
@@ -42,6 +44,7 @@ import {
   SearchIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CheckIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -67,7 +70,9 @@ const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   avatar: AvatarIcon,
   avatarFill: AvatarFillIcon,
+  bag: BagIcon,
   calendar: CalendarIcon,
+  check: CheckIcon,
   checkRound: CheckRoundIcon,
   chevronleft: ChevronLeftIcon,
   chevronright: ChevronRightIcon,
@@ -81,6 +86,7 @@ const iconRegistry = {
   foodFill: FoodFillIcon,
   more: MoreIcon,
   padlock: PadlockIcon,
+  plus: PlusIcon,
   recipe: RecipeIcon,
   recipes: RecipesIcon,
   recipeFill: RecipeFillIcon,

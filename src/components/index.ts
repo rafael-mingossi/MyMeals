@@ -12,6 +12,7 @@ export * from './CheckBox/CheckBox';
 export * from './CustomTabMenu/CustomTabMenu';
 export * from './Icon/Icon';
 export * from './Ingredient/Ingredient';
+export * from './ItemDetailsComponents';
 export * from './Form/FormPasswordInput';
 export * from './Form/FormTextInput';
 export * from './Modal/Modal';

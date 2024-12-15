@@ -1,8 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 
-import {FoodCategory, useGetFoodCategories} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useRecipeListService} from '@services';
 import {macrosCalculations} from '@utils';
 import {useForm, useWatch} from 'react-hook-form';
 
@@ -18,20 +16,19 @@ import {
 } from '@components';
 import {AppScreenProps} from '@routes';
 
-import {foodDetailsSchema, FoodDetailsSchema} from './foodDetailsSchema.ts';
+import {
+  recipeDetailsSchema,
+  RecipeDetailsSchema,
+} from './recipeDetailsSchema.ts';
 
-export function FoodDetailsScreen({
+export function RecipeDetailsScreen({
   route,
-  navigation,
-}: AppScreenProps<'FoodDetailsScreen'>) {
+}: AppScreenProps<'RecipeDetailsScreen'>) {
   const prop = route?.params?.item;
   const isEditing = route?.params?.isViewOnly;
 
-  const {foodCategories} = useGetFoodCategories();
-  const {addFoodToRecipe} = useRecipeListService();
-
-  const {control, formState, handleSubmit} = useForm<FoodDetailsSchema>({
-    resolver: zodResolver(foodDetailsSchema),
+  const {control, formState, handleSubmit} = useForm<RecipeDetailsSchema>({
+    resolver: zodResolver(recipeDetailsSchema),
     defaultValues: {
       quantity: 1,
     },
@@ -44,23 +41,9 @@ export function FoodDetailsScreen({
   });
 
   const calculatedValues = useMemo(
-    () => macrosCalculations.calculateFoodMacros(prop, quantity),
+    () => macrosCalculations.calculateRecipeMacros(prop, quantity),
     [quantity, prop],
   );
-
-  const selectedCategory: FoodCategory | undefined = foodCategories.find(
-    cat => cat.id === prop.categoryId,
-  );
-
-  const onSubmit = handleSubmit(data => {
-    const foodWithQuantity = {
-      ...prop,
-      createdAt: new Date(),
-    };
-
-    addFoodToRecipe(foodWithQuantity, data.quantity);
-    navigation.navigate('AppTabNavigator', {screen: 'RecipesScreen'});
-  });
 
   const renderNutrientRow = useCallback(
     (label: string, value: number, unit: string) => (
@@ -73,13 +56,15 @@ export function FoodDetailsScreen({
     ),
     [],
   );
+
+  const onSubmit = handleSubmit(data => {
+    console.log(data);
+  });
+
   return (
     <Screen canGoBack>
       <Box marginTop="s14" rowGap={'s14'}>
-        <ItemHeader
-          prop={prop?.label}
-          selectedCategory={selectedCategory?.description}
-        />
+        <ItemHeader prop={prop?.label} selectedCategory={'recipes'} />
         {!isEditing && (
           <Box>
             <SeparatorBox />
@@ -102,7 +87,15 @@ export function FoodDetailsScreen({
           prop={prop?.servUnit}
           calculatedValues={calculatedValues}
         />
-
+        <Box>
+          <SeparatorBox />
+          <Text
+            font={'semiBold'}
+            preset={'paragraphLarge'}
+            marginVertical={'s8'}>
+            Recipe items:
+          </Text>
+        </Box>
         <Box>
           <SeparatorBox />
           <Text
@@ -112,11 +105,15 @@ export function FoodDetailsScreen({
             Total macros:
           </Text>
           <Box rowGap={'s10'} mt={'s14'} paddingHorizontal={'s10'}>
-            {renderNutrientRow('Protein', calculatedValues.protein, 'grams')}
-            {renderNutrientRow('Fat', calculatedValues.fat, 'grams')}
-            {renderNutrientRow('Carbs', calculatedValues.carbs, 'grams')}
-            {renderNutrientRow('Fibre', calculatedValues.fibre, 'grams')}
-            {renderNutrientRow('Sodium', calculatedValues.sodium, 'mgs')}
+            {renderNutrientRow(
+              'Protein',
+              calculatedValues.totalProtein,
+              'grams',
+            )}
+            {renderNutrientRow('Fat', calculatedValues.totalFat, 'grams')}
+            {renderNutrientRow('Carbs', calculatedValues.totalCarbs, 'grams')}
+            {renderNutrientRow('Fibre', calculatedValues.totalFibre, 'grams')}
+            {renderNutrientRow('Sodium', calculatedValues.totalSodium, 'mgs')}
           </Box>
         </Box>
         <Box>

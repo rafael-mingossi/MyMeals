@@ -41,8 +41,17 @@ export function CustomTabMenu({
   const renderTwoLineText = (text: string, index: number) => {
     const words = text.split(' ');
     if (words.length !== 2) {
-      return text;
-    } // Fallback for non-two-word labels
+      return (
+        <Box alignItems="center">
+          <Text
+            preset="paragraphSmall"
+            color={activeTab === index ? 'white' : 'gray4'}
+            font="semiBold">
+            {text}
+          </Text>
+        </Box>
+      );
+    }
 
     return (
       <Box alignItems="center">

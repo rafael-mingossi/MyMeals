@@ -1,7 +1,9 @@
 export * from './icons/ArrowLeftIcon.tsx';
 export * from './icons/AvatarIcon.tsx';
 export * from './icons/AvatarFillIcon.tsx';
+export * from './icons/BagIcon.tsx';
 export * from './icons/CalendarIcon.tsx';
+export * from './icons/CheckIcon.tsx';
 export * from './icons/CheckRoundIcon.tsx';
 export * from './icons/ChevronRightIcon.tsx';
 export * from './icons/ChevronLeftIcon.tsx';
@@ -15,6 +17,7 @@ export * from './icons/FoodIcon.tsx';
 export * from './icons/FoodFillIcon.tsx';
 export * from './icons/MoreIcon.tsx';
 export * from './icons/Padlock.tsx';
+export * from './icons/PlusIcon.tsx';
 export * from './icons/RecipeIcon.tsx';
 export * from './icons/RecipesIcon.tsx';
 export * from './icons/RecipeFillIcon.tsx';

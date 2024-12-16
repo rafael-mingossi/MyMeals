@@ -2,6 +2,8 @@ import React, {ReactElement} from 'react';
 import {ActivityIndicator} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
+import {SheetProvider} from 'react-native-actions-sheet';
+
 
 import {Box} from '@components';
 
@@ -32,5 +34,9 @@ export function Router() {
   const stack = useRouter();
 
   const Stack = stacks[stack];
-  return <NavigationContainer>{Stack}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <SheetProvider>{Stack}</SheetProvider>
+    </NavigationContainer>
+  );
 }

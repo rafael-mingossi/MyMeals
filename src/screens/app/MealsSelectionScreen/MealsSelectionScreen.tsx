@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {BackHandler, Platform} from 'react-native';
 
 import {OnItemPressFoodNavigation, OnItemPressRecipeNavigation} from '@domain';
+import {usePreventRemove} from '@react-navigation/native';
 import {
   useFoodSelection,
   useFoodSelectionService,
   useRecipeSelection,
   useRecipeSelectionService,
 } from '@services';
+import {SheetManager} from 'react-native-actions-sheet';
 
 import {
   Box,
@@ -53,6 +56,42 @@ export function MealsSelectionScreen({
     });
   };
 
+  const openCart = useCallback(() => {
+    SheetManager.show('bs-cart');
+  }, []);
+
+  const handleBackPress = useCallback(() => {
+    if (selectedFoods.size > 0 || selectedRecipes.size > 0) {
+      openCart();
+      return true;
+    } else {
+      navigation.goBack();
+    }
+    return false;
+  }, [selectedFoods.size, selectedRecipes.size, openCart, navigation]);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      const backSubscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress,
+      );
+      return () => backSubscription.remove();
+    }
+  }, [handleBackPress, selectedFoods, selectedRecipes]);
+
+  // iOS gesture handler
+  usePreventRemove(selectedFoods.size > 0 || selectedRecipes.size > 0, () => {
+    openCart();
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackButtonMenuEnabled: false, // Prevents multiple screen pop
+      gestureEnabled: !(selectedFoods.size > 0 || selectedRecipes.size > 0),
+    });
+  }, [navigation, selectedFoods.size, selectedRecipes.size]);
+
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
       case TabScreens.FOODS:
@@ -76,6 +115,7 @@ export function MealsSelectionScreen({
         return <FoodsList hasHorizontalPadding={false} />;
     }
   };
+
   return (
     <ScreenFixedHeader
       fixedTabs={{
@@ -89,7 +129,7 @@ export function MealsSelectionScreen({
       }}>
       {renderContent()}
       {(selectedFoods.size > 0 || selectedRecipes.size > 0) && (
-        <ButtonFloat preset="secondary">
+        <ButtonFloat preset="secondary" onPress={openCart}>
           <Box alignItems={'center'} justifyContent={'center'}>
             <Box position={'absolute'} bottom={0} left={8.5}>
               <Text font={'semiBold'}>
@@ -109,10 +149,7 @@ export function MealsSelectionScreen({
         </ButtonFloat>
       )}
       <Box>
-        <ButtonText
-          title={'Cancel & Go Back'}
-          onPress={() => navigation.goBack()}
-        />
+        <ButtonText title={'Cancel & Go Back'} onPress={handleBackPress} />
       </Box>
     </ScreenFixedHeader>
   );

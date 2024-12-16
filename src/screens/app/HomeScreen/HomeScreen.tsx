@@ -12,10 +12,6 @@ import {
 import {AppTabScreenProps} from '@routes';
 
 export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
-  // function navigateToMeals() {
-  //   navigation.navigate('MealsSelectionScreen', {mealType: 'breakfast'});
-  // }
-
   function openMenu() {
     SheetManager.show('bs-menu');
   }

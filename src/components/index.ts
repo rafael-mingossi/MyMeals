@@ -10,6 +10,7 @@ export * from './ButtonText/ButtonText';
 export * from './Calendar/Calendar';
 export * from './Calendar/components';
 export * from './CategoryDropdown/CategoryDropdown';
+export * from './Chart/Chart';
 export * from './CheckBox/CheckBox';
 export * from './CustomTabMenu/CustomTabMenu';
 export * from './Icon/Icon';

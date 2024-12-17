@@ -8,6 +8,7 @@ import {useForm, useWatch} from 'react-hook-form';
 import {
   Box,
   ButtonText,
+  Chart,
   FormTextInput,
   ItemHeader,
   ItemServing,
@@ -146,6 +147,7 @@ export function RecipeDetailsScreen({
             marginVertical={'s8'}>
             Macros chart:
           </Text>
+          <Chart item={item} quantity={!quantity ? 1 : quantity} />
         </Box>
       </Box>
       {!isEditing && (

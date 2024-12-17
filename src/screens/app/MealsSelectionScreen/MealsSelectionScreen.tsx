@@ -6,9 +6,11 @@ import {
   OnItemPressFoodNavigation,
   OnItemPressRecipeNavigation,
   Recipe,
+  useCreateMeal,
 } from '@domain';
 import {usePreventRemove} from '@react-navigation/native';
-import {useMealItems} from '@services';
+import {useMealItems, useCalendar, useAuthCredentials} from '@services';
+import {macrosCalculations} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {
@@ -38,7 +40,56 @@ export function MealsSelectionScreen({
     TabScreens.FOODS,
   );
 
-  const {toggleMealItem, mealItems} = useMealItems();
+  const {toggleMealItem, mealItems, clearMealItems, getMealItems} =
+    useMealItems();
+  const {dateSelected} = useCalendar();
+  const {authCredentials} = useAuthCredentials();
+  const {mutate: createMeal, isPending} = useCreateMeal({
+    onSuccess: () => {
+      SheetManager.hide('bs-cart');
+      clearMealItems();
+      navigation.navigate('AppTabNavigator', {screen: 'HomeScreen'});
+    },
+    onError: error => {
+      // Handle error - show toast/alert
+      console.error('Failed to create meal:', error);
+    },
+  });
+
+  const handleCreateMeal = useCallback(() => {
+    const selectedItems = getMealItems();
+    const totals = macrosCalculations.calculateTotals(selectedItems);
+
+    if (!authCredentials) {
+      return;
+    }
+
+    const mealItemsProps = selectedItems.map(item => ({
+      foodId: item.type === 'food' ? item.id : undefined,
+      foodQuantity: item.type === 'food' ? item.quantity : undefined,
+      recipeId: item.type === 'recipe' ? item.id : undefined,
+      recipeQuantity: item.type === 'recipe' ? item.quantity : undefined,
+    }));
+
+    createMeal({
+      user_id: authCredentials?.user.id, // You'll need to get this from your auth context
+      meal_type: route.params.mealType,
+      date_added: dateSelected.dateString,
+      t_calories: totals.calories,
+      t_carbs: totals.carbs,
+      t_fat: totals.fat,
+      t_protein: totals.protein,
+      t_fibre: totals.fibre,
+      t_sodium: totals.sodium,
+      items: mealItemsProps,
+    });
+  }, [
+    getMealItems,
+    authCredentials,
+    createMeal,
+    route.params.mealType,
+    dateSelected.dateString,
+  ]);
 
   const handleFoodToggle = (food: Foods) => {
     toggleMealItem('food', food, 1, 'checkbox');
@@ -159,10 +210,10 @@ export function MealsSelectionScreen({
         </ButtonFloat>
       )}
       {mealItems.size > 0 && (
-        <ButtonFloat>
+        <ButtonFloat onPress={handleCreateMeal}>
           <Box flexDirection={'row'} columnGap={'s8'} alignItems={'center'}>
             <Icon name={'check'} size={18} />
-            <Text font={'semiBold'}>Log</Text>
+            <Text font={'semiBold'}>{isPending ? 'Creating...' : 'Log'}</Text>
           </Box>
         </ButtonFloat>
       )}

@@ -42,6 +42,12 @@ export * from './food_icons/StocksIcon.tsx';
 export * from './food_icons/SweetsIcon.tsx';
 export * from './food_icons/VegCannedIcon.tsx';
 export * from './food_icons/VegRawIcon.tsx';
+//MENU ICONS
+export * from './menu_icons/BarCodeIcon.tsx';
+export * from './menu_icons/BreakfastIcon.tsx';
+export * from './menu_icons/DinnerIcon.tsx';
+export * from './menu_icons/LunchIcon.tsx';
+export * from './menu_icons/SnacksIcon.tsx';
 
 export const videos = {intro: require('../assets/videos/intro.mp4')};
 

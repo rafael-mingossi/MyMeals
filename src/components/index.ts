@@ -1,6 +1,8 @@
 export * from './ActivityIndicator/ActivityIndicator';
 export * from './AuthScreensHeader/AuthScreensHeader';
 export * from './BackButton/BackButton';
+export * from './BottomSheetCart/BottomSheetCart';
+export * from './BottomSheetMenu/BottomSheetMenu';
 export * from './Box/Box';
 export * from './Button/Button';
 export * from './ButtonFloat/ButtonFloat';
@@ -8,6 +10,7 @@ export * from './ButtonText/ButtonText';
 export * from './Calendar/Calendar';
 export * from './Calendar/components';
 export * from './CategoryDropdown/CategoryDropdown';
+export * from './Chart/Chart';
 export * from './CheckBox/CheckBox';
 export * from './CustomTabMenu/CustomTabMenu';
 export * from './Icon/Icon';

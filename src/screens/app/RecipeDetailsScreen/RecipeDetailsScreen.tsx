@@ -1,12 +1,14 @@
 import React, {useCallback, useMemo} from 'react';
 
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useMealItems} from '@services';
 import {macrosCalculations} from '@utils';
 import {useForm, useWatch} from 'react-hook-form';
 
 import {
   Box,
   ButtonText,
+  Chart,
   FormTextInput,
   ItemHeader,
   ItemServing,
@@ -23,9 +25,13 @@ import {
 
 export function RecipeDetailsScreen({
   route,
+  navigation,
 }: AppScreenProps<'RecipeDetailsScreen'>) {
-  const prop = route?.params?.item;
+  const item = route?.params?.item;
   const isEditing = route?.params?.isViewOnly;
+  const mealType = route?.params.mealType;
+
+  const {toggleMealItem} = useMealItems();
 
   const {control, formState, handleSubmit} = useForm<RecipeDetailsSchema>({
     resolver: zodResolver(recipeDetailsSchema),
@@ -41,8 +47,8 @@ export function RecipeDetailsScreen({
   });
 
   const calculatedValues = useMemo(
-    () => macrosCalculations.calculateRecipeMacros(prop, quantity),
-    [quantity, prop],
+    () => macrosCalculations.calculateRecipeMacros(item, quantity),
+    [quantity, item],
   );
 
   const renderNutrientRow = useCallback(
@@ -58,13 +64,30 @@ export function RecipeDetailsScreen({
   );
 
   const onSubmit = handleSubmit(data => {
-    console.log(data);
+    const itemWithCreatedAtString = {
+      ...item,
+      createdAt: new Date(),
+      recipeItems: item.recipeItems?.map(itemRec => ({
+        ...itemRec,
+        createdAt: new Date(),
+      })),
+    };
+
+    if (mealType) {
+      toggleMealItem(
+        'recipe',
+        itemWithCreatedAtString,
+        data.quantity,
+        'quantity',
+      );
+      navigation.goBack();
+    }
   });
 
   return (
     <Screen canGoBack>
       <Box marginTop="s14" rowGap={'s14'}>
-        <ItemHeader prop={prop?.label} selectedCategory={'recipes'} />
+        <ItemHeader prop={item?.label} selectedCategory={'recipes'} />
         {!isEditing && (
           <Box>
             <SeparatorBox />
@@ -84,7 +107,7 @@ export function RecipeDetailsScreen({
           </Box>
         )}
         <ItemServing
-          prop={prop?.servUnit}
+          prop={item?.servUnit}
           calculatedValues={calculatedValues}
         />
         <Box>
@@ -124,6 +147,7 @@ export function RecipeDetailsScreen({
             marginVertical={'s8'}>
             Macros chart:
           </Text>
+          <Chart item={item} quantity={!quantity ? 1 : quantity} />
         </Box>
       </Box>
       {!isEditing && (

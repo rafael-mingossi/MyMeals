@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {BackHandler, Platform} from 'react-native';
 
-import {OnItemPressFoodNavigation, OnItemPressRecipeNavigation} from '@domain';
 import {
-  useFoodSelection,
-  useFoodSelectionService,
-  useRecipeSelection,
-  useRecipeSelectionService,
-} from '@services';
+  Foods,
+  OnItemPressFoodNavigation,
+  OnItemPressRecipeNavigation,
+  Recipe,
+} from '@domain';
+import {usePreventRemove} from '@react-navigation/native';
+import {useMealItems} from '@services';
+import {SheetManager} from 'react-native-actions-sheet';
 
 import {
   Box,
@@ -29,20 +32,27 @@ enum TabScreens {
 
 export function MealsSelectionScreen({
   navigation,
+  route,
 }: AppScreenProps<'MealsSelectionScreen'>) {
   const [activeTabIndex, setActiveTabIndex] = useState<TabScreens>(
     TabScreens.FOODS,
   );
 
-  const {toggleItem: toggleRecipes} = useRecipeSelectionService();
-  const {toggleItem: toggleFoods} = useFoodSelectionService();
-  const selectedFoods = useFoodSelection();
-  const selectedRecipes = useRecipeSelection();
+  const {toggleMealItem, mealItems} = useMealItems();
+
+  const handleFoodToggle = (food: Foods) => {
+    toggleMealItem('food', food, 1, 'checkbox');
+  };
+
+  const handleRecipeToggle = (recipe: Recipe) => {
+    toggleMealItem('recipe', recipe, 1, 'checkbox');
+  };
 
   const navigateToFoodDetails = (food: OnItemPressFoodNavigation) => {
     navigation.navigate('FoodDetailsScreen', {
       isViewOnly: false,
       item: food,
+      mealType: route?.params.mealType,
     });
   };
 
@@ -50,8 +60,45 @@ export function MealsSelectionScreen({
     navigation.navigate('RecipeDetailsScreen', {
       isViewOnly: false,
       item: recipe,
+      mealType: route?.params.mealType,
     });
   };
+
+  const openCart = useCallback(() => {
+    SheetManager.show('bs-cart');
+  }, []);
+
+  const handleBackPress = useCallback(() => {
+    if (mealItems.size > 0) {
+      openCart();
+      return true;
+    } else {
+      navigation.goBack();
+    }
+    return false;
+  }, [mealItems.size, openCart, navigation]);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      const backSubscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress,
+      );
+      return () => backSubscription.remove();
+    }
+  }, [handleBackPress, mealItems]);
+
+  // iOS gesture handler
+  usePreventRemove(mealItems.size > 0, () => {
+    openCart();
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackButtonMenuEnabled: false, // Prevents multiple screen pop
+      gestureEnabled: !(mealItems.size > 0),
+    });
+  }, [mealItems.size, navigation]);
 
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
@@ -59,23 +106,36 @@ export function MealsSelectionScreen({
         return (
           <FoodsList
             hasHorizontalPadding={false}
-            selectedFoods={selectedFoods}
-            onToggleCheck={food => toggleFoods(food)}
-            onIngredientPress={food => navigateToFoodDetails(food)}
+            selectedFoods={
+              new Map(
+                Array.from(mealItems.entries())
+                  .filter(([key]) => key.startsWith('food-'))
+                  .map(([_, value]) => [value.id, value.item as Foods]),
+              )
+            }
+            onToggleCheck={handleFoodToggle}
+            onIngredientPress={navigateToFoodDetails}
           />
         );
       case TabScreens.RECIPES:
         return (
           <RecipesList
-            onToggleCheck={recipe => toggleRecipes(recipe)}
-            selectedRecipes={selectedRecipes}
-            onIngredientPress={recipe => navigateToRecipeDetails(recipe)}
+            selectedRecipes={
+              new Map(
+                Array.from(mealItems.entries())
+                  .filter(([key]) => key.startsWith('recipe-'))
+                  .map(([_, value]) => [value.id, value.item as Recipe]),
+              )
+            }
+            onToggleCheck={handleRecipeToggle}
+            onIngredientPress={navigateToRecipeDetails}
           />
         );
       default:
         return <FoodsList hasHorizontalPadding={false} />;
     }
   };
+
   return (
     <ScreenFixedHeader
       fixedTabs={{
@@ -88,19 +148,17 @@ export function MealsSelectionScreen({
         ),
       }}>
       {renderContent()}
-      {(selectedFoods.size > 0 || selectedRecipes.size > 0) && (
-        <ButtonFloat preset="secondary">
+      {mealItems.size > 0 && (
+        <ButtonFloat preset="secondary" onPress={openCart}>
           <Box alignItems={'center'} justifyContent={'center'}>
             <Box position={'absolute'} bottom={0} left={8.5}>
-              <Text font={'semiBold'}>
-                {selectedFoods.size + selectedRecipes.size}
-              </Text>
+              <Text font={'semiBold'}>{mealItems.size}</Text>
             </Box>
             <Icon name={'bag'} size={27} />
           </Box>
         </ButtonFloat>
       )}
-      {(selectedFoods.size > 0 || selectedRecipes.size > 0) && (
+      {mealItems.size > 0 && (
         <ButtonFloat>
           <Box flexDirection={'row'} columnGap={'s8'} alignItems={'center'}>
             <Icon name={'check'} size={18} />
@@ -109,10 +167,7 @@ export function MealsSelectionScreen({
         </ButtonFloat>
       )}
       <Box>
-        <ButtonText
-          title={'Cancel & Go Back'}
-          onPress={() => navigation.goBack()}
-        />
+        <ButtonText title={'Cancel & Go Back'} onPress={handleBackPress} />
       </Box>
     </ScreenFixedHeader>
   );

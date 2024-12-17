@@ -12,9 +12,3 @@ export type RecipeListTypes = {
   removeFoodFromRecipe: (foodId: number) => void;
   clearRecipeList: () => void;
 };
-
-// You might want to add this type to your domain types
-export interface RecipeItemCreate {
-  food_id: number;
-  quantity: number;
-}

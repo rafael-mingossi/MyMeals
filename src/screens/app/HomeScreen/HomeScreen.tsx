@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {SheetManager} from 'react-native-actions-sheet';
+
 import {
   ScreenFixedHeader,
   CalendarModal,
@@ -9,9 +11,9 @@ import {
 } from '@components';
 import {AppTabScreenProps} from '@routes';
 
-export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
-  function navigateToMeals() {
-    navigation.navigate('MealsSelectionScreen', {mealType: 'breakfast'});
+export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
+  function openMenu() {
+    SheetManager.show('bs-menu');
   }
 
   return (
@@ -22,7 +24,7 @@ export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
         component: <CalendarWidget />,
       }}>
       <CalendarModal />
-      <ButtonFloat onPress={navigateToMeals}>
+      <ButtonFloat onPress={openMenu}>
         <Icon name={'plus'} size={30} color={'white'} />
       </ButtonFloat>
     </ScreenFixedHeader>

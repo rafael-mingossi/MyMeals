@@ -1,12 +1,6 @@
 import React from 'react';
 
-import {
-  useAppColor,
-  useFoodSelection,
-  useFoodSelectionService,
-  useRecipeSelection,
-  useRecipeSelectionService,
-} from '@services';
+import {useAppColor, useMealItems} from '@services';
 import ActionSheet, {
   SheetManager,
   SheetProps,
@@ -17,40 +11,31 @@ import {colours} from '@theme';
 
 export function BottomSheetCart(props: SheetProps) {
   const appColor = useAppColor();
-  const selectedFoods = useFoodSelection();
-  const selectedRecipes = useRecipeSelection();
-  const {clearSelection: clearFoods} = useFoodSelectionService();
-  const {clearSelection: clearRecipes} = useRecipeSelectionService();
+
+  const {clearMealItems, mealItems} = useMealItems();
 
   function discardItems() {
-    clearFoods();
-    clearRecipes();
+    clearMealItems();
     SheetManager.hide('bs-cart');
   }
 
-  const selectedFoodArray = Array.from(selectedFoods.values()).map(food => ({
-    id: food.id,
-    createdAt: food.createdAt,
-    userId: food.userId,
-    label: food.label,
-    servSize: food.servSize,
-    servUnit: food.servUnit,
-    calories: food.calories,
-    categoryId: food.categoryId,
-  }));
+  const mealItemsArray = Array.from(mealItems.values()).map(mealItem => {
+    const item = mealItem.item;
 
-  const selectedRecipesArray = Array.from(selectedRecipes.values()).map(
-    recipe => ({
-      id: recipe.id,
-      createdAt: recipe.createdAt,
-      userId: recipe.userId,
-      label: recipe.label,
-      servSize: recipe.servSize,
-      servUnit: recipe.servUnit,
-      calories: recipe.totalCalories,
-    }),
-  );
-
+    return {
+      id: item.id,
+      createdAt: item.createdAt,
+      userId: item.userId,
+      label: item.label,
+      servSize: item.servSize,
+      servUnit: item.servUnit,
+      calories: 'calories' in item ? item.calories : item.totalCalories,
+      categoryId: 'categoryId' in item ? item.categoryId : undefined,
+      quantity: mealItem.quantity,
+      type: mealItem.type,
+    };
+  });
+  // console.log(mealItemsArray);
   return (
     <ActionSheet
       {...props}
@@ -65,11 +50,12 @@ export function BottomSheetCart(props: SheetProps) {
       }}
       safeAreaInsets={{top: 0, bottom: 0, left: 0, right: 0}}>
       <Box paddingTop={'s16'} paddingBottom={'s16'}>
-        {selectedFoodArray.map(food => (
-          <Ingredient item={food} key={food.id} />
-        ))}
-        {selectedRecipesArray.map(recipe => (
-          <Ingredient item={recipe} key={recipe.id} />
+        {mealItemsArray.map(item => (
+          <Ingredient
+            item={item}
+            key={`${item.type}-${item.id}`}
+            quantity={item.quantity}
+          />
         ))}
         <Box
           flexDirection="row"

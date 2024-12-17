@@ -1,4 +1,4 @@
-import {RecipeItemNavigation} from '@domain';
+import {MealsTypes, RecipeItemNavigation} from '@domain';
 
 // Base navigation params type
 export interface BaseNavigationParams {
@@ -38,4 +38,5 @@ export interface RecipeNavigationParams extends BaseNavigationParams {
 export type ItemDetailsScreenParams<T extends BaseNavigationParams> = {
   isViewOnly: boolean;
   item: T;
+  mealType?: MealsTypes;
 };

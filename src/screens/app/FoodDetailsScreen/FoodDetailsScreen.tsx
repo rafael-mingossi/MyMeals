@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 
 import {FoodCategory, useGetFoodCategories} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useRecipeListService} from '@services';
+import {useMealItems, useRecipeListService} from '@services';
 import {macrosCalculations} from '@utils';
 import {useForm, useWatch} from 'react-hook-form';
 
@@ -26,9 +26,11 @@ export function FoodDetailsScreen({
 }: AppScreenProps<'FoodDetailsScreen'>) {
   const prop = route?.params?.item;
   const isEditing = route?.params?.isViewOnly;
+  const mealType = route?.params.mealType;
 
   const {foodCategories} = useGetFoodCategories();
   const {addFoodToRecipe} = useRecipeListService();
+  const {toggleMealItem} = useMealItems();
 
   const {control, formState, handleSubmit} = useForm<FoodDetailsSchema>({
     resolver: zodResolver(foodDetailsSchema),
@@ -58,8 +60,13 @@ export function FoodDetailsScreen({
       createdAt: new Date(),
     };
 
-    addFoodToRecipe(foodWithQuantity, data.quantity);
-    navigation.navigate('AppTabNavigator', {screen: 'RecipesScreen'});
+    if (mealType) {
+      toggleMealItem('food', foodWithQuantity, data.quantity, 'quantity');
+      navigation.goBack();
+    } else {
+      addFoodToRecipe(foodWithQuantity, data.quantity);
+      navigation.navigate('AppTabNavigator', {screen: 'RecipesScreen'});
+    }
   });
 
   const renderNutrientRow = useCallback(

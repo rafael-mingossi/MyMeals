@@ -41,7 +41,6 @@ export function AddRecipe() {
   });
 
   const onSubmit = handleSubmit(formData => {
-    console.log('formData =>>>', formData);
     handleCreateRecipe(formData);
     reset();
   });

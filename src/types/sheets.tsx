@@ -1,3 +1,4 @@
+import {MealsTypes} from '@domain';
 import {
   registerSheet,
   SheetDefinition,
@@ -12,7 +13,11 @@ registerSheet('bs-cart', BottomSheetCart);
 declare module 'react-native-actions-sheet' {
   interface Sheets {
     'bs-menu': SheetDefinition<SheetProps>;
-    'bs-cart': SheetDefinition<SheetProps>;
+    'bs-cart': SheetDefinition<{
+      payload: {
+        mealType: MealsTypes;
+      };
+    }>;
   }
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {MealsTypes} from '@domain';
 import {useAppColor, useMealItems} from '@services';
 import ActionSheet, {
   SheetManager,
@@ -9,9 +10,14 @@ import ActionSheet, {
 import {Box, ButtonText, Ingredient} from '@components';
 import {colours} from '@theme';
 
-export function BottomSheetCart(props: SheetProps) {
-  const appColor = useAppColor();
+import {useCreateMealHook} from '../../screens/app/MealsSelectionScreen/hooks/useCreateMealHook.ts';
 
+export function BottomSheetCart(props: SheetProps<'bs-cart'>) {
+  const mealType = props.payload?.mealType;
+  const appColor = useAppColor();
+  const {handleCreateMeal, isPending} = useCreateMealHook(
+    mealType as MealsTypes,
+  );
   const {clearMealItems, mealItems} = useMealItems();
 
   function discardItems() {
@@ -35,10 +41,9 @@ export function BottomSheetCart(props: SheetProps) {
       type: mealItem.type,
     };
   });
-  // console.log(mealItemsArray);
+
   return (
     <ActionSheet
-      {...props}
       closeOnPressBack={true}
       headerAlwaysVisible={true}
       containerStyle={{
@@ -63,7 +68,11 @@ export function BottomSheetCart(props: SheetProps) {
           columnGap={'s10'}
           mt={'s16'}>
           <ButtonText title="Discard" onPress={discardItems} />
-          <ButtonText title="Log" />
+          <ButtonText
+            title="Log"
+            onPress={handleCreateMeal}
+            disabled={isPending}
+          />
         </Box>
       </Box>
     </ActionSheet>

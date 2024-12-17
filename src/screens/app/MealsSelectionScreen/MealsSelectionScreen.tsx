@@ -6,11 +6,9 @@ import {
   OnItemPressFoodNavigation,
   OnItemPressRecipeNavigation,
   Recipe,
-  useCreateMeal,
 } from '@domain';
 import {usePreventRemove} from '@react-navigation/native';
-import {useMealItems, useCalendar, useAuthCredentials} from '@services';
-import {macrosCalculations} from '@utils';
+import {useMealItems} from '@services';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {
@@ -27,6 +25,8 @@ import {AppScreenProps} from '@routes';
 import {FoodsList} from '../FoodsScreen/tabs/FoodsList.tsx';
 import {RecipesList} from '../RecipesScreen/tabs/RecipesList.tsx';
 
+import {useCreateMealHook} from './hooks/useCreateMealHook.ts';
+
 enum TabScreens {
   FOODS = 0,
   RECIPES = 1,
@@ -40,56 +40,10 @@ export function MealsSelectionScreen({
     TabScreens.FOODS,
   );
 
-  const {toggleMealItem, mealItems, clearMealItems, getMealItems} =
-    useMealItems();
-  const {dateSelected} = useCalendar();
-  const {authCredentials} = useAuthCredentials();
-  const {mutate: createMeal, isPending} = useCreateMeal({
-    onSuccess: () => {
-      SheetManager.hide('bs-cart');
-      clearMealItems();
-      navigation.navigate('AppTabNavigator', {screen: 'HomeScreen'});
-    },
-    onError: error => {
-      // Handle error - show toast/alert
-      console.error('Failed to create meal:', error);
-    },
-  });
-
-  const handleCreateMeal = useCallback(() => {
-    const selectedItems = getMealItems();
-    const totals = macrosCalculations.calculateTotals(selectedItems);
-
-    if (!authCredentials) {
-      return;
-    }
-
-    const mealItemsProps = selectedItems.map(item => ({
-      foodId: item.type === 'food' ? item.id : undefined,
-      foodQuantity: item.type === 'food' ? item.quantity : undefined,
-      recipeId: item.type === 'recipe' ? item.id : undefined,
-      recipeQuantity: item.type === 'recipe' ? item.quantity : undefined,
-    }));
-
-    createMeal({
-      user_id: authCredentials?.user.id, // You'll need to get this from your auth context
-      meal_type: route.params.mealType,
-      date_added: dateSelected.dateString,
-      t_calories: totals.calories,
-      t_carbs: totals.carbs,
-      t_fat: totals.fat,
-      t_protein: totals.protein,
-      t_fibre: totals.fibre,
-      t_sodium: totals.sodium,
-      items: mealItemsProps,
-    });
-  }, [
-    getMealItems,
-    authCredentials,
-    createMeal,
-    route.params.mealType,
-    dateSelected.dateString,
-  ]);
+  const {toggleMealItem, mealItems} = useMealItems();
+  const {handleCreateMeal, isPending} = useCreateMealHook(
+    route?.params.mealType,
+  );
 
   const handleFoodToggle = (food: Foods) => {
     toggleMealItem('food', food, 1, 'checkbox');
@@ -116,8 +70,12 @@ export function MealsSelectionScreen({
   };
 
   const openCart = useCallback(() => {
-    SheetManager.show('bs-cart');
-  }, []);
+    SheetManager.show('bs-cart', {
+      payload: {
+        mealType: route?.params.mealType,
+      },
+    });
+  }, [route?.params.mealType]);
 
   const handleBackPress = useCallback(() => {
     if (mealItems.size > 0) {
@@ -183,7 +141,20 @@ export function MealsSelectionScreen({
           />
         );
       default:
-        return <FoodsList hasHorizontalPadding={false} />;
+        return (
+          <FoodsList
+            hasHorizontalPadding={false}
+            selectedFoods={
+              new Map(
+                Array.from(mealItems.entries())
+                  .filter(([key]) => key.startsWith('food-'))
+                  .map(([_, value]) => [value.id, value.item as Foods]),
+              )
+            }
+            onToggleCheck={handleFoodToggle}
+            onIngredientPress={navigateToFoodDetails}
+          />
+        );
     }
   };
 
@@ -217,8 +188,9 @@ export function MealsSelectionScreen({
           </Box>
         </ButtonFloat>
       )}
-      <Box>
+      <Box justifyContent={'space-between'} flexDirection={'row'}>
         <ButtonText title={'Cancel & Go Back'} onPress={handleBackPress} />
+        <Box width={1} height={1} />
       </Box>
     </ScreenFixedHeader>
   );

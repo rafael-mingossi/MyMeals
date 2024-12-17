@@ -4,7 +4,7 @@ export interface MealsAPI {
   id: number;
   created_at: string;
   user_id: string;
-  meal_type: string;
+  meal_type: MealsTypes;
   date_added: string;
   t_calories: number;
   t_carbs: number;
@@ -28,7 +28,7 @@ export interface Meal {
   id: number;
   createdAt: Date;
   userId: string;
-  mealType: string;
+  mealType: MealsTypes;
   dateAdded: Date;
   totalCalories: number;
   totalCarbs: number;

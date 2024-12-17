@@ -1,5 +1,6 @@
 import {
   Foods,
+  Meal,
   OnItemPressFoodNavigation,
   OnItemPressRecipeNavigation,
   Recipe,
@@ -33,6 +34,54 @@ interface Totals {
   protein: number;
   fibre: number;
   sodium: number;
+}
+
+interface MealTotals extends Omit<CalculatedRecipeMacros, 'servSize'> {}
+
+interface CaloriesByMeals {
+  breakfast: number;
+  lunch: number;
+  dinner: number;
+  snack: number;
+}
+
+function calculateCaloriesByMealType(meals: Meal[]): CaloriesByMeals {
+  return meals.reduce(
+    (acc, meal) => {
+      acc[meal.mealType] += meal.totalCalories;
+      return acc;
+    },
+    {breakfast: 0, lunch: 0, dinner: 0, snack: 0},
+  );
+}
+
+function calculateMealTotals(meal: Meal[]): MealTotals {
+  return meal.reduce(
+    (acc, curr) => {
+      return {
+        totalCalories: parseFloat(
+          (acc.totalCalories + curr.totalCalories).toFixed(0),
+        ),
+        totalCarbs: parseFloat((acc.totalCarbs + curr.totalCarbs).toFixed(0)),
+        totalFat: parseFloat((acc.totalFat + curr.totalFat).toFixed(0)),
+        totalFibre: parseFloat((acc.totalFibre + curr.totalFibre).toFixed(0)),
+        totalProtein: parseFloat(
+          (acc.totalProtein + curr.totalProtein).toFixed(0),
+        ),
+        totalSodium: parseFloat(
+          (acc.totalSodium + curr.totalSodium).toFixed(0),
+        ),
+      };
+    },
+    {
+      totalCalories: 0,
+      totalFat: 0,
+      totalFibre: 0,
+      totalSodium: 0,
+      totalProtein: 0,
+      totalCarbs: 0,
+    },
+  );
 }
 
 function calculateTotals(items: MealItem[]): Totals {
@@ -132,4 +181,6 @@ export const macrosCalculations = {
   calculateFoodMacros,
   calculateRecipeMacros,
   calculateTotals,
+  calculateMealTotals,
+  calculateCaloriesByMealType,
 };

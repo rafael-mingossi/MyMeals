@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
   Text,
   BoxProps,
+  CalorieRing,
 } from '@components';
 import {AppTabScreenProps} from '@routes';
 import {$shadowProps} from '@theme';
@@ -48,6 +49,21 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
         component: <CalendarWidget />,
       }}>
       <CalendarModal />
+      <Box {...$boxShadow} style={$shadowProps} alignItems={'center'}>
+        <Box alignItems={'center'}>
+          <Text>Calorie Budget</Text>
+          <Text preset={'headingMedium'} color={'bluePrimary'}>
+            2,000
+          </Text>
+        </Box>
+        <CalorieRing
+          currentCalories={
+            macrosCalculations.calculateMealTotals(meals).totalCalories
+          }
+          goalCalories={2000}
+          strokeWidth={15}
+        />
+      </Box>
       <Box {...$boxShadow} style={$shadowProps}>
         <Box justifyContent={'space-between'} flexDirection={'row'}>
           <Text>Total Protein:</Text>
@@ -164,6 +180,6 @@ const $boxShadow: BoxProps = {
   backgroundColor: 'backgroundInner',
   mt: 's16',
   padding: 's10',
-  borderRadius: 's2',
+  borderRadius: 's8',
   rowGap: 's12',
 };

@@ -16,20 +16,15 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 interface CalorieRingProps {
   currentCalories: number;
   goalCalories: number;
-  strokeWidth: number;
 }
 
 const screeWidth = Dimensions.get('screen').width;
 
-export function CalorieRing({
-  currentCalories,
-  goalCalories,
-  strokeWidth,
-}: CalorieRingProps) {
+export function CalorieRing({currentCalories, goalCalories}: CalorieRingProps) {
+  const strokeWidth = 15;
   const size = screeWidth / 2;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  console.log({screeWidth});
   const progress = useSharedValue(0);
 
   React.useEffect(() => {

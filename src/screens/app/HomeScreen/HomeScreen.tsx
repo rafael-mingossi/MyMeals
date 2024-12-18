@@ -61,7 +61,6 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
             macrosCalculations.calculateMealTotals(meals).totalCalories
           }
           goalCalories={2000}
-          strokeWidth={15}
         />
       </Box>
       <Box {...$boxShadow} style={$shadowProps}>
@@ -78,7 +77,6 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
           </Text>
         </Box>
       </Box>
-
       <Box {...$boxShadow} style={$shadowProps}>
         <Box
           alignItems={'center'}

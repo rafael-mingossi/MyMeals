@@ -24,7 +24,7 @@ export const buttonFloatPresets: Record<
         padding: 's16',
         style: {
           position: 'absolute',
-          bottom: 10,
+          bottom: 15,
           right: 20,
         },
       },

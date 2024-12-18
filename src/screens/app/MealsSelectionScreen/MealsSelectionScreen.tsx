@@ -25,6 +25,8 @@ import {AppScreenProps} from '@routes';
 import {FoodsList} from '../FoodsScreen/tabs/FoodsList.tsx';
 import {RecipesList} from '../RecipesScreen/tabs/RecipesList.tsx';
 
+import {useCreateMealHook} from './hooks/useCreateMealHook.ts';
+
 enum TabScreens {
   FOODS = 0,
   RECIPES = 1,
@@ -39,6 +41,9 @@ export function MealsSelectionScreen({
   );
 
   const {toggleMealItem, mealItems} = useMealItems();
+  const {handleCreateMeal, isPending} = useCreateMealHook(
+    route?.params.mealType,
+  );
 
   const handleFoodToggle = (food: Foods) => {
     toggleMealItem('food', food, 1, 'checkbox');
@@ -65,8 +70,12 @@ export function MealsSelectionScreen({
   };
 
   const openCart = useCallback(() => {
-    SheetManager.show('bs-cart');
-  }, []);
+    SheetManager.show('bs-cart', {
+      payload: {
+        mealType: route?.params.mealType,
+      },
+    });
+  }, [route?.params.mealType]);
 
   const handleBackPress = useCallback(() => {
     if (mealItems.size > 0) {
@@ -132,7 +141,20 @@ export function MealsSelectionScreen({
           />
         );
       default:
-        return <FoodsList hasHorizontalPadding={false} />;
+        return (
+          <FoodsList
+            hasHorizontalPadding={false}
+            selectedFoods={
+              new Map(
+                Array.from(mealItems.entries())
+                  .filter(([key]) => key.startsWith('food-'))
+                  .map(([_, value]) => [value.id, value.item as Foods]),
+              )
+            }
+            onToggleCheck={handleFoodToggle}
+            onIngredientPress={navigateToFoodDetails}
+          />
+        );
     }
   };
 
@@ -159,15 +181,16 @@ export function MealsSelectionScreen({
         </ButtonFloat>
       )}
       {mealItems.size > 0 && (
-        <ButtonFloat>
+        <ButtonFloat onPress={handleCreateMeal}>
           <Box flexDirection={'row'} columnGap={'s8'} alignItems={'center'}>
             <Icon name={'check'} size={18} />
-            <Text font={'semiBold'}>Log</Text>
+            <Text font={'semiBold'}>{isPending ? 'Creating...' : 'Log'}</Text>
           </Box>
         </ButtonFloat>
       )}
-      <Box>
+      <Box justifyContent={'space-between'} flexDirection={'row'}>
         <ButtonText title={'Cancel & Go Back'} onPress={handleBackPress} />
+        <Box width={1} height={1} />
       </Box>
     </ScreenFixedHeader>
   );

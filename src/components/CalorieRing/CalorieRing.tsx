@@ -1,11 +1,7 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
+import {Animated} from 'react-native';
 
-import Animated, {
-  useAnimatedProps,
-  withTiming,
-  useSharedValue,
-} from 'react-native-reanimated';
 import Svg, {Circle} from 'react-native-svg';
 
 import {Box, Text} from '@components';
@@ -25,18 +21,30 @@ export function CalorieRing({currentCalories, goalCalories}: CalorieRingProps) {
   const size = screeWidth / 2;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const progress = useSharedValue(0);
+
+  const progressAnimation = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
     const percentage = currentCalories / goalCalories;
-    progress.value = withTiming(percentage, {
-      duration: 1500,
-    });
-  }, [currentCalories, goalCalories, progress]);
 
-  const animatedProps = useAnimatedProps(() => ({
-    strokeDashoffset: circumference * (1 - progress.value),
-  }));
+    Animated.timing(progressAnimation, {
+      toValue: percentage,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start();
+  }, [currentCalories, goalCalories, progressAnimation]);
+
+  // Main progress circle dashoffset
+  const strokeDashoffset = progressAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [circumference, 0],
+  });
+
+  // Rounded cap circle dashoffset
+  const roundedCapDashoffset = progressAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [circumference, 0],
+  });
 
   return (
     <Box
@@ -55,33 +63,30 @@ export function CalorieRing({currentCalories, goalCalories}: CalorieRingProps) {
             fill={'none'}
           />
 
-          {/* First AnimatedCircle with flat ends */}
+          {/* Main Progress Circle (flat ends) */}
           <AnimatedCircle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             stroke={colours.palette.greenPrimary}
             strokeWidth={strokeWidth}
-            strokeDasharray={circumference}
-            animatedProps={animatedProps}
-            fill={'none'}
-            // No strokeLinecap here - will be flat
+            strokeDasharray={`${circumference} ${circumference}`}
+            strokeDashoffset={strokeDashoffset}
+            fill="none"
+            // No strokeLinecap for flat ends
           />
 
-          {/* Second AnimatedCircle just for the rounded end */}
+          {/* Rounded Cap Circle */}
           <AnimatedCircle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             stroke={colours.palette.greenPrimary}
             strokeWidth={strokeWidth}
-            strokeDasharray={`0 ${circumference}`}
-            animatedProps={useAnimatedProps(() => ({
-              strokeDasharray: `1 ${circumference}`,
-              strokeDashoffset: circumference * (1 - progress.value) - 1,
-            }))}
+            strokeDasharray={`1 ${circumference}`}
+            strokeDashoffset={Animated.add(roundedCapDashoffset, -1)}
             strokeLinecap="round"
-            fill={'none'}
+            fill="none"
           />
 
           <Box

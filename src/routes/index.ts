@@ -6,6 +6,7 @@ export * from './AuthStack';
 
 ///TYPES
 export * from './navigationType';
+export * from './navigationItemDetailsTypes';
 
 ///COMPONENTS
 // export * from './AppTabBar';

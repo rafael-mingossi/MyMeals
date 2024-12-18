@@ -2,15 +2,17 @@ import React, {useCallback, useMemo} from 'react';
 
 import {FoodCategory, useGetFoodCategories} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useRecipeListService} from '@services';
+import {useMealItems, useRecipeListService} from '@services';
 import {macrosCalculations} from '@utils';
 import {useForm, useWatch} from 'react-hook-form';
 
 import {
   Box,
   ButtonText,
+  Chart,
   FormTextInput,
-  Icon,
+  ItemHeader,
+  ItemServing,
   Screen,
   SeparatorBox,
   Text,
@@ -23,11 +25,13 @@ export function FoodDetailsScreen({
   route,
   navigation,
 }: AppScreenProps<'FoodDetailsScreen'>) {
-  const prop = route?.params?.food;
+  const prop = route?.params?.item;
   const isEditing = route?.params?.isViewOnly;
+  const mealType = route?.params.mealType;
 
   const {foodCategories} = useGetFoodCategories();
   const {addFoodToRecipe} = useRecipeListService();
+  const {toggleMealItem} = useMealItems();
 
   const {control, formState, handleSubmit} = useForm<FoodDetailsSchema>({
     resolver: zodResolver(foodDetailsSchema),
@@ -57,8 +61,13 @@ export function FoodDetailsScreen({
       createdAt: new Date(),
     };
 
-    addFoodToRecipe(foodWithQuantity, data.quantity);
-    navigation.navigate('AppTabNavigator', {screen: 'RecipesScreen'});
+    if (mealType) {
+      toggleMealItem('food', foodWithQuantity, data.quantity, 'quantity');
+      navigation.goBack();
+    } else {
+      addFoodToRecipe(foodWithQuantity, data.quantity);
+      navigation.navigate('AppTabNavigator', {screen: 'RecipesScreen'});
+    }
   });
 
   const renderNutrientRow = useCallback(
@@ -66,7 +75,7 @@ export function FoodDetailsScreen({
       <Box flexDirection={'row'} justifyContent={'space-between'}>
         <Text font={'semiBold'}>{label}</Text>
         <Text>
-          {value.toFixed(1)} {unit}
+          {value.toFixed(0)} {unit}
         </Text>
       </Box>
     ),
@@ -75,14 +84,10 @@ export function FoodDetailsScreen({
   return (
     <Screen canGoBack>
       <Box marginTop="s14" rowGap={'s14'}>
-        <Box flexDirection="row" alignItems="center" columnGap="s8">
-          {selectedCategory && (
-            <Icon name={selectedCategory.description} size={33} />
-          )}
-          <Text preset="headingLarge" font={'semiBold'}>
-            {prop?.label}
-          </Text>
-        </Box>
+        <ItemHeader
+          prop={prop?.label}
+          selectedCategory={selectedCategory?.description}
+        />
         {!isEditing && (
           <Box>
             <SeparatorBox />
@@ -101,33 +106,10 @@ export function FoodDetailsScreen({
             />
           </Box>
         )}
-        <Box>
-          <SeparatorBox />
-          <Text
-            font={'semiBold'}
-            preset={'paragraphLarge'}
-            marginVertical={'s8'}>
-            Per serving:
-          </Text>
-
-          <Box flexDirection="row" alignItems={'center'} columnGap={'s24'}>
-            <Text
-              preset={'paragraphLarge'}
-              font={'semiBold'}
-              color={'bluePrimary'}>
-              {calculatedValues.servSize} {prop?.servUnit}
-            </Text>
-            <Text preset={'paragraphLarge'} font={'bold'}>
-              |
-            </Text>
-            <Text
-              preset={'paragraphLarge'}
-              font={'semiBold'}
-              color={'greenPrimary'}>
-              {calculatedValues.calories.toFixed(1)} cals
-            </Text>
-          </Box>
-        </Box>
+        <ItemServing
+          prop={prop?.servUnit}
+          calculatedValues={calculatedValues}
+        />
 
         <Box>
           <SeparatorBox />
@@ -153,6 +135,7 @@ export function FoodDetailsScreen({
             marginVertical={'s8'}>
             Macros chart:
           </Text>
+          <Chart item={prop} quantity={!quantity ? 1 : quantity} />
         </Box>
       </Box>
       {!isEditing && (

@@ -45,7 +45,7 @@ export function AddFood() {
       reset();
     },
     onError: error => {
-      showToast({message: error, type: 'success'});
+      showToast({message: error, type: 'error'});
     },
   });
 
@@ -78,11 +78,7 @@ export function AddFood() {
     <ScrollView
       style={{marginTop: 10, paddingHorizontal: 16}}
       showsVerticalScrollIndicator={false}>
-      <Text preset="paragraphLarge" font="medium">
-        General details
-      </Text>
-      <SeparatorBox />
-      <Box rowGap="s20" mt={'s20'}>
+      <Box rowGap="s20">
         <CategoryDropdown
           value={selectedCategoryId}
           onChange={category => setValue('category_id', category.id)}

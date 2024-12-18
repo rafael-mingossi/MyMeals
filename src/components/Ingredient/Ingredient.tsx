@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 
-import {Foods, useGetFoodCategories} from '@domain';
+import {useGetFoodCategories} from '@domain';
 
 import {
   Box,
@@ -11,19 +11,37 @@ import {
   TouchableOpacityBox,
 } from '@components';
 
-interface IngredientProps {
-  food: Foods;
+//Common props between Types
+interface NutritionalItem {
+  id: number;
+  createdAt: Date;
+  userId: string;
+  label: string;
+  servSize: number;
+  servUnit: string;
+}
+
+//Props that can change between Types
+interface BaseItem extends NutritionalItem {
+  calories?: number;
+  totalCalories?: number;
+  categoryId?: number | null;
+}
+
+//Component Ingredient exclusive Types
+interface IngredientProps<T extends BaseItem> {
+  item: T;
   isSelected?: boolean;
-  onSelect?: (food: Foods) => void;
+  onSelect?: (item: T) => void;
   isEditing?: boolean;
-  onEdit?: (food: Foods) => void;
-  onDelete?: (food: Foods) => void;
+  onEdit?: (item: T) => void;
+  onDelete?: (item: T) => void;
   quantity?: number;
   onIngredientPress?: () => void;
 }
 
-export function Ingredient({
-  food,
+export function Ingredient<T extends BaseItem>({
+  item,
   isSelected = false,
   onSelect,
   isEditing = false,
@@ -31,30 +49,32 @@ export function Ingredient({
   onDelete,
   quantity = 1,
   onIngredientPress,
-}: IngredientProps) {
+}: IngredientProps<T>) {
   const {foodCategories} = useGetFoodCategories();
 
+  const calories = item.calories || item.totalCalories || 0;
+
   const selectedCategory = foodCategories.find(
-    cat => cat.id === food.categoryId,
+    cat => cat.id === item.categoryId,
   );
 
   const list = [
-    {label: 'Edit', onPress: () => onEdit?.(food)},
-    {label: 'Delete', onPress: () => onDelete?.(food)},
+    {label: 'Edit', onPress: () => onEdit?.(item)},
+    {label: 'Delete', onPress: () => onDelete?.(item)},
   ];
 
   const handlePress = () => {
     if (onSelect) {
-      onSelect(food);
+      onSelect(item);
     }
   };
 
   const adjustedValues = useMemo(
     () => ({
-      calories: food.calories * quantity,
-      servSize: food.servSize * quantity,
+      calories: calories * quantity,
+      servSize: item.servSize * quantity,
     }),
-    [food.calories, food.servSize, quantity],
+    [calories, item.servSize, quantity],
   );
 
   return (
@@ -69,20 +89,22 @@ export function Ingredient({
         {!isEditing && onSelect && (
           <CheckBox isChecked={isSelected} onChange={handlePress} />
         )}
-        {selectedCategory && (
+        {selectedCategory ? (
           <Icon name={selectedCategory.description} size={30} />
+        ) : (
+          <Icon name={'recipes'} size={30} />
         )}
         <Box>
-          <Text font={'bold'}>{food.label}</Text>
+          <Text font={'bold'}>{item.label}</Text>
           <Box flexDirection="row">
             <Text
               font={'semiBold'}
               color={'greenPrimary'}
               preset={'paragraphSmall'}>
-              {adjustedValues.calories.toFixed(1)} cals /{' '}
+              {adjustedValues.calories.toFixed(0)} cals /{' '}
             </Text>
             <Text preset={'paragraphSmall'}>
-              {adjustedValues.servSize.toFixed(1)} {food.servUnit}
+              {adjustedValues.servSize.toFixed(0)} {item.servUnit}
             </Text>
           </Box>
         </Box>
@@ -91,8 +113,8 @@ export function Ingredient({
         <OptionsDropdown
           items={list}
           onChange={selected => {
-            const item = list.find(i => i.label === selected.label);
-            item?.onPress?.();
+            const itemSel = list.find(i => i.label === selected.label);
+            itemSel?.onPress?.();
           }}
         />
       )}

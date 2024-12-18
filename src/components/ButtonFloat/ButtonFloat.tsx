@@ -2,26 +2,34 @@ import React, {ReactElement} from 'react';
 
 import {TouchableOpacityBox, TouchableOpacityBoxProps} from '@components';
 
+import {buttonFloatPresets} from './buttonFloatPresets.ts';
+
+export type ButtonFloatPreset = 'main' | 'secondary';
+
 export interface ButtonFloatProps extends TouchableOpacityBoxProps {
-  content: ReactElement;
+  children: ReactElement;
   disabled?: boolean;
+  preset?: ButtonFloatPreset;
 }
 
 export function ButtonFloat({
-  content,
+  children,
   disabled,
+  preset = 'main',
   ...touchableOpacityBoxProps
 }: ButtonFloatProps) {
+  const buttonPreset =
+    buttonFloatPresets[preset][disabled ? 'disabled' : 'default'];
+
   return (
     <TouchableOpacityBox
-      style={{position: 'absolute', bottom: 20, right: 20}}
       disabled={disabled}
-      padding="s32"
-      backgroundColor={'bluePrimary'}
       alignItems={'center'}
       justifyContent={'center'}
+      borderRadius="s12"
+      {...buttonPreset.container}
       {...touchableOpacityBoxProps}>
-      {content}
+      {children}
     </TouchableOpacityBox>
   );
 }

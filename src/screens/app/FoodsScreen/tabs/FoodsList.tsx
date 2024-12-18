@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {FoodNavigationParams, Foods, useGetFoodsByUser} from '@domain';
+import {OnItemPressFoodNavigation, Foods, useGetFoodsByUser} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -20,7 +20,8 @@ interface FoodsListProps {
   isEditing?: boolean;
   onEdit?: (food: Foods) => void;
   onDelete?: (food: Foods) => void;
-  onIngredientPress?: (food: FoodNavigationParams) => void;
+  onIngredientPress?: (food: OnItemPressFoodNavigation) => void;
+  hasHorizontalPadding?: boolean;
 }
 
 export function FoodsList({
@@ -30,6 +31,7 @@ export function FoodsList({
   onToggleCheck,
   isEditing = false,
   onIngredientPress,
+  hasHorizontalPadding = true,
 }: FoodsListProps) {
   const {authCredentials} = useAuthCredentials();
   const navigation = useNavigation();
@@ -49,7 +51,7 @@ export function FoodsList({
       if (isEditing) {
         navigation.navigate('FoodDetailsScreen', {
           isViewOnly: true,
-          food: foodForNavigation,
+          item: foodForNavigation,
         });
       } else {
         onIngredientPress && onIngredientPress(foodForNavigation);
@@ -57,8 +59,8 @@ export function FoodsList({
     };
 
     return (
-      <Ingredient
-        food={item}
+      <Ingredient<Foods>
+        item={item}
         isEditing={isEditing}
         isSelected={selectedFoods.has(item.id)}
         onSelect={onToggleCheck}
@@ -77,7 +79,7 @@ export function FoodsList({
 
   function renderEmptyItem() {
     return (
-      <Box>
+      <Box mt={'s16'}>
         <Text>You don't have foods logged in!</Text>
       </Box>
     );
@@ -104,13 +106,15 @@ export function FoodsList({
   );
 
   return (
-    <Box flex={1}>
-      <SearchInput
-        placeholder="Search for a food"
-        value={search}
-        onChangeText={setSearch}
-        LeftComponent={<Icon color="gray4" name="search" size={18} />}
-      />
+    <Box flex={1} paddingHorizontal={hasHorizontalPadding ? 's16' : undefined}>
+      {foods.length > 0 && (
+        <SearchInput
+          placeholder="Search for a food"
+          value={search}
+          onChangeText={setSearch}
+          LeftComponent={<Icon color="gray4" name="search" size={18} />}
+        />
+      )}
       <FlatList
         data={search.length === 0 ? foods : filteredFoods}
         renderItem={renderItem}

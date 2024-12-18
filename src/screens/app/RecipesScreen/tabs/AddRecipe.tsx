@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, ScrollView} from 'react-native';
 
+import {Foods} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useNavigation} from '@react-navigation/native';
 import {useRecipeItems, useRecipeListService} from '@services';
@@ -17,6 +18,8 @@ import {
   Text,
 } from '@components';
 
+import {useCreateRecipeForm} from '../hooks/useCreateRecipeForm.ts';
+
 import {addRecipeSchema, AddRecipeSchema} from './addRecipeSchema.ts';
 import {NutritionalInfo} from './components/NutritionalInfo.tsx';
 
@@ -26,17 +29,20 @@ export function AddRecipe() {
   const navigation = useNavigation();
   const recipeItems = useRecipeItems();
   const {removeFoodFromRecipe} = useRecipeListService();
-  const {control, formState, handleSubmit} = useForm<AddRecipeSchema>({
+  const {handleCreateRecipe, isPending} = useCreateRecipeForm();
+
+  const {control, formState, handleSubmit, reset} = useForm<AddRecipeSchema>({
     resolver: zodResolver(addRecipeSchema),
     defaultValues: {
-      label: '',
-      serv_unit: '',
-      serv_size: undefined,
+      name: '',
+      serving: undefined,
+      servingUnit: '',
     },
   });
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data);
+  const onSubmit = handleSubmit(formData => {
+    handleCreateRecipe(formData);
+    reset();
   });
 
   return (
@@ -47,14 +53,14 @@ export function AddRecipe() {
             isUnderlinedVersion
             placeholder="Recipe name"
             label="New recipe name"
-            name="label"
+            name="name"
             control={control}
           />
           <FormTextInput
             isUnderlinedVersion
             placeholder="Serving size"
             label="Serving Size of the portion being logged"
-            name="serv_size"
+            name="serving"
             keyboardType="number-pad"
             control={control}
           />
@@ -62,7 +68,7 @@ export function AddRecipe() {
             isUnderlinedVersion
             placeholder="Serving unit"
             label="Serving unit, (grams, slice, spoon, etc...)"
-            name="serv_unit"
+            name="servingUnit"
             control={control}
           />
         </Box>
@@ -90,8 +96,8 @@ export function AddRecipe() {
             scrollEnabled={false}
             data={Array.from(recipeItems.values())}
             renderItem={({item}) => (
-              <Ingredient
-                food={item.food}
+              <Ingredient<Foods>
+                item={item.food}
                 quantity={item.quantity}
                 isEditing={true}
                 onEdit={() => {
@@ -118,7 +124,7 @@ export function AddRecipe() {
         <Box flexDirection="row" paddingTop={'s14'} justifyContent={'flex-end'}>
           <ButtonText
             title={'Save Recipe'}
-            disabled={!formState.isValid}
+            disabled={!formState.isValid || isPending}
             onPress={onSubmit}
           />
         </Box>

@@ -29,14 +29,6 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
     dateSelected.dateString,
   );
 
-  if (isLoading) {
-    return (
-      <Box flex={1} justifyContent="center" alignItems="center">
-        <ActivityIndicator />
-      </Box>
-    );
-  }
-
   function openMenu() {
     SheetManager.show('bs-menu');
   }
@@ -49,124 +41,157 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
         component: <CalendarWidget />,
       }}>
       <CalendarModal />
-      <Box {...$boxShadow} style={$shadowProps} alignItems={'center'}>
-        <Box alignItems={'center'}>
-          <Text>Calorie Budget</Text>
-          <Text preset={'headingMedium'} color={'bluePrimary'}>
-            2,000
-          </Text>
+      {isLoading ? (
+        <Box flex={1} justifyContent="center" alignItems="center">
+          <ActivityIndicator />
         </Box>
-        <CalorieRing
-          currentCalories={
-            macrosCalculations.calculateMealTotals(meals).totalCalories
-          }
-          goalCalories={2000}
-        />
-      </Box>
-      <Box {...$boxShadow} style={$shadowProps}>
-        <Box justifyContent={'space-between'} flexDirection={'row'}>
-          <Text>Total Protein:</Text>
-          <Text>
-            {macrosCalculations.calculateMealTotals(meals).totalProtein} grams
-          </Text>
+      ) : (
+        <Box>
+          <Box {...$boxShadow} style={$shadowProps} alignItems={'center'}>
+            <Box alignItems={'center'}>
+              <Text>Calorie Budget</Text>
+              <Text preset={'headingMedium'} color={'bluePrimary'}>
+                2,000
+              </Text>
+            </Box>
+            <CalorieRing
+              currentCalories={
+                macrosCalculations.calculateMealTotals(meals).totalCalories
+              }
+              goalCalories={2000}
+            />
+          </Box>
+          <Box {...$boxShadow} style={$shadowProps}>
+            <Box justifyContent={'space-between'} flexDirection={'row'}>
+              <Text>Total Protein:</Text>
+              <Text>
+                {macrosCalculations.calculateMealTotals(meals).totalProtein}{' '}
+                grams
+              </Text>
+            </Box>
+            <Box justifyContent={'space-between'} flexDirection={'row'}>
+              <Text>Total Carbs:</Text>
+              <Text>
+                {macrosCalculations.calculateMealTotals(meals).totalCarbs} grams
+              </Text>
+            </Box>
+          </Box>
+          <Box {...$boxShadow} style={$shadowProps}>
+            <Box
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              flexDirection={'row'}>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s10'}
+                alignItems={'center'}>
+                <Icon name={'breakfast'} size={29} />
+                <Text font={'semiBold'}>Breakfast</Text>
+              </Box>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s2'}
+                alignItems={'flex-end'}>
+                <Text
+                  preset={'headingMedium'}
+                  color={'greenPrimary'}
+                  font={'semiBold'}>
+                  {macrosCalculations
+                    .calculateCaloriesByMealType(meals)
+                    .breakfast.toFixed(0)}
+                </Text>
+                <Text color={'greenPrimary'} font={'semiBold'}>
+                  cals
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              flexDirection={'row'}>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s10'}
+                alignItems={'center'}>
+                <Icon name={'lunch'} size={30} />
+                <Text font={'semiBold'}>Lunch</Text>
+              </Box>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s2'}
+                alignItems={'flex-end'}>
+                <Text
+                  preset={'headingMedium'}
+                  color={'greenPrimary'}
+                  font={'semiBold'}>
+                  {macrosCalculations
+                    .calculateCaloriesByMealType(meals)
+                    .lunch.toFixed(0)}
+                </Text>
+                <Text color={'greenPrimary'} font={'semiBold'}>
+                  cals
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              flexDirection={'row'}>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s10'}
+                alignItems={'center'}>
+                <Icon name={'dinner'} size={30} />
+                <Text font={'semiBold'}>Dinner</Text>
+              </Box>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s2'}
+                alignItems={'flex-end'}>
+                <Text
+                  preset={'headingMedium'}
+                  color={'greenPrimary'}
+                  font={'semiBold'}>
+                  {macrosCalculations
+                    .calculateCaloriesByMealType(meals)
+                    .dinner.toFixed(0)}
+                </Text>
+                <Text color={'greenPrimary'} font={'semiBold'}>
+                  cals
+                </Text>
+              </Box>
+            </Box>
+            <Box
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              flexDirection={'row'}>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s10'}
+                alignItems={'center'}>
+                <Icon name={'snacks'} size={30} />
+                <Text font={'semiBold'}>Snacks</Text>
+              </Box>
+              <Box
+                flexDirection={'row'}
+                columnGap={'s2'}
+                alignItems={'flex-end'}>
+                <Text
+                  preset={'headingMedium'}
+                  color={'greenPrimary'}
+                  font={'semiBold'}>
+                  {macrosCalculations
+                    .calculateCaloriesByMealType(meals)
+                    .snack.toFixed(0)}
+                </Text>
+                <Text color={'greenPrimary'} font={'semiBold'}>
+                  cals
+                </Text>
+              </Box>
+            </Box>
+          </Box>
         </Box>
-        <Box justifyContent={'space-between'} flexDirection={'row'}>
-          <Text>Total Carbs:</Text>
-          <Text>
-            {macrosCalculations.calculateMealTotals(meals).totalCarbs} grams
-          </Text>
-        </Box>
-      </Box>
-      <Box {...$boxShadow} style={$shadowProps}>
-        <Box
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          flexDirection={'row'}>
-          <Box flexDirection={'row'} columnGap={'s10'} alignItems={'center'}>
-            <Icon name={'breakfast'} size={29} />
-            <Text font={'semiBold'}>Breakfast</Text>
-          </Box>
-          <Box flexDirection={'row'} columnGap={'s2'} alignItems={'flex-end'}>
-            <Text
-              preset={'headingMedium'}
-              color={'greenPrimary'}
-              font={'semiBold'}>
-              {macrosCalculations
-                .calculateCaloriesByMealType(meals)
-                .breakfast.toFixed(0)}
-            </Text>
-            <Text color={'greenPrimary'} font={'semiBold'}>
-              cals
-            </Text>
-          </Box>
-        </Box>
-        <Box
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          flexDirection={'row'}>
-          <Box flexDirection={'row'} columnGap={'s10'} alignItems={'center'}>
-            <Icon name={'lunch'} size={30} />
-            <Text font={'semiBold'}>Lunch</Text>
-          </Box>
-          <Box flexDirection={'row'} columnGap={'s2'} alignItems={'flex-end'}>
-            <Text
-              preset={'headingMedium'}
-              color={'greenPrimary'}
-              font={'semiBold'}>
-              {macrosCalculations
-                .calculateCaloriesByMealType(meals)
-                .lunch.toFixed(0)}
-            </Text>
-            <Text color={'greenPrimary'} font={'semiBold'}>
-              cals
-            </Text>
-          </Box>
-        </Box>
-        <Box
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          flexDirection={'row'}>
-          <Box flexDirection={'row'} columnGap={'s10'} alignItems={'center'}>
-            <Icon name={'dinner'} size={30} />
-            <Text font={'semiBold'}>Dinner</Text>
-          </Box>
-          <Box flexDirection={'row'} columnGap={'s2'} alignItems={'flex-end'}>
-            <Text
-              preset={'headingMedium'}
-              color={'greenPrimary'}
-              font={'semiBold'}>
-              {macrosCalculations
-                .calculateCaloriesByMealType(meals)
-                .dinner.toFixed(0)}
-            </Text>
-            <Text color={'greenPrimary'} font={'semiBold'}>
-              cals
-            </Text>
-          </Box>
-        </Box>
-        <Box
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          flexDirection={'row'}>
-          <Box flexDirection={'row'} columnGap={'s10'} alignItems={'center'}>
-            <Icon name={'snacks'} size={30} />
-            <Text font={'semiBold'}>Snacks</Text>
-          </Box>
-          <Box flexDirection={'row'} columnGap={'s2'} alignItems={'flex-end'}>
-            <Text
-              preset={'headingMedium'}
-              color={'greenPrimary'}
-              font={'semiBold'}>
-              {macrosCalculations
-                .calculateCaloriesByMealType(meals)
-                .snack.toFixed(0)}
-            </Text>
-            <Text color={'greenPrimary'} font={'semiBold'}>
-              cals
-            </Text>
-          </Box>
-        </Box>
-      </Box>
+      )}
       <ButtonFloat onPress={openMenu}>
         <Icon name={'plus'} size={30} color={'white'} />
       </ButtonFloat>

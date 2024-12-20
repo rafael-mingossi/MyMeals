@@ -59,7 +59,6 @@ export function CalorieRing({currentCalories, goalCalories}: CalorieRingProps) {
             r={radius}
             stroke={colours.palette.gray4}
             strokeWidth={strokeWidth}
-            // strokeLinecap="round"
             fill={'none'}
           />
 
@@ -77,17 +76,19 @@ export function CalorieRing({currentCalories, goalCalories}: CalorieRingProps) {
           />
 
           {/* Rounded Cap Circle */}
-          <AnimatedCircle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke={colours.palette.greenPrimary}
-            strokeWidth={strokeWidth}
-            strokeDasharray={`1 ${circumference}`}
-            strokeDashoffset={Animated.add(roundedCapDashoffset, -1)}
-            strokeLinecap="round"
-            fill="none"
-          />
+          {currentCalories === 0 ? null : (
+            <AnimatedCircle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              stroke={colours.palette.greenPrimary}
+              strokeWidth={strokeWidth}
+              strokeDasharray={`1 ${circumference}`}
+              strokeDashoffset={Animated.add(roundedCapDashoffset, -1)}
+              strokeLinecap="round"
+              fill="none"
+            />
+          )}
 
           <Box
             position={'absolute'}

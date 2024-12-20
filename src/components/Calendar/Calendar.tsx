@@ -1,6 +1,6 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 
-import {useAppColor, useCalendar, useCalendarService} from '@services';
+import {useAppColor, useCalendar} from '@services';
 import {Calendar, DateData} from 'react-native-calendars';
 import {DayState} from 'react-native-calendars/src/types';
 
@@ -10,16 +10,23 @@ import {colours} from '@theme';
 import {CalendarDay} from './components/CalendarDay';
 import {CalendarHeader} from './components/CalendarHeader';
 
-export function CalendarCustom() {
+interface CalendarProps {
+  onTempDateChange?: (date: DateData) => void;
+}
+
+export function CalendarCustom({onTempDateChange}: CalendarProps) {
   const appColor = useAppColor();
   const {dateSelected} = useCalendar();
-  const {onDayPress} = useCalendarService();
+
+  const [tempSelectedDate, setTempSelectedDate] =
+    useState<DateData>(dateSelected);
 
   const handleDayPress = useCallback(
     (day: DateData) => {
-      onDayPress(day);
+      setTempSelectedDate(day);
+      onTempDateChange?.(day);
     },
-    [onDayPress],
+    [onTempDateChange],
   );
 
   const renderDayComponent = useCallback(
@@ -27,17 +34,17 @@ export function CalendarCustom() {
       <CalendarDay
         date={date}
         state={state}
-        selectedDate={dateSelected}
+        selectedDate={tempSelectedDate}
         onDayPress={handleDayPress}
       />
     ),
-    [dateSelected, handleDayPress],
+    [tempSelectedDate, handleDayPress],
   );
 
   return (
     <Box padding="s8" backgroundColor="backgroundInner" borderRadius="s16">
       <Calendar
-        current={dateSelected.dateString}
+        current={tempSelectedDate.dateString}
         onDayPress={handleDayPress}
         hideExtraDays
         enableSwipeMonths
@@ -53,7 +60,7 @@ export function CalendarCustom() {
               : colours.darkTheme.paragraph,
         }}
         markedDates={{
-          [dateSelected.dateString]: {selected: true},
+          [tempSelectedDate.dateString]: {selected: true},
         }}
         dayComponent={renderDayComponent}
         renderHeader={date => (

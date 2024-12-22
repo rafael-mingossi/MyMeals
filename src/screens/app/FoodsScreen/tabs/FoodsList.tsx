@@ -71,7 +71,6 @@ export function FoodsList({
         }}
         onEdit={food => {
           onEdit && onEdit(food);
-          console.log('EDIT =>', food);
         }}
       />
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 
-import {AddFoodParams, useAddFood} from '@domain';
+import {AddFoodParams, Foods, useAddFood} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useAuthCredentials, useToastService} from '@services';
 import {useForm} from 'react-hook-form';
@@ -17,24 +17,32 @@ import {
 
 import {addFoodSchema, AddFoodSchema} from './addFoodSchema.ts';
 
-export function AddFood() {
+type AddFoodProps = {
+  isUpdatingItem?: boolean;
+  foodToUpdate?: Foods;
+};
+
+export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
   const {authCredentials} = useAuthCredentials();
   const {showToast} = useToastService();
+
+  console.log({foodToUpdate});
+  console.log(typeof foodToUpdate?.fibre);
 
   const {control, formState, handleSubmit, setValue, watch, reset} =
     useForm<AddFoodSchema>({
       resolver: zodResolver(addFoodSchema),
       defaultValues: {
-        label: '',
-        category_id: 1,
-        protein: undefined,
-        carbs: undefined,
-        fat: undefined,
-        calories: undefined,
-        fibre: undefined,
-        sodium: undefined,
-        serv_size: undefined,
-        serv_unit: '',
+        label: isUpdatingItem ? foodToUpdate?.label : '',
+        category_id: isUpdatingItem ? foodToUpdate?.categoryId! : 1,
+        protein: isUpdatingItem ? foodToUpdate?.protein : undefined,
+        carbs: isUpdatingItem ? foodToUpdate?.carbs : undefined,
+        fat: isUpdatingItem ? foodToUpdate?.fat : undefined,
+        calories: isUpdatingItem ? foodToUpdate?.calories : undefined,
+        fibre: isUpdatingItem ? foodToUpdate?.fibre : undefined,
+        sodium: isUpdatingItem ? foodToUpdate?.sodium : undefined,
+        serv_size: isUpdatingItem ? foodToUpdate?.servSize : undefined,
+        serv_unit: isUpdatingItem ? foodToUpdate?.servUnit : '',
       },
       mode: 'onChange',
     });

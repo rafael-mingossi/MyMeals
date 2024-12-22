@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {MealsTypes} from '@domain';
+import {Foods, MealsTypes} from '@domain';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -9,6 +9,7 @@ import {
   FoodDetailsScreen,
   MealsSelectionScreen,
   RecipeDetailsScreen,
+  UpdateEntryScreen,
 } from '@screens';
 
 import {AppTabBottomTabParamList, AppTabNavigator} from './AppTabNavigator.tsx';
@@ -24,6 +25,7 @@ export type AppStackParamsList = {
   FoodDetailsScreen: ItemDetailsScreenParams<FoodNavigationParams>;
   RecipeDetailsScreen: ItemDetailsScreenParams<RecipeNavigationParams>;
   MealsSelectionScreen: {mealType: MealsTypes};
+  UpdateEntryScreen: {isUpdatingItem: boolean; food: Foods};
 };
 
 const Stack = createNativeStackNavigator<AppStackParamsList>();
@@ -54,6 +56,7 @@ export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
         name="MealsSelectionScreen"
         component={MealsSelectionScreen}
       />
+      <Stack.Screen name="UpdateEntryScreen" component={UpdateEntryScreen} />
     </Stack.Navigator>
   );
 }

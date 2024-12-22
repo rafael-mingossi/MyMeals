@@ -27,6 +27,7 @@ export * from './Screen/Screen';
 export * from './Screen/ScreenFixedHeader';
 export * from './SearchInput/SearchInput';
 export * from './Separator/Separator';
+export * from './Surface/Surface';
 export * from './Text/Text';
 export * from './TextInput/TextInput';
 export * from './Toast/Toast';

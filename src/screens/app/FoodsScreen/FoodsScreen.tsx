@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import {Box, CustomTabMenu, ScreenFixedHeader} from '@components';
+import {AppTabScreenProps} from '@routes';
 
 import {AddFood} from './tabs/AddFood.tsx';
 import {FoodsList} from './tabs/FoodsList.tsx';
@@ -15,7 +16,7 @@ enum TabScreens {
   FAVOURITE_FOODS = 2,
 }
 
-export function FoodsScreen() {
+export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
   const [activeTabIndex, setActiveTabIndex] = useState<TabScreens>(
     TabScreens.ADD_FOOD,
   );
@@ -25,7 +26,18 @@ export function FoodsScreen() {
       case TabScreens.ADD_FOOD:
         return <AddFood />;
       case TabScreens.MY_FOODS:
-        return <FoodsList isEditing />;
+        return (
+          <FoodsList
+            isEditing
+            onEdit={food => {
+              console.log({food});
+              navigation.navigate('UpdateEntryScreen', {
+                isUpdatingItem: true,
+                food,
+              });
+            }}
+          />
+        );
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:

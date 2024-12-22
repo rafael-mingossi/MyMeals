@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {OnItemPressFoodNavigation, Foods, useGetFoodsByUser} from '@domain';
+import {Foods, useGetFoodsByUser} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -20,7 +20,7 @@ interface FoodsListProps {
   isEditing?: boolean;
   onEdit?: (food: Foods) => void;
   onDelete?: (food: Foods) => void;
-  onIngredientPress?: (food: OnItemPressFoodNavigation) => void;
+  onIngredientPress?: (food: Foods) => void;
   hasHorizontalPadding?: boolean;
 }
 

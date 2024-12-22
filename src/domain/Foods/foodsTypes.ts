@@ -33,8 +33,3 @@ export interface Foods {
 }
 
 export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'>;
-
-//TO FIX WARNING: Non-serializable values were found in the navigation state.
-export interface OnItemPressFoodNavigation extends Omit<Foods, 'createdAt'> {
-  createdAt: string;
-}

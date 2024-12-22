@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {
-  Recipe,
-  OnItemPressRecipeNavigation,
-  useGetRecipesByUser,
-} from '@domain';
+import {Recipe, useGetRecipesByUser} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -24,7 +20,7 @@ interface RecipesListProps {
   isEditing?: boolean;
   onEdit?: (recipe: Recipe) => void;
   onDelete?: (recipe: Recipe) => void;
-  onIngredientPress?: (recipe: OnItemPressRecipeNavigation) => void;
+  onIngredientPress?: (recipe: Recipe) => void;
 }
 
 export function RecipesList({

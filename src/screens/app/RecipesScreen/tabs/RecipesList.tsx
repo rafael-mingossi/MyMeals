@@ -52,23 +52,14 @@ export function RecipesList({
   }
 
   function renderItem({item}: ListRenderItemInfo<Recipe>) {
-    const recipeForNavigation = {
-      ...item,
-      createdAt: item.createdAt.toISOString(),
-      recipeItems: item.recipeItems?.map(itemRec => ({
-        ...itemRec,
-        createdAt: itemRec.createdAt.toISOString(),
-      })),
-    };
-
     const handlePress = () => {
       if (isEditing) {
         navigation.navigate('RecipeDetailsScreen', {
           isViewOnly: true,
-          item: recipeForNavigation,
+          item: item,
         });
       } else {
-        onIngredientPress && onIngredientPress(recipeForNavigation);
+        onIngredientPress && onIngredientPress(item);
       }
     };
 

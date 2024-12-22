@@ -42,19 +42,14 @@ export function FoodsList({
   );
 
   function renderItem({item}: ListRenderItemInfo<Foods>) {
-    const foodForNavigation = {
-      ...item,
-      createdAt: item.createdAt.toISOString(),
-    };
-
     const handlePress = () => {
       if (isEditing) {
         navigation.navigate('FoodDetailsScreen', {
           isViewOnly: true,
-          item: foodForNavigation,
+          item: item,
         });
       } else {
-        onIngredientPress && onIngredientPress(foodForNavigation);
+        onIngredientPress && onIngredientPress(item);
       }
     };
 

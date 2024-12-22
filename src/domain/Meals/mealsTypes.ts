@@ -26,7 +26,7 @@ export interface MealItemsAPI {
 
 export interface Meal {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   userId: string;
   mealType: MealsTypes;
   dateAdded: Date;
@@ -41,7 +41,7 @@ export interface Meal {
 
 export interface MealItem {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   mealId: number;
   foodId?: number;
   foodQuantity?: number;

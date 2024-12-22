@@ -17,7 +17,7 @@ export interface FoodsAPI {
 
 export interface Foods {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   userId: string;
   label: string;
   protein: number;

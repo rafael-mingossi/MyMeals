@@ -14,7 +14,7 @@ import {
 //Common props between Types
 interface NutritionalItem {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   userId: string;
   label: string;
   servSize: number;

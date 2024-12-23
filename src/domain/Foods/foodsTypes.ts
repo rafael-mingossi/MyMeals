@@ -33,3 +33,5 @@ export interface Foods {
 }
 
 export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'>;
+
+export type UpdateFoodParams = Omit<FoodsAPI, 'created_at' | 'user_id'>;

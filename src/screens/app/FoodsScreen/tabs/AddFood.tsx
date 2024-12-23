@@ -1,8 +1,15 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 
-import {AddFoodParams, Foods, useAddFood} from '@domain';
+import {
+  AddFoodParams,
+  Foods,
+  UpdateFoodParams,
+  useAddFood,
+  useUpdateFood,
+} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials, useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
@@ -15,47 +22,82 @@ import {
   Text,
 } from '@components';
 
-import {addFoodSchema, AddFoodSchema} from './addFoodSchema.ts';
+import {addFoodSchema} from './addFoodSchema.ts';
 
 type AddFoodProps = {
   isUpdatingItem?: boolean;
   foodToUpdate?: Foods;
 };
 
+type FormInputValues = {
+  label: string;
+  category_id: number;
+  protein: string;
+  carbs: string;
+  fat: string;
+  calories: string;
+  fibre: string;
+  sodium: string;
+  serv_size: string;
+  serv_unit: string;
+};
+
 export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
   const {authCredentials} = useAuthCredentials();
   const {showToast} = useToastService();
-
-  console.log({foodToUpdate});
-  console.log(typeof foodToUpdate?.fibre);
+  const navigation = useNavigation();
 
   const {control, formState, handleSubmit, setValue, watch, reset} =
-    useForm<AddFoodSchema>({
+    useForm<FormInputValues>({
       resolver: zodResolver(addFoodSchema),
       defaultValues: {
-        label: isUpdatingItem ? foodToUpdate?.label : '',
-        category_id: isUpdatingItem ? foodToUpdate?.categoryId! : 1,
-        protein: isUpdatingItem ? foodToUpdate?.protein : undefined,
-        carbs: isUpdatingItem ? foodToUpdate?.carbs : undefined,
-        fat: isUpdatingItem ? foodToUpdate?.fat : undefined,
-        calories: isUpdatingItem ? foodToUpdate?.calories : undefined,
-        fibre: isUpdatingItem ? foodToUpdate?.fibre : undefined,
-        sodium: isUpdatingItem ? foodToUpdate?.sodium : undefined,
-        serv_size: isUpdatingItem ? foodToUpdate?.servSize : undefined,
-        serv_unit: isUpdatingItem ? foodToUpdate?.servUnit : '',
+        label: isUpdatingItem ? (foodToUpdate?.label ?? '') : '',
+        category_id: isUpdatingItem ? (foodToUpdate?.categoryId ?? 1) : 1,
+        protein: isUpdatingItem
+          ? (foodToUpdate?.protein?.toString() ?? '')
+          : '',
+        carbs: isUpdatingItem ? (foodToUpdate?.carbs?.toString() ?? '') : '',
+        fat: isUpdatingItem ? (foodToUpdate?.fat?.toString() ?? '') : '',
+        calories: isUpdatingItem
+          ? (foodToUpdate?.calories?.toString() ?? '')
+          : '',
+        fibre: isUpdatingItem ? (foodToUpdate?.fibre?.toString() ?? '') : '',
+        sodium: isUpdatingItem ? (foodToUpdate?.sodium?.toString() ?? '') : '',
+        serv_size: isUpdatingItem
+          ? (foodToUpdate?.servSize?.toString() ?? '')
+          : '',
+        serv_unit: isUpdatingItem ? (foodToUpdate?.servUnit ?? '') : '',
       },
       mode: 'onChange',
     });
 
   const {mutate: addFood, isPending} = useAddFood({
     onSuccess: () => {
-      showToast({message: 'Food was added!', type: 'success'});
+      showToast({
+        message: 'Food was added!',
+      });
       reset();
     },
     onError: error => {
       showToast({message: error, type: 'error'});
     },
   });
+
+  const {mutate: updateFood, isPending: isPendingUpdate} = useUpdateFood({
+    onSuccess: () => {
+      showToast({
+        message: 'Food was updated!',
+      });
+      navigation.goBack();
+    },
+    onError: error => {
+      console.error('Failed to update food:', error);
+    },
+  });
+
+  const handleUpdateFood = (foodData: UpdateFoodParams) => {
+    updateFood(foodData);
+  };
 
   const onSubmit = handleSubmit(data => {
     if (!authCredentials?.session.user.id) {
@@ -65,19 +107,38 @@ export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
     const foodData: AddFoodParams = {
       user_id: authCredentials.session.user.id,
       label: data.label,
-      category_id: data.category_id,
-      protein: data.protein,
-      carbs: data.carbs,
-      fat: data.fat,
-      calories: data.calories,
-      fibre: data.fibre ?? 0,
-      sodium: data.sodium ?? 0,
-      serv_size: data.serv_size,
+      category_id: Number(data.category_id),
+      protein: Number(data.protein),
+      carbs: Number(data.carbs),
+      fat: Number(data.fat),
+      calories: Number(data.calories),
+      fibre: data.fibre ? Number(data.fibre) : 0,
+      sodium: data.sodium ? Number(data.sodium) : 0,
+      serv_size: Number(data.serv_size),
       serv_unit: data.serv_unit,
       food_img: '',
     };
 
-    addFood(foodData);
+    const foodToUpdateParams: UpdateFoodParams = {
+      id: foodToUpdate?.id!,
+      label: data.label,
+      category_id: Number(data.category_id),
+      protein: Number(data.protein),
+      carbs: Number(data.carbs),
+      fat: Number(data.fat),
+      calories: Number(data.calories),
+      fibre: data.fibre ? Number(data.fibre) : 0,
+      sodium: data.sodium ? Number(data.sodium) : 0,
+      serv_size: Number(data.serv_size),
+      serv_unit: data.serv_unit,
+      food_img: '',
+    };
+
+    if (isUpdatingItem) {
+      handleUpdateFood(foodToUpdateParams);
+    } else {
+      addFood(foodData);
+    }
   });
 
   const selectedCategoryId = watch('category_id');
@@ -182,9 +243,9 @@ export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
         justifyContent={'flex-end'}>
         <ButtonText title={'Reset'} onPress={() => reset()} />
         <ButtonText
-          title={'Save'}
+          title={isUpdatingItem ? 'Update' : 'Save'}
           onPress={onSubmit}
-          disabled={!formState.isValid || isPending}
+          disabled={!formState.isValid || isPending || isPendingUpdate}
         />
       </Box>
     </ScrollView>

@@ -13,6 +13,7 @@ export interface FoodsAPI {
   serv_unit: string;
   food_img: string;
   category_id: number;
+  is_archived: boolean;
 }
 
 export interface Foods {
@@ -30,8 +31,14 @@ export interface Foods {
   servUnit: string;
   foodImg: string;
   categoryId: number | null;
+  isArchived: boolean;
 }
 
-export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'>;
+export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'> & {
+  is_archived?: boolean;
+};
 
-export type UpdateFoodParams = Omit<FoodsAPI, 'created_at' | 'user_id'>;
+export type UpdateFoodParams = Omit<
+  FoodsAPI,
+  'created_at' | 'user_id' | 'is_archived'
+>;

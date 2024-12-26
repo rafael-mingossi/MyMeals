@@ -2,8 +2,11 @@ import {foodsAdapter} from './foodsAdapter.ts';
 import {foodsApi} from './foodsApi.ts';
 import {AddFoodParams, Foods, UpdateFoodParams} from './foodsTypes.ts';
 
-async function getFoodsByUser(userId: string): Promise<Foods[]> {
-  const foodsAPI = await foodsApi.getFoodsByUser(userId);
+async function getFoodsByUser(
+  userId: string,
+  showArchived: boolean = false,
+): Promise<Foods[]> {
+  const foodsAPI = await foodsApi.getFoodsByUser(userId, showArchived);
   return foodsAdapter.toFoodsList(foodsAPI);
 }
 
@@ -17,8 +20,13 @@ async function updateFood(params: UpdateFoodParams): Promise<Foods> {
   return foodsAdapter.toFood(updateFoodAPI);
 }
 
+async function archiveFood(foodId: number): Promise<void> {
+  return foodsApi.archiveFood(foodId);
+}
+
 export const foodsService = {
   getFoodsByUser,
   addFood,
   updateFood,
+  archiveFood,
 };

@@ -1,4 +1,5 @@
 export * from './ActivityIndicator/ActivityIndicator';
+export * from './AlertUserDialog/AlertUserDialog';
 export * from './AuthScreensHeader/AuthScreensHeader';
 export * from './BackButton/BackButton';
 export * from './BottomSheetCart/BottomSheetCart';

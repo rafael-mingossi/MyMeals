@@ -1,12 +1,7 @@
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {BackHandler, Platform} from 'react-native';
 
-import {
-  Foods,
-  // OnItemPressFoodNavigation,
-  // OnItemPressRecipeNavigation,
-  Recipe,
-} from '@domain';
+import {Foods, Recipe} from '@domain';
 import {usePreventRemove} from '@react-navigation/native';
 import {useMealItems} from '@services';
 import {SheetManager} from 'react-native-actions-sheet';

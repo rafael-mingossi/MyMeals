@@ -20,6 +20,7 @@ export interface FoodNavigationParams extends BaseNavigationParams {
   sodium: number;
   foodImg: string;
   categoryId: number | null;
+  isArchived: boolean;
 }
 
 // Recipe navigation params

@@ -22,6 +22,7 @@ interface FoodsListProps {
   onDelete?: (food: Foods) => void;
   onIngredientPress?: (food: Foods) => void;
   hasHorizontalPadding?: boolean;
+  showArchived?: boolean;
 }
 
 export function FoodsList({
@@ -62,7 +63,6 @@ export function FoodsList({
         onIngredientPress={handlePress}
         onDelete={food => {
           onDelete && onDelete(food);
-          console.log('DELETE =>', food);
         }}
         onEdit={food => {
           onEdit && onEdit(food);

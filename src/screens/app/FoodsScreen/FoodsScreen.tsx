@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 
-import {Box, CustomTabMenu, ScreenFixedHeader} from '@components';
+import {Foods, useArchiveFood} from '@domain';
+import {useToastService} from '@services';
+
+import {AlertDialog, Box, CustomTabMenu, ScreenFixedHeader} from '@components';
 import {AppTabScreenProps} from '@routes';
 
 import {AddFood} from './tabs/AddFood.tsx';
@@ -21,6 +24,24 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
     TabScreens.ADD_FOOD,
   );
 
+  const {showToast} = useToastService();
+  const {archiveFood} = useArchiveFood({
+    onSuccess: () => {
+      showToast({message: 'Food archived!', type: 'success'});
+    },
+    onError: () => {
+      showToast({message: 'Failed to archive Food!', type: 'error'});
+    },
+  });
+
+  const handleArchiveFood = (food: Foods) => {
+    AlertDialog({
+      title: 'Archive Food',
+      message: `Are you sure you want to archive ${food.label}? It will no longer appear in your foods list but will remain available in your existing meals and recipes.`,
+      onConfirm: () => archiveFood(food.id),
+    });
+  };
+
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
       case TabScreens.ADD_FOOD:
@@ -30,11 +51,13 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
           <FoodsList
             isEditing
             onEdit={food => {
-              console.log({food});
               navigation.navigate('UpdateEntryScreen', {
                 isUpdatingItem: true,
                 food,
               });
+            }}
+            onDelete={food => {
+              handleArchiveFood(food);
             }}
           />
         );

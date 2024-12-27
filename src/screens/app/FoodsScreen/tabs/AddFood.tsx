@@ -1,9 +1,8 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 
-import {AddFoodParams, useAddFood} from '@domain';
+import {Foods} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useAuthCredentials, useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -15,62 +14,52 @@ import {
   Text,
 } from '@components';
 
-import {addFoodSchema, AddFoodSchema} from './addFoodSchema.ts';
+import {useFood} from '../hooks/useFood.ts';
 
-export function AddFood() {
-  const {authCredentials} = useAuthCredentials();
-  const {showToast} = useToastService();
+import {addFoodSchema} from './addFoodSchema.ts';
 
+type AddFoodProps = {
+  isUpdatingItem?: boolean;
+  foodToUpdate?: Foods;
+};
+
+export type FormInputValues = {
+  label: string;
+  category_id: number;
+  protein: string;
+  carbs: string;
+  fat: string;
+  calories: string;
+  fibre: string;
+  sodium: string;
+  serv_size: string;
+  serv_unit: string;
+};
+
+export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
   const {control, formState, handleSubmit, setValue, watch, reset} =
-    useForm<AddFoodSchema>({
+    useForm<FormInputValues>({
       resolver: zodResolver(addFoodSchema),
       defaultValues: {
-        label: '',
-        category_id: 1,
-        protein: undefined,
-        carbs: undefined,
-        fat: undefined,
-        calories: undefined,
-        fibre: undefined,
-        sodium: undefined,
-        serv_size: undefined,
-        serv_unit: '',
+        label: isUpdatingItem ? foodToUpdate?.label : '',
+        category_id: isUpdatingItem ? (foodToUpdate?.categoryId ?? 1) : 1,
+        protein: isUpdatingItem ? foodToUpdate?.protein?.toString() : '',
+        carbs: isUpdatingItem ? foodToUpdate?.carbs?.toString() : '',
+        fat: isUpdatingItem ? foodToUpdate?.fat?.toString() : '',
+        calories: isUpdatingItem ? foodToUpdate?.calories?.toString() : '',
+        fibre: isUpdatingItem ? foodToUpdate?.fibre?.toString() : '',
+        sodium: isUpdatingItem ? foodToUpdate?.sodium?.toString() : '',
+        serv_size: isUpdatingItem ? foodToUpdate?.servSize?.toString() : '',
+        serv_unit: isUpdatingItem ? foodToUpdate?.servUnit : '',
       },
       mode: 'onChange',
     });
 
-  const {mutate: addFood, isPending} = useAddFood({
-    onSuccess: () => {
-      showToast({message: 'Food was added!', type: 'success'});
-      reset();
-    },
-    onError: error => {
-      showToast({message: error, type: 'error'});
-    },
-  });
-
-  const onSubmit = handleSubmit(data => {
-    if (!authCredentials?.session.user.id) {
-      return;
-    }
-
-    const foodData: AddFoodParams = {
-      user_id: authCredentials.session.user.id,
-      label: data.label,
-      category_id: data.category_id,
-      protein: data.protein,
-      carbs: data.carbs,
-      fat: data.fat,
-      calories: data.calories,
-      fibre: data.fibre ?? 0,
-      sodium: data.sodium ?? 0,
-      serv_size: data.serv_size,
-      serv_unit: data.serv_unit,
-      food_img: '',
-    };
-
-    addFood(foodData);
-  });
+  const {isPendingUpdate, isPendingAdd, onSubmit} = useFood(
+    foodToUpdate?.id ?? 0,
+    isUpdatingItem,
+    reset,
+  );
 
   const selectedCategoryId = watch('category_id');
 
@@ -174,9 +163,9 @@ export function AddFood() {
         justifyContent={'flex-end'}>
         <ButtonText title={'Reset'} onPress={() => reset()} />
         <ButtonText
-          title={'Save'}
-          onPress={onSubmit}
-          disabled={!formState.isValid || isPending}
+          title={isUpdatingItem ? 'Update' : 'Save'}
+          onPress={handleSubmit(onSubmit)}
+          disabled={!formState.isValid || isPendingAdd || isPendingUpdate}
         />
       </Box>
     </ScrollView>

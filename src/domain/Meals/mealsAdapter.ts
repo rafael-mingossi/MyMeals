@@ -3,7 +3,7 @@ import {MealsAPI, MealItemsAPI, Meal, MealItem} from './mealsTypes';
 function toMealItem(mealItemAPI: MealItemsAPI): MealItem {
   return {
     id: mealItemAPI.id,
-    createdAt: new Date(mealItemAPI.created_at),
+    createdAt: mealItemAPI.created_at,
     mealId: mealItemAPI.meal_id,
     foodId: mealItemAPI.food_id || undefined,
     foodQuantity: mealItemAPI.food_quantity || undefined,
@@ -15,7 +15,7 @@ function toMealItem(mealItemAPI: MealItemsAPI): MealItem {
 function toMeal(mealAPI: MealsAPI, mealItemsAPI?: MealItemsAPI[]): Meal {
   return {
     id: mealAPI.id,
-    createdAt: new Date(mealAPI.created_at),
+    createdAt: mealAPI.created_at,
     userId: mealAPI.user_id,
     mealType: mealAPI.meal_type,
     dateAdded: new Date(mealAPI.date_added),

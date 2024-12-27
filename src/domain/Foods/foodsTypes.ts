@@ -13,11 +13,12 @@ export interface FoodsAPI {
   serv_unit: string;
   food_img: string;
   category_id: number;
+  is_archived: boolean;
 }
 
 export interface Foods {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   userId: string;
   label: string;
   protein: number;
@@ -30,11 +31,14 @@ export interface Foods {
   servUnit: string;
   foodImg: string;
   categoryId: number | null;
+  isArchived: boolean;
 }
 
-export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'>;
+export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'> & {
+  is_archived?: boolean;
+};
 
-//TO FIX WARNING: Non-serializable values were found in the navigation state.
-export interface OnItemPressFoodNavigation extends Omit<Foods, 'createdAt'> {
-  createdAt: string;
-}
+export type UpdateFoodParams = Omit<
+  FoodsAPI,
+  'created_at' | 'user_id' | 'is_archived'
+>;

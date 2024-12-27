@@ -1,7 +1,19 @@
 import {z} from 'zod';
 
+// Helper function to handle string to number conversion
+const numberFromString = (val: unknown) => {
+  if (typeof val === 'number') {
+    return val;
+  }
+  if (val === '' || val === undefined) {
+    return undefined;
+  }
+  const parsed = Number(val);
+  return isNaN(parsed) ? undefined : parsed;
+};
+
 const requiredPositiveNumber = z.preprocess(
-  val => (val === '' ? undefined : Number(val)),
+  numberFromString,
   z
     .number({
       invalid_type_error: 'Expected a number',
@@ -11,7 +23,7 @@ const requiredPositiveNumber = z.preprocess(
 );
 
 const optionalNumber = z.preprocess(
-  val => (val === '' ? undefined : Number(val)),
+  numberFromString,
   z
     .number({
       invalid_type_error: 'Expected a number',
@@ -31,7 +43,7 @@ export const addFoodSchema = z.object({
   serv_size: requiredPositiveNumber,
   serv_unit: z.string().min(1, 'Field required'),
   category_id: z.preprocess(
-    val => Number(val),
+    val => (val === undefined ? 1 : Number(val)),
     z.number({invalid_type_error: 'Expected a number'}).int(),
   ),
 });

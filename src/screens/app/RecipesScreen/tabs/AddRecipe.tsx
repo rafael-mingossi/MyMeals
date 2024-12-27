@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, ScrollView} from 'react-native';
 
-import {Foods} from '@domain';
+import {Foods, Recipe} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useNavigation} from '@react-navigation/native';
 import {useRecipeItems, useRecipeListService} from '@services';
@@ -25,7 +25,15 @@ import {NutritionalInfo} from './components/NutritionalInfo.tsx';
 
 const list = [{label: 'Add Ingredient'}];
 
-export function AddRecipe() {
+type AddRecipeProps = {
+  isUpdatingItem?: boolean;
+  recipeToUpdate?: Recipe;
+};
+
+export function AddRecipe({
+  isUpdatingItem = false,
+  recipeToUpdate,
+}: AddRecipeProps) {
   const navigation = useNavigation();
   const recipeItems = useRecipeItems();
   const {removeFoodFromRecipe} = useRecipeListService();
@@ -34,9 +42,9 @@ export function AddRecipe() {
   const {control, formState, handleSubmit, reset} = useForm<AddRecipeSchema>({
     resolver: zodResolver(addRecipeSchema),
     defaultValues: {
-      name: '',
-      serving: undefined,
-      servingUnit: '',
+      name: isUpdatingItem ? recipeToUpdate?.label : '',
+      serving: isUpdatingItem ? recipeToUpdate?.servSize : undefined,
+      servingUnit: isUpdatingItem ? recipeToUpdate?.servUnit : '',
     },
   });
 

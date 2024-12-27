@@ -14,7 +14,7 @@ import {
 //Common props between Types
 interface NutritionalItem {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   userId: string;
   label: string;
   servSize: number;
@@ -26,6 +26,7 @@ interface BaseItem extends NutritionalItem {
   calories?: number;
   totalCalories?: number;
   categoryId?: number | null;
+  isArchived?: boolean;
 }
 
 //Component Ingredient exclusive Types
@@ -58,10 +59,25 @@ export function Ingredient<T extends BaseItem>({
     cat => cat.id === item.categoryId,
   );
 
-  const list = [
-    {label: 'Edit', onPress: () => onEdit?.(item)},
-    {label: 'Delete', onPress: () => onDelete?.(item)},
-  ];
+  // const list = [
+  //   {label: 'Edit', onPress: () => onEdit?.(item)},
+  //   {label: 'Retire item', onPress: () => onDelete?.(item)},
+  // ];
+
+  const list = useMemo(() => {
+    if (item.isArchived) {
+      return [
+        {
+          label: 'Restore item',
+          onPress: () => onDelete?.(item), // You'll need to rename onDelete to something like onStatusChange
+        },
+      ];
+    }
+    return [
+      {label: 'Edit', onPress: () => onEdit?.(item)},
+      {label: 'Archive item', onPress: () => onDelete?.(item)}, // Updated text from 'Retire item'
+    ];
+  }, [onEdit, onDelete, item]);
 
   const handlePress = () => {
     if (onSelect) {
@@ -95,7 +111,14 @@ export function Ingredient<T extends BaseItem>({
           <Icon name={'recipes'} size={30} />
         )}
         <Box>
-          <Text font={'bold'}>{item.label}</Text>
+          <Box flexDirection="row" alignItems="center" columnGap="s4">
+            <Text font={'bold'}>{item.label}</Text>
+            {/*{item.isArchived && (*/}
+            {/*  <Text color="gray4" preset="paragraphSmall">*/}
+            {/*    (Archived)*/}
+            {/*  </Text>*/}
+            {/*)}*/}
+          </Box>
           <Box flexDirection="row">
             <Text
               font={'semiBold'}

@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {
-  Recipe,
-  OnItemPressRecipeNavigation,
-  useGetRecipesByUser,
-} from '@domain';
+import {Recipe, useGetRecipesByUser} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -24,7 +20,7 @@ interface RecipesListProps {
   isEditing?: boolean;
   onEdit?: (recipe: Recipe) => void;
   onDelete?: (recipe: Recipe) => void;
-  onIngredientPress?: (recipe: OnItemPressRecipeNavigation) => void;
+  onIngredientPress?: (recipe: Recipe) => void;
 }
 
 export function RecipesList({
@@ -52,23 +48,15 @@ export function RecipesList({
   }
 
   function renderItem({item}: ListRenderItemInfo<Recipe>) {
-    const recipeForNavigation = {
-      ...item,
-      createdAt: item.createdAt.toISOString(),
-      recipeItems: item.recipeItems?.map(itemRec => ({
-        ...itemRec,
-        createdAt: itemRec.createdAt.toISOString(),
-      })),
-    };
-
     const handlePress = () => {
+      //isEditing goes to ItemDetails and user can change quantity to add to a list
       if (isEditing) {
         navigation.navigate('RecipeDetailsScreen', {
           isViewOnly: true,
-          item: recipeForNavigation,
+          item: item,
         });
       } else {
-        onIngredientPress && onIngredientPress(recipeForNavigation);
+        onIngredientPress && onIngredientPress(item);
       }
     };
 
@@ -81,11 +69,11 @@ export function RecipesList({
         onIngredientPress={handlePress}
         onDelete={recipe => {
           onDelete && onDelete(recipe);
-          console.log('DELETE =>', recipe);
+          console.log('DELETE RECIPE=>', recipe);
         }}
         onEdit={recipe => {
           onEdit && onEdit(recipe);
-          console.log('EDIT =>', recipe);
+          console.log('EDIT RECIPE=>', recipe);
         }}
       />
     );

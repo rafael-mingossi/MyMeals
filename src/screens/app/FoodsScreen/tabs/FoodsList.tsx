@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {OnItemPressFoodNavigation, Foods, useGetFoodsByUser} from '@domain';
+import {Foods, useGetFoodsByUser} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {useAuthCredentials} from '@services';
 
@@ -20,8 +20,9 @@ interface FoodsListProps {
   isEditing?: boolean;
   onEdit?: (food: Foods) => void;
   onDelete?: (food: Foods) => void;
-  onIngredientPress?: (food: OnItemPressFoodNavigation) => void;
+  onIngredientPress?: (food: Foods) => void;
   hasHorizontalPadding?: boolean;
+  showArchived?: boolean;
 }
 
 export function FoodsList({
@@ -42,19 +43,15 @@ export function FoodsList({
   );
 
   function renderItem({item}: ListRenderItemInfo<Foods>) {
-    const foodForNavigation = {
-      ...item,
-      createdAt: item.createdAt.toISOString(),
-    };
-
     const handlePress = () => {
+      //isEditing goes to ItemDetails and user can change quantity to add to a list
       if (isEditing) {
         navigation.navigate('FoodDetailsScreen', {
           isViewOnly: true,
-          item: foodForNavigation,
+          item: item,
         });
       } else {
-        onIngredientPress && onIngredientPress(foodForNavigation);
+        onIngredientPress && onIngredientPress(item);
       }
     };
 
@@ -67,11 +64,9 @@ export function FoodsList({
         onIngredientPress={handlePress}
         onDelete={food => {
           onDelete && onDelete(food);
-          console.log('DELETE =>', food);
         }}
         onEdit={food => {
           onEdit && onEdit(food);
-          console.log('EDIT =>', food);
         }}
       />
     );

@@ -3,7 +3,7 @@ import {RecipesAPI, RecipeItemsAPI, Recipe, RecipeItem} from './recipesTypes';
 function toRecipeItem(recipeItemAPI: RecipeItemsAPI): RecipeItem {
   return {
     id: recipeItemAPI.id,
-    createdAt: new Date(recipeItemAPI.created_at),
+    createdAt: recipeItemAPI.created_at,
     recipeId: recipeItemAPI.recipe_id,
     foodId: recipeItemAPI.food_id,
     quantity: recipeItemAPI.quantity,
@@ -16,7 +16,7 @@ function toRecipe(
 ): Recipe {
   return {
     id: recipeAPI.id,
-    createdAt: new Date(recipeAPI.created_at),
+    createdAt: recipeAPI.created_at,
     userId: recipeAPI.user_id,
     label: recipeAPI.name,
     totalCalories: recipeAPI.t_calories,

@@ -64,22 +64,17 @@ export function RecipeDetailsScreen({
   );
 
   const onSubmit = handleSubmit(data => {
-    const itemWithCreatedAtString = {
-      ...item,
-      createdAt: new Date(),
-      recipeItems: item.recipeItems?.map(itemRec => ({
-        ...itemRec,
-        createdAt: new Date(),
-      })),
-    };
+    // const itemWithCreatedAtString = {
+    //   ...item,
+    //   createdAt: new Date(),
+    //   recipeItems: item.recipeItems?.map(itemRec => ({
+    //     ...itemRec,
+    //     createdAt: new Date(),
+    //   })),
+    // };
 
     if (mealType) {
-      toggleMealItem(
-        'recipe',
-        itemWithCreatedAtString,
-        data.quantity,
-        'quantity',
-      );
+      toggleMealItem('recipe', item, data.quantity, 'quantity');
       navigation.goBack();
     }
   });

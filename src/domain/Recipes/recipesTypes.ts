@@ -16,7 +16,7 @@ export interface RecipesAPI {
 
 export interface RecipeItemsAPI {
   id: number;
-  created_at: Date;
+  created_at: string;
   recipe_id: number;
   food_id: number;
   quantity: number;
@@ -24,7 +24,7 @@ export interface RecipeItemsAPI {
 
 export interface Recipe {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   userId: string;
   label: string;
   totalCalories: number;
@@ -41,7 +41,7 @@ export interface Recipe {
 
 export interface RecipeItem {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   recipeId: number;
   foodId: number;
   quantity: number;
@@ -56,11 +56,4 @@ export type AddRecipeItemParams = Omit<RecipeItemsAPI, 'id' | 'created_at'>;
 
 export interface CreateRecipeParams extends Omit<AddRecipeParams, 'id'> {
   items: Omit<AddRecipeItemParams, 'recipe_id'>[];
-}
-
-//TO FIX WARNING: Non-serializable values were found in the navigation state.
-export interface OnItemPressRecipeNavigation
-  extends Omit<Recipe, 'createdAt' | 'recipeItems'> {
-  createdAt: string;
-  recipeItems?: RecipeItemNavigation[];
 }

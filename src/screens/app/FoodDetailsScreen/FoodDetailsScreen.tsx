@@ -58,7 +58,7 @@ export function FoodDetailsScreen({
   const onSubmit = handleSubmit(data => {
     const foodWithQuantity = {
       ...prop,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     };
 
     if (mealType) {

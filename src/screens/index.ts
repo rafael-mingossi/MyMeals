@@ -7,6 +7,7 @@ export * from './app/MealsSelectionScreen/MealsSelectionScreen';
 export * from './app/MeScreen/MeScreen';
 export * from './app/RecipeDetailsScreen/RecipeDetailsScreen';
 export * from './app/RecipesScreen/RecipesScreen';
+export * from './app/UpdateEntryScreen/UpdateEntryScreen';
 
 //AUTH
 export * from './auth/InitialScreen/InitialScreen';

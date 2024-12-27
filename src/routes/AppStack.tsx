@@ -9,6 +9,7 @@ import {
   FoodDetailsScreen,
   MealsSelectionScreen,
   RecipeDetailsScreen,
+  UpdateEntryScreen,
 } from '@screens';
 
 import {AppTabBottomTabParamList, AppTabNavigator} from './AppTabNavigator.tsx';
@@ -16,6 +17,7 @@ import {
   FoodNavigationParams,
   ItemDetailsScreenParams,
   RecipeNavigationParams,
+  UpdateEntryScreenParams,
 } from './navigationItemDetailsTypes.ts';
 
 export type AppStackParamsList = {
@@ -24,6 +26,9 @@ export type AppStackParamsList = {
   FoodDetailsScreen: ItemDetailsScreenParams<FoodNavigationParams>;
   RecipeDetailsScreen: ItemDetailsScreenParams<RecipeNavigationParams>;
   MealsSelectionScreen: {mealType: MealsTypes};
+  UpdateEntryScreen: UpdateEntryScreenParams<
+    FoodNavigationParams | RecipeNavigationParams
+  >;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamsList>();
@@ -54,6 +59,7 @@ export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
         name="MealsSelectionScreen"
         component={MealsSelectionScreen}
       />
+      <Stack.Screen name="UpdateEntryScreen" component={UpdateEntryScreen} />
     </Stack.Navigator>
   );
 }

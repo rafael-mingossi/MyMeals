@@ -3,7 +3,7 @@ import {FoodsAPI, Foods} from './foodsTypes';
 function toFood(foodAPI: FoodsAPI): Foods {
   return {
     id: foodAPI.id,
-    createdAt: new Date(foodAPI.created_at),
+    createdAt: foodAPI.created_at,
     userId: foodAPI.user_id,
     label: foodAPI.label,
     protein: foodAPI.protein,
@@ -16,6 +16,7 @@ function toFood(foodAPI: FoodsAPI): Foods {
     servSize: foodAPI.serv_size,
     foodImg: foodAPI.food_img,
     categoryId: foodAPI.category_id,
+    isArchived: foodAPI.is_archived, // Add this
   };
 }
 

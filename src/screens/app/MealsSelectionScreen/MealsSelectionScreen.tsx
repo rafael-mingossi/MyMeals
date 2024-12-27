@@ -1,12 +1,7 @@
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {BackHandler, Platform} from 'react-native';
 
-import {
-  Foods,
-  OnItemPressFoodNavigation,
-  OnItemPressRecipeNavigation,
-  Recipe,
-} from '@domain';
+import {Foods, Recipe} from '@domain';
 import {usePreventRemove} from '@react-navigation/native';
 import {useMealItems} from '@services';
 import {SheetManager} from 'react-native-actions-sheet';
@@ -53,7 +48,7 @@ export function MealsSelectionScreen({
     toggleMealItem('recipe', recipe, 1, 'checkbox');
   };
 
-  const navigateToFoodDetails = (food: OnItemPressFoodNavigation) => {
+  const navigateToFoodDetails = (food: Foods) => {
     navigation.navigate('FoodDetailsScreen', {
       isViewOnly: false,
       item: food,
@@ -61,7 +56,7 @@ export function MealsSelectionScreen({
     });
   };
 
-  const navigateToRecipeDetails = (recipe: OnItemPressRecipeNavigation) => {
+  const navigateToRecipeDetails = (recipe: Recipe) => {
     navigation.navigate('RecipeDetailsScreen', {
       isViewOnly: false,
       item: recipe,

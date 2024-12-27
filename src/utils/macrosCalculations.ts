@@ -1,10 +1,4 @@
-import {
-  Foods,
-  Meal,
-  OnItemPressFoodNavigation,
-  OnItemPressRecipeNavigation,
-  Recipe,
-} from '@domain';
+import {Foods, Meal, Recipe} from '@domain';
 import {MealItem} from '@services';
 
 export interface CalculatedMacros {
@@ -116,7 +110,7 @@ function calculateTotals(items: MealItem[]): Totals {
 }
 
 const calculateFoodMacros = (
-  food: OnItemPressFoodNavigation,
+  food: Foods,
   quantity: number,
 ): CalculatedMacros => {
   const parsedQuantity = parseFloat(quantity.toString()) || 1;
@@ -133,7 +127,7 @@ const calculateFoodMacros = (
 };
 
 const calculateRecipeMacros = (
-  food: OnItemPressRecipeNavigation,
+  food: Recipe,
   quantity: number,
 ): CalculatedRecipeMacros => {
   const parsedQuantity = parseFloat(quantity.toString()) || 1;

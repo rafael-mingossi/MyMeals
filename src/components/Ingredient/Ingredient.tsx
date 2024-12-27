@@ -35,10 +35,14 @@ interface IngredientProps<T extends BaseItem> {
   isSelected?: boolean;
   onSelect?: (item: T) => void;
   isEditing?: boolean;
-  onEdit?: (item: T) => void;
-  onDelete?: (item: T) => void;
   quantity?: number;
   onIngredientPress?: () => void;
+  options?: OptionItem[];
+}
+
+export interface OptionItem {
+  label: string;
+  onPress: () => void;
 }
 
 export function Ingredient<T extends BaseItem>({
@@ -46,10 +50,9 @@ export function Ingredient<T extends BaseItem>({
   isSelected = false,
   onSelect,
   isEditing = false,
-  onEdit,
-  onDelete,
   quantity = 1,
   onIngredientPress,
+  options,
 }: IngredientProps<T>) {
   const {foodCategories} = useGetFoodCategories();
 
@@ -58,26 +61,6 @@ export function Ingredient<T extends BaseItem>({
   const selectedCategory = foodCategories.find(
     cat => cat.id === item.categoryId,
   );
-
-  // const list = [
-  //   {label: 'Edit', onPress: () => onEdit?.(item)},
-  //   {label: 'Retire item', onPress: () => onDelete?.(item)},
-  // ];
-
-  const list = useMemo(() => {
-    if (item.isArchived) {
-      return [
-        {
-          label: 'Restore item',
-          onPress: () => onDelete?.(item), // You'll need to rename onDelete to something like onStatusChange
-        },
-      ];
-    }
-    return [
-      {label: 'Edit', onPress: () => onEdit?.(item)},
-      {label: 'Archive item', onPress: () => onDelete?.(item)}, // Updated text from 'Retire item'
-    ];
-  }, [onEdit, onDelete, item]);
 
   const handlePress = () => {
     if (onSelect) {
@@ -132,11 +115,11 @@ export function Ingredient<T extends BaseItem>({
           </Box>
         </Box>
       </Box>
-      {isEditing && (
+      {isEditing && options && (
         <OptionsDropdown
-          items={list}
+          items={options}
           onChange={selected => {
-            const itemSel = list.find(i => i.label === selected.label);
+            const itemSel = options.find(i => i.label === selected.label);
             itemSel?.onPress?.();
           }}
         />

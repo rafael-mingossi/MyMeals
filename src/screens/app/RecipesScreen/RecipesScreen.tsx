@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {CustomTabMenu, ScreenFixedHeader} from '@components';
+import {Recipe} from '@domain';
+
+import {CustomTabMenu, OptionItem, ScreenFixedHeader} from '@components';
 
 import {AddRecipe} from './tabs/AddRecipe.tsx';
 import {RecipesList} from './tabs/RecipesList.tsx';
@@ -21,12 +23,25 @@ export function RecipesScreen() {
     TabScreens.ADD_RECIPE,
   );
 
+  const recipeOptions = (recipe: Recipe): OptionItem[] => {
+    return [
+      {
+        label: 'Edit',
+        onPress: () => console.log('EDIT RECIPE', recipe),
+      },
+      {
+        label: 'Archive',
+        onPress: () => console.log('ARCHIVE RECIPE', recipe),
+      },
+    ];
+  };
+
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
       case TabScreens.ADD_RECIPE:
         return <AddRecipe />;
       case TabScreens.MY_RECIPES:
-        return <RecipesList isEditing />;
+        return <RecipesList isEditing createOptions={recipeOptions} />;
       case TabScreens.FAVOURITE_RECIPES:
         return <FavouriteFoods />;
       default:

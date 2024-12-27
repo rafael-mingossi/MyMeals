@@ -13,6 +13,7 @@ import {
   ButtonText,
   FormTextInput,
   Ingredient,
+  OptionItem,
   OptionsDropdown,
   SeparatorBox,
   Text,
@@ -22,8 +23,6 @@ import {useCreateRecipeForm} from '../hooks/useCreateRecipeForm.ts';
 
 import {addRecipeSchema, AddRecipeSchema} from './addRecipeSchema.ts';
 import {NutritionalInfo} from './components/NutritionalInfo.tsx';
-
-const list = [{label: 'Add Ingredient'}];
 
 type AddRecipeProps = {
   isUpdatingItem?: boolean;
@@ -52,6 +51,24 @@ export function AddRecipe({
     handleCreateRecipe(formData);
     reset();
   });
+
+  const createHeaderOptions = (): OptionItem[] => {
+    return [
+      {
+        label: 'Add Ingredient',
+        onPress: () => navigation.navigate('FoodsSelectionScreen'),
+      },
+    ];
+  };
+
+  const addRecipeOptions = (id: number): OptionItem[] => {
+    return [
+      {
+        label: 'Remove',
+        onPress: () => removeFoodFromRecipe(id),
+      },
+    ];
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -92,7 +109,7 @@ export function AddRecipe({
               {recipeItems.size} Ingredients
             </Text>
             <OptionsDropdown
-              items={list}
+              items={createHeaderOptions()}
               onChange={selected => {
                 selected.label === 'Add Ingredient' &&
                   navigation.navigate('FoodsSelectionScreen');
@@ -108,10 +125,7 @@ export function AddRecipe({
                 item={item.food}
                 quantity={item.quantity}
                 isEditing={true}
-                onEdit={() => {
-                  /* handle edit */
-                }}
-                onDelete={() => removeFoodFromRecipe(item.food.id)}
+                options={addRecipeOptions(item.food.id)}
               />
             )}
           />

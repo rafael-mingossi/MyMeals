@@ -49,6 +49,7 @@ export function RecipesList({
 
   function renderItem({item}: ListRenderItemInfo<Recipe>) {
     const handlePress = () => {
+      //isEditing goes to ItemDetails and user can change quantity to add to a list
       if (isEditing) {
         navigation.navigate('RecipeDetailsScreen', {
           isViewOnly: true,
@@ -68,11 +69,11 @@ export function RecipesList({
         onIngredientPress={handlePress}
         onDelete={recipe => {
           onDelete && onDelete(recipe);
-          console.log('DELETE =>', recipe);
+          console.log('DELETE RECIPE=>', recipe);
         }}
         onEdit={recipe => {
           onEdit && onEdit(recipe);
-          console.log('EDIT =>', recipe);
+          console.log('EDIT RECIPE=>', recipe);
         }}
       />
     );

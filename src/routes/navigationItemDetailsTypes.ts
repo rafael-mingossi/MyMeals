@@ -1,6 +1,5 @@
 import {MealsTypes, RecipeItemNavigation} from '@domain';
 
-// Base navigation params type
 export interface BaseNavigationParams {
   id: number;
   createdAt: string;
@@ -10,7 +9,6 @@ export interface BaseNavigationParams {
   servUnit: string;
 }
 
-// Food navigation params
 export interface FoodNavigationParams extends BaseNavigationParams {
   protein: number;
   carbs: number;
@@ -23,7 +21,6 @@ export interface FoodNavigationParams extends BaseNavigationParams {
   isArchived: boolean;
 }
 
-// Recipe navigation params
 export interface RecipeNavigationParams extends BaseNavigationParams {
   totalProtein: number;
   totalCarbs: number;
@@ -35,9 +32,15 @@ export interface RecipeNavigationParams extends BaseNavigationParams {
   recipeItems?: RecipeItemNavigation[];
 }
 
-// Generic type for screen props
+// Generic type for Foods/Recipes Details Screen
 export type ItemDetailsScreenParams<T extends BaseNavigationParams> = {
   isViewOnly: boolean;
   item: T;
   mealType?: MealsTypes;
+};
+
+export type UpdateEntryScreenParams<T extends BaseNavigationParams> = {
+  isUpdatingItem: boolean;
+  item: T;
+  updating: 'food' | 'recipe';
 };

@@ -113,11 +113,11 @@ export function Ingredient<T extends BaseItem>({
         <Box>
           <Box flexDirection="row" alignItems="center" columnGap="s4">
             <Text font={'bold'}>{item.label}</Text>
-            {item.isArchived && (
-              <Text color="gray4" preset="paragraphSmall">
-                (Archived)
-              </Text>
-            )}
+            {/*{item.isArchived && (*/}
+            {/*  <Text color="gray4" preset="paragraphSmall">*/}
+            {/*    (Archived)*/}
+            {/*  </Text>*/}
+            {/*)}*/}
           </Box>
           <Box flexDirection="row">
             <Text

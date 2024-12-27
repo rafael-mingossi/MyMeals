@@ -53,7 +53,8 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
             onEdit={food => {
               navigation.navigate('UpdateEntryScreen', {
                 isUpdatingItem: true,
-                food,
+                item: food,
+                updating: 'food',
               });
             }}
             onDelete={food => {

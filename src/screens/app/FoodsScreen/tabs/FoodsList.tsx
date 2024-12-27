@@ -44,6 +44,7 @@ export function FoodsList({
 
   function renderItem({item}: ListRenderItemInfo<Foods>) {
     const handlePress = () => {
+      //isEditing goes to ItemDetails and user can change quantity to add to a list
       if (isEditing) {
         navigation.navigate('FoodDetailsScreen', {
           isViewOnly: true,

@@ -18,7 +18,7 @@ export function useCreateRecipe(options?: MutationOptions<Recipe>) {
     },
     onSuccess: recipe => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Recipes, recipe.userId],
+        queryKey: [QueryKeys.Recipes, {userId: recipe.userId}],
       });
       if (options?.onSuccess) {
         options.onSuccess(recipe);

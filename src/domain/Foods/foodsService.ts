@@ -10,6 +10,11 @@ async function getFoodsByUser(
   return foodsAdapter.toFoodsList(foodsAPI);
 }
 
+async function getFoodsByIds(foodIds: number[]): Promise<Foods[]> {
+  const foodsAPI = await foodsApi.getFoodsByIds(foodIds);
+  return foodsAdapter.toFoodsList(foodsAPI);
+}
+
 async function addFood(params: AddFoodParams): Promise<Foods> {
   const addFoodAPI = await foodsApi.addFood(params);
   return foodsAdapter.toFood(addFoodAPI);
@@ -29,4 +34,5 @@ export const foodsService = {
   addFood,
   updateFood,
   archiveFood,
+  getFoodsByIds,
 };

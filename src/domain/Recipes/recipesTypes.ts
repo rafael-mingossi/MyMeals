@@ -57,3 +57,16 @@ export type AddRecipeItemParams = Omit<RecipeItemsAPI, 'id' | 'created_at'>;
 export interface CreateRecipeParams extends Omit<AddRecipeParams, 'id'> {
   items: Omit<AddRecipeItemParams, 'recipe_id'>[];
 }
+
+export type UpdateRecipeProps = Omit<RecipesAPI, 'created_at' | 'user_id'>;
+
+export type UpdateRecipeItemParams = Omit<
+  RecipeItemsAPI,
+  'id' | 'created_at' | 'recipe_id'
+>;
+
+export interface UpdateRecipePayload extends UpdateRecipeProps {
+  items: UpdateRecipeItemParams[];
+}
+
+export type UpdateRecipeParams = Omit<UpdateRecipePayload, 'id'>;

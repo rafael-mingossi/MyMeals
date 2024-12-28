@@ -20,6 +20,19 @@ async function getFoodsByUser(
   return data || [];
 }
 
+async function getFoodsByIds(foodIds: number[]): Promise<FoodsAPI[]> {
+  const {data, error} = await supabaseClient
+    .from('foods')
+    .select('*')
+    .in('id', foodIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch foods: ${error.message}`);
+  }
+
+  return data || [];
+}
+
 async function addFood(foodData: AddFoodParams): Promise<FoodsAPI> {
   const {data, error} = await supabaseClient
     .from('foods')
@@ -85,4 +98,5 @@ export const foodsApi = {
   addFood,
   updateFood,
   archiveFood,
+  getFoodsByIds,
 };

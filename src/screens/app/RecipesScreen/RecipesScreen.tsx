@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import {Recipe} from '@domain';
 
 import {CustomTabMenu, OptionItem, ScreenFixedHeader} from '@components';
+import {AppTabScreenProps} from '@routes';
 
 import {AddRecipe} from './tabs/AddRecipe.tsx';
 import {RecipesList} from './tabs/RecipesList.tsx';
@@ -18,7 +19,9 @@ const FavouriteFoods = () => {
   return <View>{/* Favourite Foods content */}</View>;
 };
 
-export function RecipesScreen() {
+export function RecipesScreen({
+  navigation,
+}: AppTabScreenProps<'RecipesScreen'>) {
   const [activeTabIndex, setActiveTabIndex] = useState<TabScreens>(
     TabScreens.ADD_RECIPE,
   );
@@ -27,7 +30,13 @@ export function RecipesScreen() {
     return [
       {
         label: 'Edit',
-        onPress: () => console.log('EDIT RECIPE', recipe),
+        onPress: () => {
+          navigation.navigate('UpdateEntryScreen', {
+            isUpdatingItem: true,
+            item: recipe,
+            updating: 'recipe',
+          });
+        },
       },
       {
         label: 'Archive',

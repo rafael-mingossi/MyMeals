@@ -119,6 +119,7 @@ export function MealsSelectionScreen({
             }
             onToggleCheck={handleFoodToggle}
             onIngredientPress={navigateToFoodDetails}
+            createOptions={() => []}
           />
         );
       case TabScreens.RECIPES:
@@ -133,6 +134,7 @@ export function MealsSelectionScreen({
             }
             onToggleCheck={handleRecipeToggle}
             onIngredientPress={navigateToRecipeDetails}
+            createOptions={() => []}
           />
         );
       default:
@@ -148,6 +150,7 @@ export function MealsSelectionScreen({
             }
             onToggleCheck={handleFoodToggle}
             onIngredientPress={navigateToFoodDetails}
+            createOptions={() => []}
           />
         );
     }

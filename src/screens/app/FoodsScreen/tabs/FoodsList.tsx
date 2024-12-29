@@ -10,6 +10,7 @@ import {
   Box,
   Icon,
   Ingredient,
+  OptionItem,
   SearchInput,
   Text,
 } from '@components';
@@ -18,21 +19,19 @@ interface FoodsListProps {
   selectedFoods?: Map<number, Foods>;
   onToggleCheck?: (food: Foods) => void;
   isEditing?: boolean;
-  onEdit?: (food: Foods) => void;
-  onDelete?: (food: Foods) => void;
   onIngredientPress?: (food: Foods) => void;
   hasHorizontalPadding?: boolean;
   showArchived?: boolean;
+  createOptions: (item: Foods) => OptionItem[];
 }
 
 export function FoodsList({
   selectedFoods = new Map(),
-  onEdit,
-  onDelete,
   onToggleCheck,
   isEditing = false,
   onIngredientPress,
   hasHorizontalPadding = true,
+  createOptions,
 }: FoodsListProps) {
   const {authCredentials} = useAuthCredentials();
   const navigation = useNavigation();
@@ -62,12 +61,7 @@ export function FoodsList({
         isSelected={selectedFoods.has(item.id)}
         onSelect={onToggleCheck}
         onIngredientPress={handlePress}
-        onDelete={food => {
-          onDelete && onDelete(food);
-        }}
-        onEdit={food => {
-          onEdit && onEdit(food);
-        }}
+        options={createOptions(item)}
       />
     );
   }

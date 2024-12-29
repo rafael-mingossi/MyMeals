@@ -16,7 +16,7 @@ function toFood(foodAPI: FoodsAPI): Foods {
     servSize: foodAPI.serv_size,
     foodImg: foodAPI.food_img,
     categoryId: foodAPI.category_id,
-    isArchived: foodAPI.is_archived, // Add this
+    isArchived: foodAPI.is_archived,
   };
 }
 

@@ -1,21 +1,13 @@
+import {Recipe} from '@domain';
 import {MutationOptions, QueryKeys} from '@infra';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 import {recipesService} from '../recipesService';
-import {CreateRecipeParams, Recipe} from '../recipesTypes';
 
-export function useCreateRecipe(options?: MutationOptions<Recipe>) {
+export function useArchiveRecipe(options?: MutationOptions<Recipe>) {
   const queryClient = useQueryClient();
-
-  const {mutate, isPending} = useMutation<Recipe, unknown, CreateRecipeParams>({
-    mutationFn: params => recipesService.createRecipe(params),
-    retry: false,
-    onError: error => {
-      console.log(error);
-      if (options?.onError) {
-        //TODO: ERROR
-      }
-    },
+  const {mutate: archiveRecipe, isPending} = useMutation({
+    mutationFn: recipesService.archiveRecipe,
     onSuccess: recipe => {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.Recipes, {userId: recipe.userId}],
@@ -24,10 +16,16 @@ export function useCreateRecipe(options?: MutationOptions<Recipe>) {
         options.onSuccess(recipe);
       }
     },
+    onError: error => {
+      console.log(error);
+      if (options?.onError) {
+        //TODO: ERROR
+      }
+    },
   });
 
   return {
-    mutate,
+    archiveRecipe,
     isPending,
   };
 }

@@ -10,6 +10,7 @@ import {
   Box,
   Icon,
   Ingredient,
+  OptionItem,
   SearchInput,
   Text,
 } from '@components';
@@ -18,18 +19,16 @@ interface RecipesListProps {
   selectedRecipes?: Map<number, Recipe>;
   onToggleCheck?: (recipe: Recipe) => void;
   isEditing?: boolean;
-  onEdit?: (recipe: Recipe) => void;
-  onDelete?: (recipe: Recipe) => void;
   onIngredientPress?: (recipe: Recipe) => void;
+  createOptions: (recipe: Recipe) => OptionItem[];
 }
 
 export function RecipesList({
   selectedRecipes = new Map(),
-  onEdit,
-  onDelete,
   onToggleCheck,
   isEditing = false,
   onIngredientPress,
+  createOptions,
 }: RecipesListProps) {
   const {authCredentials} = useAuthCredentials();
   const navigation = useNavigation();
@@ -67,14 +66,7 @@ export function RecipesList({
         isSelected={selectedRecipes.has(item.id)}
         onSelect={onToggleCheck}
         onIngredientPress={handlePress}
-        onDelete={recipe => {
-          onDelete && onDelete(recipe);
-          console.log('DELETE RECIPE=>', recipe);
-        }}
-        onEdit={recipe => {
-          onEdit && onEdit(recipe);
-          console.log('EDIT RECIPE=>', recipe);
-        }}
+        options={createOptions(item)}
       />
     );
   }

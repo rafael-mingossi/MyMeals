@@ -1,27 +1,29 @@
-import {QueryKeys} from '@infra';
+import {MutationOptions, QueryKeys} from '@infra';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 import {foodsService} from '../foodsService';
+import {Foods} from '../foodsTypes.ts';
 
-export function useArchiveFood({
-  onSuccess,
-  onError,
-}: {
-  onSuccess?: () => void;
-  onError?: () => void;
-} = {}) {
+export function useArchiveFood(options?: MutationOptions<Foods>) {
   const queryClient = useQueryClient();
 
-  const {mutate: archiveFood} = useMutation({
-    mutationFn: foodsService.archiveFood,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: [QueryKeys.Foods]});
-      onSuccess?.();
+  const {mutate: archiveFood, isPending} = useMutation<Foods, unknown, number>({
+    mutationFn: foodId => foodsService.archiveFood(foodId),
+    onSuccess: food => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.Foods, {userId: food.userId, showArchived: false}],
+      });
+      if (options?.onSuccess) {
+        options.onSuccess(food);
+      }
     },
-    onError: () => {
-      onError?.();
+    onError: error => {
+      console.log(error);
+      if (options?.onError) {
+        //TODO: ERROR
+      }
     },
   });
 
-  return {archiveFood};
+  return {archiveFood, isPending};
 }

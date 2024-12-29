@@ -29,6 +29,7 @@ function toRecipe(
     servUnit: recipeAPI.serv_unit,
     image: recipeAPI.img,
     recipeItems: recipeItemsAPI?.map(toRecipeItem),
+    isArchived: recipeAPI.is_archived,
   };
 }
 

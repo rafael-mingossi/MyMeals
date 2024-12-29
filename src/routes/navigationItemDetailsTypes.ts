@@ -7,6 +7,7 @@ export interface BaseNavigationParams {
   label: string;
   servSize: number;
   servUnit: string;
+  isArchived: boolean;
 }
 
 export interface FoodNavigationParams extends BaseNavigationParams {
@@ -18,7 +19,6 @@ export interface FoodNavigationParams extends BaseNavigationParams {
   sodium: number;
   foodImg: string;
   categoryId: number | null;
-  isArchived: boolean;
 }
 
 export interface RecipeNavigationParams extends BaseNavigationParams {

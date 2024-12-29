@@ -2,9 +2,17 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 
 import {Recipe} from '@domain';
+import {useToastService} from '@services';
 
-import {CustomTabMenu, OptionItem, ScreenFixedHeader} from '@components';
+import {
+  AlertDialog,
+  CustomTabMenu,
+  OptionItem,
+  ScreenFixedHeader,
+} from '@components';
 import {AppTabScreenProps} from '@routes';
+
+import {useArchiveRecipe} from '../../../domain/Recipes/useCases/useArchiveRecipe.ts';
 
 import {AddRecipe} from './tabs/AddRecipe.tsx';
 import {RecipesList} from './tabs/RecipesList.tsx';
@@ -26,6 +34,24 @@ export function RecipesScreen({
     TabScreens.ADD_RECIPE,
   );
 
+  const {showToast} = useToastService();
+  const {archiveRecipe} = useArchiveRecipe({
+    onSuccess: () => {
+      showToast({message: 'Recipe archived!', type: 'success'});
+    },
+    onError: () => {
+      showToast({message: 'Failed to archive Recipe!', type: 'error'});
+    },
+  });
+
+  const handleArchiveRecipe = (recipe: Recipe) => {
+    AlertDialog({
+      title: 'Archive Food',
+      message: `Are you sure you want to archive ${recipe.label}? It will no longer appear in your recipes list but will remain available in your existing meals.`,
+      onConfirm: () => archiveRecipe(recipe.id),
+    });
+  };
+
   const recipeOptions = (recipe: Recipe): OptionItem[] => {
     return [
       {
@@ -40,7 +66,7 @@ export function RecipesScreen({
       },
       {
         label: 'Archive',
-        onPress: () => console.log('ARCHIVE RECIPE', recipe),
+        onPress: () => handleArchiveRecipe(recipe),
       },
     ];
   };

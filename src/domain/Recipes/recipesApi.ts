@@ -7,7 +7,10 @@ import {
   UpdateRecipeParams,
 } from './recipesTypes';
 
-async function getRecipesByUser(userId: string): Promise<{
+async function getRecipesByUser(
+  userId: string,
+  showArchived: boolean = false,
+): Promise<{
   recipes: RecipesAPI[];
   recipeItems: RecipeItemsAPI[];
 }> {
@@ -16,6 +19,7 @@ async function getRecipesByUser(userId: string): Promise<{
     .from('recipes')
     .select('*')
     .eq('user_id', userId)
+    .eq('is_archived', showArchived)
     .order('created_at', {ascending: false});
 
   if (recipesError) {
@@ -139,8 +143,20 @@ async function updateRecipe(
   return {recipe, recipeItems};
 }
 
+async function archiveRecipe(recipeId: number): Promise<void> {
+  const {error} = await supabaseClient
+    .from('recipes')
+    .update({is_archived: true})
+    .eq('id', recipeId);
+
+  if (error) {
+    throw new Error(`Failed to archive recipe: ${error.message}`);
+  }
+}
+
 export const recipesApi = {
   getRecipesByUser,
   createRecipe,
-  updateRecipe, // Add the new method
+  updateRecipe,
+  archiveRecipe,
 };

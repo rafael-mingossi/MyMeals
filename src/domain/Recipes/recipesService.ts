@@ -17,7 +17,6 @@ async function createRecipe(params: CreateRecipeParams): Promise<Recipe> {
   return recipesAdapter.toRecipe(recipe, recipeItems);
 }
 
-// recipesService.ts
 async function updateRecipe(
   recipeId: number,
   params: UpdateRecipeParams,
@@ -26,8 +25,13 @@ async function updateRecipe(
   return recipesAdapter.toRecipe(recipe, recipeItems);
 }
 
+async function archiveRecipe(recipeId: number): Promise<void> {
+  return recipesApi.archiveRecipe(recipeId);
+}
+
 export const recipesService = {
   getRecipesByUser,
   createRecipe,
-  updateRecipe, // Add the new method
+  updateRecipe,
+  archiveRecipe,
 };

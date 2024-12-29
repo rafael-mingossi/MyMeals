@@ -10,7 +10,7 @@ async function getFoodsByUser(
     .from('foods')
     .select('*')
     .eq('user_id', userId)
-    .eq('is_archived', showArchived) // This filters for either archived or non-archived foods
+    .eq('is_archived', showArchived)
     .order('created_at', {ascending: false});
 
   if (error) {

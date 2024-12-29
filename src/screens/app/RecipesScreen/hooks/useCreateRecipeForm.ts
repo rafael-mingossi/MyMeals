@@ -111,6 +111,7 @@ export function useCreateRecipeForm(
         t_fibre: totals.fibre,
         t_sodium: totals.sodium,
         items: recipeItemsList,
+        is_archived: false,
       });
     }
   };

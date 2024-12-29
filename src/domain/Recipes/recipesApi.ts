@@ -1,8 +1,16 @@
 import {supabaseClient} from '@api';
 
-import {RecipesAPI, RecipeItemsAPI, CreateRecipeParams} from './recipesTypes';
+import {
+  RecipesAPI,
+  RecipeItemsAPI,
+  CreateRecipeParams,
+  UpdateRecipeParams,
+} from './recipesTypes';
 
-async function getRecipesByUser(userId: string): Promise<{
+async function getRecipesByUser(
+  userId: string,
+  showArchived: boolean = false,
+): Promise<{
   recipes: RecipesAPI[];
   recipeItems: RecipeItemsAPI[];
 }> {
@@ -11,6 +19,7 @@ async function getRecipesByUser(userId: string): Promise<{
     .from('recipes')
     .select('*')
     .eq('user_id', userId)
+    .eq('is_archived', showArchived)
     .order('created_at', {ascending: false});
 
   if (recipesError) {
@@ -72,7 +81,86 @@ async function createRecipe(recipeData: CreateRecipeParams): Promise<{
   return {recipe, recipeItems};
 }
 
+async function updateRecipe(
+  recipeId: number,
+  recipeData: UpdateRecipeParams,
+): Promise<{
+  recipe: RecipesAPI;
+  recipeItems: RecipeItemsAPI[];
+}> {
+  // Update recipe
+  const {data: recipe, error: recipeError} = await supabaseClient
+    .from('recipes')
+    .update({
+      name: recipeData.name,
+      t_calories: recipeData.t_calories,
+      t_carbs: recipeData.t_carbs,
+      t_fat: recipeData.t_fat,
+      t_protein: recipeData.t_protein,
+      t_fibre: recipeData.t_fibre,
+      t_sodium: recipeData.t_sodium,
+      serving: recipeData.serving,
+      serv_unit: recipeData.serv_unit,
+      img: recipeData.img,
+    })
+    .eq('id', recipeId)
+    .select('*')
+    .single();
+
+  if (recipeError || !recipe) {
+    throw new Error(`Failed to update recipe: ${recipeError?.message}`);
+  }
+
+  // Delete existing recipe items
+  const {error: deleteError} = await supabaseClient
+    .from('recipe_items')
+    .delete()
+    .eq('recipe_id', recipeId);
+
+  if (deleteError) {
+    throw new Error(`Failed to delete recipe items: ${deleteError.message}`);
+  }
+
+  // Insert new recipe items
+  const recipeItemsData = recipeData.items?.map(item => ({
+    ...item,
+    recipe_id: recipeId,
+  }));
+
+  if (!recipeItemsData || recipeItemsData.length === 0) {
+    return {recipe, recipeItems: []};
+  }
+
+  const {data: recipeItems, error: itemsError} = await supabaseClient
+    .from('recipe_items')
+    .insert(recipeItemsData)
+    .select('*');
+
+  if (itemsError || !recipeItems) {
+    throw new Error(`Failed to create recipe items: ${itemsError?.message}`);
+  }
+
+  return {recipe, recipeItems};
+}
+
+async function archiveRecipe(recipeId: number): Promise<RecipesAPI> {
+  const {data, error} = await supabaseClient
+    .from('recipes')
+    .update({is_archived: true})
+    .eq('id', recipeId)
+    .select('*')
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to archive recipe: ${error.message}`);
+  }
+
+  return data;
+}
+
 export const recipesApi = {
   getRecipesByUser,
   createRecipe,
+  updateRecipe,
+  archiveRecipe,
 };

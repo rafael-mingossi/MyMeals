@@ -3,7 +3,14 @@ import React, {useState} from 'react';
 import {Foods, useArchiveFood} from '@domain';
 import {useToastService} from '@services';
 
-import {AlertDialog, Box, CustomTabMenu, ScreenFixedHeader} from '@components';
+import {
+  ActivityIndicator,
+  AlertDialog,
+  Box,
+  CustomTabMenu,
+  OptionItem,
+  ScreenFixedHeader,
+} from '@components';
 import {AppTabScreenProps} from '@routes';
 
 import {AddFood} from './tabs/AddFood.tsx';
@@ -25,7 +32,7 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
   );
 
   const {showToast} = useToastService();
-  const {archiveFood} = useArchiveFood({
+  const {archiveFood, isPending} = useArchiveFood({
     onSuccess: () => {
       showToast({message: 'Food archived!', type: 'success'});
     },
@@ -42,32 +49,41 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
     });
   };
 
+  const foodOptions = (food: Foods): OptionItem[] => {
+    return [
+      {
+        label: 'Edit',
+        onPress: () => {
+          navigation.navigate('UpdateEntryScreen', {
+            isUpdatingItem: true,
+            item: food,
+            updating: 'food',
+          });
+        },
+      },
+      {
+        label: 'Archive',
+        onPress: () => handleArchiveFood(food),
+      },
+    ];
+  };
+
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
       case TabScreens.ADD_FOOD:
         return <AddFood />;
       case TabScreens.MY_FOODS:
-        return (
-          <FoodsList
-            isEditing
-            onEdit={food => {
-              navigation.navigate('UpdateEntryScreen', {
-                isUpdatingItem: true,
-                item: food,
-                updating: 'food',
-              });
-            }}
-            onDelete={food => {
-              handleArchiveFood(food);
-            }}
-          />
-        );
+        return <FoodsList isEditing createOptions={foodOptions} />;
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:
         return <AddFood />;
     }
   };
+
+  if (isPending) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <ScreenFixedHeader

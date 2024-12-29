@@ -1,6 +1,6 @@
 import {recipesAdapter} from './recipesAdapter';
 import {recipesApi} from './recipesApi';
-import {Recipe, CreateRecipeParams} from './RecipesTypes';
+import {Recipe, CreateRecipeParams, UpdateRecipeParams} from './RecipesTypes';
 
 async function getRecipesByUser(userId: string): Promise<Recipe[]> {
   const {recipes, recipeItems} = await recipesApi.getRecipesByUser(userId);
@@ -17,7 +17,22 @@ async function createRecipe(params: CreateRecipeParams): Promise<Recipe> {
   return recipesAdapter.toRecipe(recipe, recipeItems);
 }
 
+async function updateRecipe(
+  recipeId: number,
+  params: UpdateRecipeParams,
+): Promise<Recipe> {
+  const {recipe, recipeItems} = await recipesApi.updateRecipe(recipeId, params);
+  return recipesAdapter.toRecipe(recipe, recipeItems);
+}
+
+async function archiveRecipe(recipeId: number): Promise<Recipe> {
+  const archiveRecipeAPI = await recipesApi.archiveRecipe(recipeId);
+  return recipesAdapter.toRecipe(archiveRecipeAPI);
+}
+
 export const recipesService = {
   getRecipesByUser,
   createRecipe,
+  updateRecipe,
+  archiveRecipe,
 };

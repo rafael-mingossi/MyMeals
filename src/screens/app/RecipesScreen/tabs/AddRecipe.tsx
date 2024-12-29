@@ -9,10 +9,12 @@ import {macrosCalculations} from '@utils';
 import {useForm} from 'react-hook-form';
 
 import {
+  ActivityIndicator,
   Box,
   ButtonText,
   FormTextInput,
   Ingredient,
+  OptionItem,
   OptionsDropdown,
   SeparatorBox,
   Text,
@@ -20,14 +22,18 @@ import {
 
 import {useCreateRecipeForm} from '../hooks/useCreateRecipeForm.ts';
 
-import {addRecipeSchema, AddRecipeSchema} from './addRecipeSchema.ts';
+import {addRecipeSchema} from './addRecipeSchema.ts';
 import {NutritionalInfo} from './components/NutritionalInfo.tsx';
-
-const list = [{label: 'Add Ingredient'}];
 
 type AddRecipeProps = {
   isUpdatingItem?: boolean;
   recipeToUpdate?: Recipe;
+};
+
+export type AddRecipeForm = {
+  name: string;
+  serving: string;
+  servingUnit: string;
 };
 
 export function AddRecipe({
@@ -37,13 +43,16 @@ export function AddRecipe({
   const navigation = useNavigation();
   const recipeItems = useRecipeItems();
   const {removeFoodFromRecipe} = useRecipeListService();
-  const {handleCreateRecipe, isPending} = useCreateRecipeForm();
+  const {handleCreateRecipe, isPending, isLoading} = useCreateRecipeForm(
+    isUpdatingItem,
+    recipeToUpdate,
+  );
 
-  const {control, formState, handleSubmit, reset} = useForm<AddRecipeSchema>({
+  const {control, formState, handleSubmit, reset} = useForm<AddRecipeForm>({
     resolver: zodResolver(addRecipeSchema),
     defaultValues: {
       name: isUpdatingItem ? recipeToUpdate?.label : '',
-      serving: isUpdatingItem ? recipeToUpdate?.servSize : undefined,
+      serving: isUpdatingItem ? recipeToUpdate?.servSize.toString() : undefined,
       servingUnit: isUpdatingItem ? recipeToUpdate?.servUnit : '',
     },
   });
@@ -52,6 +61,28 @@ export function AddRecipe({
     handleCreateRecipe(formData);
     reset();
   });
+
+  const createHeaderOptions = (): OptionItem[] => {
+    return [
+      {
+        label: 'Add Ingredient',
+        onPress: () => navigation.navigate('FoodsSelectionScreen'),
+      },
+    ];
+  };
+
+  const addRecipeOptions = (id: number): OptionItem[] => {
+    return [
+      {
+        label: 'Remove',
+        onPress: () => removeFoodFromRecipe(id),
+      },
+    ];
+  };
+
+  if (isLoading) {
+    return <ActivityIndicator />; // Add your loading component
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -92,7 +123,7 @@ export function AddRecipe({
               {recipeItems.size} Ingredients
             </Text>
             <OptionsDropdown
-              items={list}
+              items={createHeaderOptions()}
               onChange={selected => {
                 selected.label === 'Add Ingredient' &&
                   navigation.navigate('FoodsSelectionScreen');
@@ -108,10 +139,7 @@ export function AddRecipe({
                 item={item.food}
                 quantity={item.quantity}
                 isEditing={true}
-                onEdit={() => {
-                  /* handle edit */
-                }}
-                onDelete={() => removeFoodFromRecipe(item.food.id)}
+                options={addRecipeOptions(item.food.id)}
               />
             )}
           />

@@ -40,6 +40,7 @@ export function FoodsSelectionScreen({
         selectedFoods={selectedFoods}
         onToggleCheck={food => toggleItem(food)}
         onIngredientPress={food => navigateToFoodDetails(food)}
+        createOptions={() => []}
       />
       <Box>
         <SeparatorBox />

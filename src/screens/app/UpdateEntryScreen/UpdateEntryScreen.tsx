@@ -1,9 +1,14 @@
 import React from 'react';
 
 import {Box, Screen} from '@components';
-import {AppScreenProps, FoodNavigationParams} from '@routes';
+import {
+  AppScreenProps,
+  FoodNavigationParams,
+  RecipeNavigationParams,
+} from '@routes';
 
 import {AddFood} from '../FoodsScreen/tabs/AddFood.tsx';
+import {AddRecipe} from '../RecipesScreen/tabs/AddRecipe.tsx';
 
 export function UpdateEntryScreen({
   route,
@@ -19,13 +24,13 @@ export function UpdateEntryScreen({
             foodToUpdate={item as FoodNavigationParams}
           />
         );
-      // case 'recipe':
-      //   return (
-      //     <AddRecipe
-      //       isUpdatingItem={isUpdatingItem}
-      //       recipeToUpdate={item as RecipeNavigationParams}
-      //     />
-      //   );
+      case 'recipe':
+        return (
+          <AddRecipe
+            isUpdatingItem={isUpdatingItem}
+            recipeToUpdate={item as RecipeNavigationParams}
+          />
+        );
       default:
         return null;
     }
@@ -33,10 +38,7 @@ export function UpdateEntryScreen({
 
   return (
     <Screen canGoBack>
-      <Box style={{paddingHorizontal: -16}}>
-        {/*<AddFood isUpdatingItem={isUpdatingItem} foodToUpdate={item} />*/}
-        {renderContent()}
-      </Box>
+      <Box style={{paddingHorizontal: -16}}>{renderContent()}</Box>
     </Screen>
   );
 }

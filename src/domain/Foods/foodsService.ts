@@ -25,8 +25,9 @@ async function updateFood(params: UpdateFoodParams): Promise<Foods> {
   return foodsAdapter.toFood(updateFoodAPI);
 }
 
-async function archiveFood(foodId: number): Promise<void> {
-  return foodsApi.archiveFood(foodId);
+async function archiveFood(foodId: number): Promise<Foods> {
+  const archivedFoodAPI = await foodsApi.archiveFood(foodId);
+  return foodsAdapter.toFood(archivedFoodAPI);
 }
 
 export const foodsService = {

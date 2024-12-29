@@ -4,6 +4,7 @@ import {Foods, useArchiveFood} from '@domain';
 import {useToastService} from '@services';
 
 import {
+  ActivityIndicator,
   AlertDialog,
   Box,
   CustomTabMenu,
@@ -31,7 +32,7 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
   );
 
   const {showToast} = useToastService();
-  const {archiveFood} = useArchiveFood({
+  const {archiveFood, isPending} = useArchiveFood({
     onSuccess: () => {
       showToast({message: 'Food archived!', type: 'success'});
     },
@@ -79,6 +80,10 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
         return <AddFood />;
     }
   };
+
+  if (isPending) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <ScreenFixedHeader

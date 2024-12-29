@@ -143,15 +143,19 @@ async function updateRecipe(
   return {recipe, recipeItems};
 }
 
-async function archiveRecipe(recipeId: number): Promise<void> {
-  const {error} = await supabaseClient
+async function archiveRecipe(recipeId: number): Promise<RecipesAPI> {
+  const {data, error} = await supabaseClient
     .from('recipes')
     .update({is_archived: true})
-    .eq('id', recipeId);
+    .eq('id', recipeId)
+    .select('*')
+    .single();
 
   if (error) {
     throw new Error(`Failed to archive recipe: ${error.message}`);
   }
+
+  return data;
 }
 
 export const recipesApi = {

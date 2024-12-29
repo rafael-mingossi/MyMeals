@@ -25,8 +25,9 @@ async function updateRecipe(
   return recipesAdapter.toRecipe(recipe, recipeItems);
 }
 
-async function archiveRecipe(recipeId: number): Promise<void> {
-  return recipesApi.archiveRecipe(recipeId);
+async function archiveRecipe(recipeId: number): Promise<Recipe> {
+  const archiveRecipeAPI = await recipesApi.archiveRecipe(recipeId);
+  return recipesAdapter.toRecipe(archiveRecipeAPI);
 }
 
 export const recipesService = {

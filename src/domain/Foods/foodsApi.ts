@@ -37,8 +37,8 @@ async function addFood(foodData: AddFoodParams): Promise<FoodsAPI> {
   const {data, error} = await supabaseClient
     .from('foods')
     .insert(foodData)
-    .select('*')
-    .single();
+    .select('*') ///// This requests the created record to be returned
+    .single(); ////// This ensures a single record is returned
 
   if (error) {
     throw new Error(`Failed to add food: ${error.message}`);
@@ -82,15 +82,23 @@ async function updateFood(foodData: UpdateFoodParams): Promise<FoodsAPI> {
   return data;
 }
 
-async function archiveFood(foodId: number): Promise<void> {
-  const {error} = await supabaseClient
+async function archiveFood(foodId: number): Promise<FoodsAPI> {
+  const {data, error} = await supabaseClient
     .from('foods')
     .update({is_archived: true})
-    .eq('id', foodId);
+    .eq('id', foodId)
+    .select('*')
+    .single();
 
   if (error) {
     throw new Error(`Failed to archive food: ${error.message}`);
   }
+
+  if (!data) {
+    throw new Error('Failed to archive food: No data returned');
+  }
+
+  return data;
 }
 
 export const foodsApi = {

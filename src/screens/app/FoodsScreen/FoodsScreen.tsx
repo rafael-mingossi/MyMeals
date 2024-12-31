@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {Foods, useArchiveFood} from '@domain';
+import {Foods, useArchiveFood, useToggleFavourite} from '@domain';
 import {useToastService} from '@services';
 
 import {
@@ -14,11 +14,8 @@ import {
 import {AppTabScreenProps} from '@routes';
 
 import {AddFood} from './tabs/AddFood.tsx';
+import {FavouriteFoods} from './tabs/FavouriteFoods.tsx';
 import {FoodsList} from './tabs/FoodsList.tsx';
-
-const FavouriteFoods = () => {
-  return <></>;
-};
 
 enum TabScreens {
   ADD_FOOD = 0,
@@ -32,6 +29,8 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
   );
 
   const {showToast} = useToastService();
+  const {toggleFavourite, isPending: isLoadingFav} = useToggleFavourite();
+
   const {archiveFood, isPending} = useArchiveFood({
     onSuccess: () => {
       showToast({message: 'Food archived!', type: 'success'});
@@ -46,6 +45,17 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
       title: 'Archive Food',
       message: `Are you sure you want to archive ${food.label}? It will no longer appear in your foods list but will remain available in your existing meals and recipes.`,
       onConfirm: () => archiveFood(food.id),
+    });
+  };
+
+  const handleToggleFavorite = (userId: string, foodId: number) => {
+    if (!userId) {
+      return;
+    }
+
+    toggleFavourite({
+      userId: userId,
+      foodId: foodId,
     });
   };
 
@@ -64,6 +74,11 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
       {
         label: 'Archive',
         onPress: () => handleArchiveFood(food),
+      },
+      {
+        label: 'Favourite',
+        onPress: () =>
+          isLoadingFav ? () => {} : handleToggleFavorite(food.userId, food.id),
       },
     ];
   };

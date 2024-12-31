@@ -5,7 +5,7 @@ import {favouritesService} from '../favouritesService';
 
 export function useGetFavouriteRecipesByUser(userId: string) {
   const {
-    data: favouriteRecipeIds,
+    data: favouriteRecipes,
     isLoading,
     error,
   } = useQuery<number[], Error>({
@@ -15,7 +15,7 @@ export function useGetFavouriteRecipesByUser(userId: string) {
   });
 
   return {
-    favouriteRecipeIds: favouriteRecipeIds || [],
+    favouriteRecipes: favouriteRecipes || [],
     isLoading,
     error,
   };

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
 
-import {Recipe} from '@domain';
+import {Recipe, useToggleFavourite} from '@domain';
 import {useToastService} from '@services';
 
 import {
@@ -15,6 +14,7 @@ import {AppTabScreenProps} from '@routes';
 import {useArchiveRecipe} from '../../../domain/Recipes/useCases/useArchiveRecipe.ts';
 
 import {AddRecipe} from './tabs/AddRecipe.tsx';
+import {FavouriteRecipes} from './tabs/FavouriteRecipes.tsx';
 import {RecipesList} from './tabs/RecipesList.tsx';
 
 enum TabScreens {
@@ -22,10 +22,6 @@ enum TabScreens {
   MY_RECIPES = 1,
   FAVOURITE_RECIPES = 2,
 }
-
-const FavouriteFoods = () => {
-  return <View>{/* Favourite Foods content */}</View>;
-};
 
 export function RecipesScreen({
   navigation,
@@ -35,6 +31,7 @@ export function RecipesScreen({
   );
 
   const {showToast} = useToastService();
+  const {toggleFavourite, isPending: isLoadingFav} = useToggleFavourite();
   const {archiveRecipe} = useArchiveRecipe({
     onSuccess: () => {
       showToast({message: 'Recipe archived!', type: 'success'});
@@ -49,6 +46,17 @@ export function RecipesScreen({
       title: 'Archive Food',
       message: `Are you sure you want to archive ${recipe.label}? It will no longer appear in your recipes list but will remain available in your existing meals.`,
       onConfirm: () => archiveRecipe(recipe.id),
+    });
+  };
+
+  const handleToggleFavorite = (userId: string, recipeId: number) => {
+    if (!userId) {
+      return;
+    }
+
+    toggleFavourite({
+      userId: userId,
+      recipeId: recipeId,
     });
   };
 
@@ -68,6 +76,13 @@ export function RecipesScreen({
         label: 'Archive',
         onPress: () => handleArchiveRecipe(recipe),
       },
+      {
+        label: 'Favourite',
+        onPress: () =>
+          isLoadingFav
+            ? () => {}
+            : handleToggleFavorite(recipe.userId, recipe.id),
+      },
     ];
   };
 
@@ -78,7 +93,7 @@ export function RecipesScreen({
       case TabScreens.MY_RECIPES:
         return <RecipesList isEditing createOptions={recipeOptions} />;
       case TabScreens.FAVOURITE_RECIPES:
-        return <FavouriteFoods />;
+        return <FavouriteRecipes />;
       default:
         return <AddRecipe />;
     }

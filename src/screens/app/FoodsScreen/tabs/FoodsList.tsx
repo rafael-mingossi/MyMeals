@@ -15,13 +15,12 @@ import {
   Text,
 } from '@components';
 
-interface FoodsListProps {
+export interface FoodsListProps {
   selectedFoods?: Map<number, Foods>;
   onToggleCheck?: (food: Foods) => void;
   isEditing?: boolean;
   onIngredientPress?: (food: Foods) => void;
   hasHorizontalPadding?: boolean;
-  showArchived?: boolean;
   createOptions: (item: Foods) => OptionItem[];
 }
 

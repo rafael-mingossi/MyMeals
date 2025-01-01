@@ -3,6 +3,8 @@ export enum QueryKeys {
   Foods = 'Foods',
   Recipes = 'Recipes',
   Meals = 'Meals',
+  FavouriteFoods = 'FavouriteFoods',
+  FavouriteRecipes = 'FavouriteRecipes',
 }
 
 export interface MutationOptions<TData> {

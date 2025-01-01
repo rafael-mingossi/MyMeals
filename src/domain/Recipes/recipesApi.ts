@@ -47,6 +47,23 @@ async function getRecipesByUser(
   };
 }
 
+async function getRecipesById(
+  recipeIds: number[],
+): Promise<{recipes: RecipesAPI[]}> {
+  const {data, error} = await supabaseClient
+    .from('recipes')
+    .select('*')
+    .in('id', recipeIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch recipes: ${error.message}`);
+  }
+
+  return {
+    recipes: data || [],
+  };
+}
+
 async function createRecipe(recipeData: CreateRecipeParams): Promise<{
   recipe: RecipesAPI;
   recipeItems: RecipeItemsAPI[];
@@ -163,4 +180,5 @@ export const recipesApi = {
   createRecipe,
   updateRecipe,
   archiveRecipe,
+  getRecipesById,
 };

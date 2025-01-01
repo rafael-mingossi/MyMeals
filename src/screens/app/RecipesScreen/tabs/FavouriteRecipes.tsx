@@ -4,22 +4,28 @@ import {FlatList, ListRenderItemInfo} from 'react-native';
 import {
   Recipe,
   useGetFavouriteRecipesByUser,
+  useGetRecipesById,
   useToggleFavourite,
 } from '@domain';
 import {useAuthCredentials} from '@services';
 
-import {Box, Ingredient, OptionItem, Text} from '@components';
+import {
+  ActivityIndicator,
+  Box,
+  Ingredient,
+  OptionItem,
+  Text,
+} from '@components';
 
 export function FavouriteRecipes() {
   const {authCredentials} = useAuthCredentials();
   const {favouriteRecipes} = useGetFavouriteRecipesByUser(
     authCredentials?.session.user.id as string,
   );
-  console.log({favouriteRecipes});
-
-  //TODO: CREATE GET RECIPES BY ID LIKE IN FAV FOODS
 
   const {toggleFavourite, isPending} = useToggleFavourite();
+
+  const {recipes, isLoading} = useGetRecipesById(favouriteRecipes);
 
   const handleToggleFavorite = (userId: string, recipeId: number) => {
     if (!userId) {
@@ -42,6 +48,14 @@ export function FavouriteRecipes() {
     ];
   };
 
+  if (isLoading) {
+    return (
+      <Box flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator />
+      </Box>
+    );
+  }
+
   function renderEmptyItem() {
     return (
       <Box mt={'s16'}>
@@ -62,9 +76,9 @@ export function FavouriteRecipes() {
   }
 
   return (
-    <Box>
+    <Box paddingTop={'s16'}>
       <FlatList
-        data={[]}
+        data={recipes}
         renderItem={renderItems}
         ListEmptyComponent={renderEmptyItem}
       />

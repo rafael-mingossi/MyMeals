@@ -51,14 +51,14 @@ export function Screen({
         }>
         <Box
           style={[{paddingBottom: bottom}, style]}
-          paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
+          paddingHorizontal={noPaddingHorizontal ? undefined : 's10'}
           {...boxProps}>
           <Box
             {...$boxWrapper}
             style={{paddingTop: top}}
-            marginHorizontal={noPaddingHorizontal ? undefined : 's16n'}>
+            marginHorizontal={noPaddingHorizontal ? undefined : 's10n'}>
             <ScreenHeader
-              paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
+              paddingHorizontal={noPaddingHorizontal ? undefined : 's10'}
               HeaderComponent={HeaderComponent}
               canGoBack={canGoBack}
               title={title}

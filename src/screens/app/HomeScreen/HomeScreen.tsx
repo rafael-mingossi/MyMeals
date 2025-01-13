@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 
 import {useGetMealsByUserAndDate} from '@domain';
 import {useAuthCredentials, useCalendar} from '@services';
@@ -14,11 +15,11 @@ import {
   Box,
   ActivityIndicator,
   Text,
-  CalorieRing,
   Surface,
 } from '@components';
 import {AppTabScreenProps} from '@routes';
 
+import {MealsCalBudget} from './components/MealsCalBudget.tsx';
 import {MealsCaloriesTable} from './components/MealsCalTable.tsx';
 
 export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
@@ -36,7 +37,8 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
 
   return (
     <ScreenFixedHeader
-      fixedHeader={false}
+      fixedHeader={true}
+      noPaddingHorizontal
       fixedCalendar={{
         enabled: true,
         component: <CalendarWidget />,
@@ -47,37 +49,32 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
           <ActivityIndicator />
         </Box>
       ) : (
-        <Box>
-          <Surface alignItems={'center'}>
-            <Box alignItems={'center'}>
-              <Text>Calorie Budget</Text>
-              <Text preset={'headingMedium'} color={'bluePrimary'}>
-                2,000
-              </Text>
-            </Box>
-            <CalorieRing
-              currentCalories={
-                macrosCalculations.calculateMealTotals(meals).totalCalories
-              }
-              goalCalories={2000}
-            />
-          </Surface>
-          <Surface>
-            <Box justifyContent={'space-between'} flexDirection={'row'}>
-              <Text>Total Protein:</Text>
-              <Text>
-                {macrosCalculations.calculateMealTotals(meals).totalProtein}{' '}
-                grams
-              </Text>
-            </Box>
-            <Box justifyContent={'space-between'} flexDirection={'row'}>
-              <Text>Total Carbs:</Text>
-              <Text>
-                {macrosCalculations.calculateMealTotals(meals).totalCarbs} grams
-              </Text>
-            </Box>
-          </Surface>
-          <MealsCaloriesTable meals={meals} />
+        <Box flex={1}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{
+              paddingHorizontal: 10,
+              paddingBottom: 10,
+            }}>
+            <MealsCalBudget meals={meals} />
+            <Surface>
+              <Box justifyContent={'space-between'} flexDirection={'row'}>
+                <Text>Total Protein:</Text>
+                <Text>
+                  {macrosCalculations.calculateMealTotals(meals).totalProtein}{' '}
+                  grams
+                </Text>
+              </Box>
+              <Box justifyContent={'space-between'} flexDirection={'row'}>
+                <Text>Total Carbs:</Text>
+                <Text>
+                  {macrosCalculations.calculateMealTotals(meals).totalCarbs}{' '}
+                  grams
+                </Text>
+              </Box>
+            </Surface>
+            <MealsCaloriesTable meals={meals} />
+          </ScrollView>
         </Box>
       )}
       <ButtonFloat onPress={openMenu}>

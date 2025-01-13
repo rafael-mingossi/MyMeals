@@ -95,7 +95,7 @@ export function BottomSheetMenu(props: SheetProps) {
             padding={'s12'}
             borderColor={'borderGray'}>
             <Icon
-              name={'snacks'}
+              name={'snack'}
               size={33}
               onPress={() => navigateToMeals('snack')}
             />

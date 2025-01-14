@@ -1,8 +1,16 @@
 import React from 'react';
+import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {Meal, useGetFoodsByIds, useGetRecipesById} from '@domain';
+import {Foods, Meal, useGetFoodsByIds, useGetRecipesById} from '@domain';
 
-import {ActivityIndicator, Screen, Surface} from '@components';
+import {
+  ActivityIndicator,
+  Box,
+  Ingredient,
+  OptionItem,
+  Screen,
+  Surface,
+} from '@components';
 import {AppScreenProps} from '@routes';
 
 import {MealLineItem} from '../HomeScreen/components/MealsCalTable.tsx';
@@ -47,14 +55,38 @@ export function UpdateMealsScreen({
   const {recipes, isLoading: loadingRecipes} = useGetRecipesById(
     recipeIdsByMealType[route.params.mealType],
   );
+  console.log(recipes);
   const {foods, isLoading: loadingFoods} = useGetFoodsByIds(
     foodIdsByMealType[route.params.mealType],
   );
-  console.log({recipes});
-  console.log({foods});
+
+  const foodOptions = (food: Foods): OptionItem[] => {
+    return [
+      {
+        label: 'Delete',
+        onPress: () => {
+          console.log(food);
+        },
+      },
+    ];
+  };
+
+  function renderItem({item}: ListRenderItemInfo<Foods>) {
+    return (
+      <Ingredient<Foods>
+        item={item}
+        isEditing={true}
+        options={foodOptions(item)}
+      />
+    );
+  }
 
   if (loadingFoods || loadingRecipes) {
-    return <ActivityIndicator />;
+    return (
+      <Box flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator />
+      </Box>
+    );
   }
 
   return (
@@ -65,6 +97,8 @@ export function UpdateMealsScreen({
           meals={route.params.meals}
           showOptions={false}
         />
+        <Box borderBottomWidth={1} borderColor={'background'} />
+        <FlatList data={foods} renderItem={renderItem} scrollEnabled={false} />
       </Surface>
     </Screen>
   );

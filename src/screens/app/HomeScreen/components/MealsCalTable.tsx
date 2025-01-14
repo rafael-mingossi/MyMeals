@@ -34,13 +34,13 @@ export function MealLineItem({
   function dropDownOptions(): OptionItem[] {
     return [
       {
-        label: 'Edit Meals',
+        label: 'Edit Entries',
         onPress: () => {
           navigation.navigate('UpdateMealsScreen', {mealType: type, meals});
         },
       },
       {
-        label: 'Remove Meals',
+        label: 'Remove All Entries',
         onPress: () => {},
       },
     ];

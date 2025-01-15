@@ -17,7 +17,6 @@ export function useCreateMeal(options?: MutationOptions<Meal>) {
       }
     },
     onSuccess: meal => {
-      // Invalidate the query for the specific date when the meal was added
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.Meals, meal.userId, meal.dateAdded],
       });

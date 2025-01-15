@@ -29,7 +29,7 @@ export interface Meal {
   createdAt: string;
   userId: string;
   mealType: MealsTypes;
-  dateAdded: Date;
+  dateAdded: string;
   totalCalories: number;
   totalCarbs: number;
   totalFat: number;

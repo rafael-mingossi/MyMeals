@@ -123,7 +123,7 @@ const iconRegistry = {
   breakfast: BreakfastIcon,
   dinner: DinnerIcon,
   lunch: LunchIcon,
-  snacks: SnacksIcon,
+  snack: SnacksIcon,
 };
 
 export function Icon({

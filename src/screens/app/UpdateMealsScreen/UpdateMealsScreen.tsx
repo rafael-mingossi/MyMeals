@@ -1,7 +1,13 @@
 import React from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {Foods, Meal, useGetFoodsByIds, useGetRecipesById} from '@domain';
+import {
+  Foods,
+  Meal,
+  useDeleteMealItem,
+  useGetFoodsByIds,
+  useGetRecipesById,
+} from '@domain';
 
 import {
   ActivityIndicator,
@@ -55,37 +61,63 @@ export function UpdateMealsScreen({
   const {recipes, isLoading: loadingRecipes} = useGetRecipesById(
     recipeIdsByMealType[route.params.mealType],
   );
-  console.log(recipes);
+  console.log({recipes});
   const {foods, isLoading: loadingFoods} = useGetFoodsByIds(
     foodIdsByMealType[route.params.mealType],
   );
 
-  const foodOptions = (food: Foods): OptionItem[] => {
+  // Add the delete meal item mutation
+  const {mutate: deleteMealItem, isPending: isDeleting} = useDeleteMealItem({
+    onSuccess: () => {
+      // Optional: Add success feedback here
+      console.log('Item deleted successfully');
+    },
+    onError: error => {
+      // Optional: Add error feedback here
+      console.error('Failed to delete item:', error);
+    },
+  });
+
+  // Create a map of foods with their corresponding meal item IDs
+  const foodsWithMealItemIds = React.useMemo(() => {
+    const currentMeals = route.params.meals.filter(
+      meal => meal.mealType === route.params.mealType,
+    );
+
+    return foods.map(food => {
+      const mealItem = currentMeals
+        .flatMap(meal => meal.mealItems || [])
+        .find(item => item.foodId === food.id);
+
+      return {
+        ...food,
+        mealItemId: mealItem?.id,
+      };
+    });
+  }, [foods, route.params.meals, route.params.mealType]);
+
+  const foodOptions = (food: Foods & {mealItemId?: number}): OptionItem[] => {
     return [
       {
         label: 'Delete',
         onPress: () => {
-          console.log(food);
+          if (food.mealItemId) {
+            deleteMealItem(food.mealItemId);
+          }
         },
       },
     ];
   };
 
-  function renderItem({item}: ListRenderItemInfo<Foods>) {
+  function renderItem({
+    item,
+  }: ListRenderItemInfo<Foods & {mealItemId?: number}>) {
     return (
-      <Ingredient<Foods>
+      <Ingredient<Foods & {mealItemId?: number}>
         item={item}
         isEditing={true}
         options={foodOptions(item)}
       />
-    );
-  }
-
-  if (loadingFoods || loadingRecipes) {
-    return (
-      <Box flex={1} justifyContent="center" alignItems="center">
-        <ActivityIndicator />
-      </Box>
     );
   }
 
@@ -98,7 +130,17 @@ export function UpdateMealsScreen({
           showOptions={false}
         />
         <Box borderBottomWidth={1} borderColor={'background'} />
-        <FlatList data={foods} renderItem={renderItem} scrollEnabled={false} />
+        {loadingFoods || loadingRecipes || isDeleting ? (
+          <Box flex={1} justifyContent="center" alignItems="center">
+            <ActivityIndicator />
+          </Box>
+        ) : (
+          <FlatList
+            data={foodsWithMealItemIds}
+            renderItem={renderItem}
+            scrollEnabled={false}
+          />
+        )}
       </Surface>
     </Screen>
   );

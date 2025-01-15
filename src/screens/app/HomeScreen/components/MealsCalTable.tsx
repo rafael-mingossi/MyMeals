@@ -1,10 +1,11 @@
 import React from 'react';
 
-import {Meal, MealsTypes} from '@domain';
+import {Meal, MealsTypes, useDeleteMealsByTypeAndDate} from '@domain';
 import {useNavigation} from '@react-navigation/native';
 import {macrosCalculations} from '@utils';
 
 import {
+  ActivityIndicator,
   Box,
   BoxProps,
   Icon,
@@ -31,22 +32,48 @@ export function MealLineItem({
 }: MealLineItemProps) {
   const navigation = useNavigation();
 
-  function dropDownOptions(): OptionItem[] {
-    return [
-      {
-        label: 'Edit Entries',
-        onPress: () => {
-          navigation.navigate('UpdateMealsScreen', {mealType: type, meals});
-        },
+  const {mutate: deleteMealsByType, isPending: isDeletingAll} =
+    useDeleteMealsByTypeAndDate({
+      onSuccess: () => {
+        console.log('DELETED');
       },
-      {
-        label: 'Remove All Entries',
-        onPress: () => {},
+      onError: () => {
+        console.log('DELETE ALL FAIL');
       },
-    ];
+    });
+
+  const mealOfThisType = meals.find(meal => meal.mealType === type);
+
+  function handleDeleteAllEntries() {
+    if (!mealOfThisType) {
+      return;
+    }
+
+    deleteMealsByType({
+      userId: mealOfThisType.userId,
+      date: mealOfThisType.dateAdded,
+      mealType: type,
+    });
   }
 
-  return (
+  const dropDownOptions: OptionItem[] = [
+    {
+      label: 'Edit Entries',
+      onPress: () => {
+        navigation.navigate('UpdateMealsScreen', {mealType: type, meals});
+      },
+    },
+    {
+      label: 'Remove All Entries',
+      onPress: () => handleDeleteAllEntries(),
+    },
+  ];
+
+  return isDeletingAll ? (
+    <Box flex={1} justifyContent="center" alignItems="center">
+      <ActivityIndicator />
+    </Box>
+  ) : (
     <Box {...$boxWrapper}>
       <Box flexDirection={'row'} columnGap={'s10'} alignItems={'center'}>
         <Icon name={type} size={29} />
@@ -74,13 +101,12 @@ export function MealLineItem({
             alignItems={'center'}
             justifyContent={'center'}>
             <OptionsDropdown
-              items={dropDownOptions()}
+              items={dropDownOptions}
               onChange={selected => {
-                selected.label === 'Edit Meals' &&
-                  navigation.navigate('UpdateMealsScreen', {
-                    mealType: type,
-                    meals,
-                  });
+                const itemSel = dropDownOptions.find(
+                  i => i.label === selected.label,
+                );
+                itemSel?.onPress?.();
               }}
             />
           </Box>

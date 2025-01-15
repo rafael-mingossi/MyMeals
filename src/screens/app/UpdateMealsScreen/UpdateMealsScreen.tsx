@@ -6,8 +6,10 @@ import {
   Meal,
   useDeleteMealItem,
   useGetFoodsByIds,
+  useGetMealsByUserAndDate,
   useGetRecipesById,
 } from '@domain';
+import {useAuthCredentials, useCalendar, useToastService} from '@services';
 
 import {
   ActivityIndicator,
@@ -16,6 +18,7 @@ import {
   OptionItem,
   Screen,
   Surface,
+  Text,
 } from '@components';
 import {AppScreenProps} from '@routes';
 
@@ -24,6 +27,19 @@ import {MealLineItem} from '../HomeScreen/components/MealsCalTable.tsx';
 export function UpdateMealsScreen({
   route,
 }: AppScreenProps<'UpdateMealsScreen'>) {
+  const {showToast} = useToastService();
+  const {authCredentials} = useAuthCredentials();
+  const {dateSelected} = useCalendar();
+
+  const {meals, isLoading} = useGetMealsByUserAndDate(
+    authCredentials?.user.id as string,
+    dateSelected.dateString,
+  );
+
+  const currentMeals = meals.filter(
+    meal => meal.mealType === route.params.mealType,
+  );
+
   const extractIdsByMealType = (
     allMeals: Meal[],
     idType: 'foodId' | 'recipeId',
@@ -52,12 +68,8 @@ export function UpdateMealsScreen({
     }, initialAcc);
   };
 
-  const foodIdsByMealType = extractIdsByMealType(route.params.meals, 'foodId');
-  const recipeIdsByMealType = extractIdsByMealType(
-    route.params.meals,
-    'recipeId',
-  );
-
+  const foodIdsByMealType = extractIdsByMealType(currentMeals, 'foodId');
+  const recipeIdsByMealType = extractIdsByMealType(currentMeals, 'recipeId');
   const {recipes, isLoading: loadingRecipes} = useGetRecipesById(
     recipeIdsByMealType[route.params.mealType],
   );
@@ -69,23 +81,28 @@ export function UpdateMealsScreen({
   // Add the delete meal item mutation
   const {mutate: deleteMealItem, isPending: isDeleting} = useDeleteMealItem({
     onSuccess: () => {
-      // Optional: Add success feedback here
-      console.log('Item deleted successfully');
+      showToast({
+        message: 'Item deleted successfully',
+        type: 'success',
+      });
     },
     onError: error => {
-      // Optional: Add error feedback here
+      showToast({
+        message: error || 'Failed to delete item',
+        type: 'error',
+      });
       console.error('Failed to delete item:', error);
     },
   });
 
   // Create a map of foods with their corresponding meal item IDs
   const foodsWithMealItemIds = React.useMemo(() => {
-    const currentMeals = route.params.meals.filter(
+    const allMeals = currentMeals.filter(
       meal => meal.mealType === route.params.mealType,
     );
 
     return foods.map(food => {
-      const mealItem = currentMeals
+      const mealItem = allMeals
         .flatMap(meal => meal.mealItems || [])
         .find(item => item.foodId === food.id);
 
@@ -94,7 +111,8 @@ export function UpdateMealsScreen({
         mealItemId: mealItem?.id,
       };
     });
-  }, [foods, route.params.meals, route.params.mealType]);
+  }, [foods, currentMeals, route.params.mealType]);
+  console.log({foodsWithMealItemIds});
 
   const foodOptions = (food: Foods & {mealItemId?: number}): OptionItem[] => {
     return [
@@ -126,19 +144,24 @@ export function UpdateMealsScreen({
       <Surface marginTop={'s10'}>
         <MealLineItem
           type={route.params.mealType}
-          meals={route.params.meals}
+          meals={currentMeals}
           showOptions={false}
         />
         <Box borderBottomWidth={1} borderColor={'background'} />
-        {loadingFoods || loadingRecipes || isDeleting ? (
+        {isDeleting || loadingRecipes || loadingFoods || isLoading ? (
           <Box flex={1} justifyContent="center" alignItems="center">
             <ActivityIndicator />
+          </Box>
+        ) : foodsWithMealItemIds.length === 0 ? (
+          <Box flex={1} justifyContent="center" alignItems="center">
+            <Text>No items found</Text>
           </Box>
         ) : (
           <FlatList
             data={foodsWithMealItemIds}
             renderItem={renderItem}
             scrollEnabled={false}
+            keyExtractor={item => `${item.id}`}
           />
         )}
       </Surface>

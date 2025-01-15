@@ -60,7 +60,7 @@ export function MealLineItem({
     {
       label: 'Edit Entries',
       onPress: () => {
-        navigation.navigate('UpdateMealsScreen', {mealType: type, meals});
+        navigation.navigate('UpdateMealsScreen', {mealType: type});
       },
     },
     {

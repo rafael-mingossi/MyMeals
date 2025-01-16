@@ -1,6 +1,7 @@
+import {Recipe, CreateRecipeParams, UpdateRecipeParams} from '@domain';
+
 import {recipesAdapter} from './recipesAdapter';
 import {recipesApi} from './recipesApi';
-import {Recipe, CreateRecipeParams, UpdateRecipeParams} from './RecipesTypes';
 
 async function getRecipesByUser(userId: string): Promise<Recipe[]> {
   const {recipes, recipeItems} = await recipesApi.getRecipesByUser(userId);

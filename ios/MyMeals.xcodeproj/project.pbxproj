@@ -33,6 +33,8 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8DB5DA3D43F67EF0CC5BF964 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		C3C4DC5BD1325585234E19E1 /* libPods-MyMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E725FFCD356012111C2DEB9C /* libPods-MyMeals.a */; };
+		0905747D9606408D889D4E9A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28780A01D614B27B8CC24ED /* BootSplash.storyboard */; };
+		4A7344B4F27C4D93840E4519 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 186B55708B4141409F52BB46 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		E725FFCD356012111C2DEB9C /* libPods-MyMeals.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMeals.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F08025CFD29D4FE17FC338DC /* Pods-MyMeals-MyMealsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals-MyMealsTests.debug.xcconfig"; path = "Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D28780A01D614B27B8CC24ED /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "MyMeals/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		186B55708B4141409F52BB46 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "MyMeals/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,8 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				D28780A01D614B27B8CC24ED /* BootSplash.storyboard */,
+				186B55708B4141409F52BB46 /* Colors.xcassets */,
 			);
 			name = MyMeals;
 			sourceTree = "<group>";
@@ -327,6 +333,8 @@
 				5365E5D52CEAF75100778407 /* Switzer-Light.otf in Resources */,
 				5365E5D62CEAF75100778407 /* Switzer-Regular.otf in Resources */,
 				5365E5D72CEAF75100778407 /* Switzer-Extralight.otf in Resources */,
+				0905747D9606408D889D4E9A /* BootSplash.storyboard in Resources */,
+				4A7344B4F27C4D93840E4519 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +560,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MyMeals/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyMeals;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -579,6 +588,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MyMeals/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyMeals;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

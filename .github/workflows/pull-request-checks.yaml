@@ -1,0 +1,37 @@
+name: Pull Request Checks
+
+on:
+  workflow_dispatch:
+
+  workflow_call:
+
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  pull-request-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Check Yarn files
+        run: ls -la .yarn/releases || echo ".yarn/releases directory does not exist"
+
+      - name: Install Packages
+        run: yarn install
+
+      - name: Run Lint
+        run: yarn lint
+
+      - name: Run TS compiler
+        run: yarn tsc --noEmit
+
+      - name: Run test
+        run: yarn test

@@ -1,9 +1,11 @@
 // import {useEffect} from 'react';
 
 // import {useAuthCredentials, useShowOnboarding} from '@services';
+import {useEffect} from 'react';
+
 import {useAuthCredentials} from '@services';
 
-// import {settingsService} from '../services/settings/settingsService.ts';
+import {settingsService} from '../services/settings/settingsService.ts';
 
 export type Stacks = 'Loading' | 'Auth' | 'App';
 
@@ -11,11 +13,11 @@ export function useRouter(): Stacks {
   // const showOnboarding = useShowOnboarding();
   const {authCredentials, isLoading} = useAuthCredentials();
 
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     settingsService.hideSplashScreen();
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    if (!isLoading) {
+      settingsService.hideSplashScreen();
+    }
+  }, [isLoading]);
 
   if (isLoading) {
     return 'Loading';

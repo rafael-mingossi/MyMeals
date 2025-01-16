@@ -32,7 +32,7 @@ interface Totals {
 
 interface MealTotals extends Omit<CalculatedRecipeMacros, 'servSize'> {}
 
-interface CaloriesByMeals {
+export interface CaloriesByMeals {
   breakfast: number;
   lunch: number;
   dinner: number;

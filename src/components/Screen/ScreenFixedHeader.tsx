@@ -177,7 +177,7 @@ export function ScreenFixedHeader({
         >
           <Box
             flex={1}
-            paddingHorizontal={noPaddingHorizontal ? undefined : 's16'}
+            paddingHorizontal={noPaddingHorizontal ? undefined : 's10'}
             {...boxProps}>
             {children}
           </Box>

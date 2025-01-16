@@ -1,6 +1,6 @@
 import {mealsAdapter} from './mealsAdapter';
 import {mealsApi} from './mealsApi';
-import {Meal, CreateMealParams} from './mealsTypes';
+import {Meal, CreateMealParams, MealsTypes} from './mealsTypes';
 
 async function getMealsByUserAndDate(
   userId: string,
@@ -18,7 +18,24 @@ async function createMeal(params: CreateMealParams): Promise<Meal> {
   return mealsAdapter.toMeal(meal, mealItems);
 }
 
+async function deleteMealsByTypeAndDate(
+  userId: string,
+  date: string,
+  mealType: MealsTypes,
+): Promise<void> {
+  return mealsApi.deleteMealsByTypeAndDate(userId, date, mealType);
+}
+
+async function deleteMealItem(
+  mealItemId: number,
+): Promise<{userId: string; dateAdded: string}> {
+  return mealsApi.deleteMealItem(mealItemId);
+}
+
+// Update the mealsService export
 export const mealsService = {
   getMealsByUserAndDate,
   createMeal,
+  deleteMealsByTypeAndDate,
+  deleteMealItem,
 };

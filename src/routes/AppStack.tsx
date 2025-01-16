@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Meal, MealsTypes} from '@domain';
+import {MealsTypes} from '@domain';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -30,7 +30,7 @@ export type AppStackParamsList = {
   UpdateEntryScreen: UpdateEntryScreenParams<
     FoodNavigationParams | RecipeNavigationParams
   >;
-  UpdateMealsScreen: {mealType: MealsTypes; meals: Meal[]};
+  UpdateMealsScreen: {mealType: MealsTypes};
 };
 
 const Stack = createNativeStackNavigator<AppStackParamsList>();

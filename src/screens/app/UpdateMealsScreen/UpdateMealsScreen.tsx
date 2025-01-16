@@ -4,10 +4,13 @@ import {FlatList, ListRenderItemInfo} from 'react-native';
 import {
   Foods,
   Meal,
+  Recipe,
   useDeleteMealItem,
   useGetFoodsByIds,
+  useGetMealsByUserAndDate,
   useGetRecipesById,
 } from '@domain';
+import {useAuthCredentials, useCalendar, useToastService} from '@services';
 
 import {
   ActivityIndicator,
@@ -16,14 +19,33 @@ import {
   OptionItem,
   Screen,
   Surface,
+  Text,
 } from '@components';
 import {AppScreenProps} from '@routes';
 
 import {MealLineItem} from '../HomeScreen/components/MealsCalTable.tsx';
 
+type CombinedItem = (Foods | Recipe) & {
+  mealItemId?: number;
+  quantity?: number;
+};
+
 export function UpdateMealsScreen({
   route,
 }: AppScreenProps<'UpdateMealsScreen'>) {
+  const {showToast} = useToastService();
+  const {authCredentials} = useAuthCredentials();
+  const {dateSelected} = useCalendar();
+
+  const {meals, isLoading} = useGetMealsByUserAndDate(
+    authCredentials?.user.id as string,
+    dateSelected.dateString,
+  );
+
+  const currentMeals = meals.filter(
+    meal => meal.mealType === route.params.mealType,
+  );
+
   const extractIdsByMealType = (
     allMeals: Meal[],
     idType: 'foodId' | 'recipeId',
@@ -52,72 +74,101 @@ export function UpdateMealsScreen({
     }, initialAcc);
   };
 
-  const foodIdsByMealType = extractIdsByMealType(route.params.meals, 'foodId');
-  const recipeIdsByMealType = extractIdsByMealType(
-    route.params.meals,
-    'recipeId',
-  );
-
-  const {recipes, isLoading: loadingRecipes} = useGetRecipesById(
+  const foodIdsByMealType = extractIdsByMealType(currentMeals, 'foodId');
+  const recipeIdsByMealType = extractIdsByMealType(currentMeals, 'recipeId');
+  const {recipes} = useGetRecipesById(
     recipeIdsByMealType[route.params.mealType],
   );
-  console.log({recipes});
-  const {foods, isLoading: loadingFoods} = useGetFoodsByIds(
-    foodIdsByMealType[route.params.mealType],
-  );
+  const {foods} = useGetFoodsByIds(foodIdsByMealType[route.params.mealType]);
 
-  // Add the delete meal item mutation
   const {mutate: deleteMealItem, isPending: isDeleting} = useDeleteMealItem({
     onSuccess: () => {
-      // Optional: Add success feedback here
-      console.log('Item deleted successfully');
+      showToast({
+        message: 'Item deleted successfully',
+        type: 'success',
+      });
     },
     onError: error => {
-      // Optional: Add error feedback here
+      showToast({
+        message: error || 'Failed to delete item',
+        type: 'error',
+      });
       console.error('Failed to delete item:', error);
     },
   });
 
-  // Create a map of foods with their corresponding meal item IDs
-  const foodsWithMealItemIds = React.useMemo(() => {
-    const currentMeals = route.params.meals.filter(
+  // Combine foods and recipes with their meal item information
+  const combinedItems = React.useMemo(() => {
+    const allMeals = currentMeals.filter(
       meal => meal.mealType === route.params.mealType,
     );
 
-    return foods.map(food => {
-      const mealItem = currentMeals
+    // Process foods
+    const foodItems = foods.map(food => {
+      const mealItem = allMeals
         .flatMap(meal => meal.mealItems || [])
         .find(item => item.foodId === food.id);
 
       return {
         ...food,
         mealItemId: mealItem?.id,
+        quantity: mealItem?.foodQuantity,
+        type: 'food' as const,
       };
     });
-  }, [foods, route.params.meals, route.params.mealType]);
 
-  const foodOptions = (food: Foods & {mealItemId?: number}): OptionItem[] => {
+    // Process recipes
+    const recipeItems = recipes.map(recipe => {
+      const mealItem = allMeals
+        .flatMap(meal => meal.mealItems || [])
+        .find(item => item.recipeId === recipe.id);
+
+      return {
+        ...recipe,
+        mealItemId: mealItem?.id,
+        quantity: mealItem?.recipeQuantity,
+        type: 'recipe' as const,
+      };
+    });
+
+    // Combine and sort by meal item ID to maintain order
+    return [...foodItems, ...recipeItems].sort((a, b) => {
+      if (!a.mealItemId || !b.mealItemId) {
+        return 0;
+      }
+      return a.mealItemId - b.mealItemId;
+    });
+  }, [foods, recipes, currentMeals, route.params.mealType]);
+
+  const getItemOptions = (item: CombinedItem): OptionItem[] => {
     return [
       {
         label: 'Delete',
         onPress: () => {
-          if (food.mealItemId) {
-            deleteMealItem(food.mealItemId);
+          if (item.mealItemId) {
+            deleteMealItem(item.mealItemId);
           }
         },
       },
     ];
   };
 
-  function renderItem({
-    item,
-  }: ListRenderItemInfo<Foods & {mealItemId?: number}>) {
+  function renderItem({item}: ListRenderItemInfo<CombinedItem>) {
     return (
-      <Ingredient<Foods & {mealItemId?: number}>
+      <Ingredient<CombinedItem>
         item={item}
         isEditing={true}
-        options={foodOptions(item)}
+        options={getItemOptions(item)}
+        quantity={item.quantity}
       />
+    );
+  }
+
+  function renderEmptyList() {
+    return (
+      <Box flex={1} justifyContent="center" alignItems="center">
+        <Text>No items found</Text>
+      </Box>
     );
   }
 
@@ -126,19 +177,21 @@ export function UpdateMealsScreen({
       <Surface marginTop={'s10'}>
         <MealLineItem
           type={route.params.mealType}
-          meals={route.params.meals}
+          meals={currentMeals}
           showOptions={false}
         />
         <Box borderBottomWidth={1} borderColor={'background'} />
-        {loadingFoods || loadingRecipes || isDeleting ? (
+        {isDeleting || isLoading ? (
           <Box flex={1} justifyContent="center" alignItems="center">
             <ActivityIndicator />
           </Box>
         ) : (
           <FlatList
-            data={foodsWithMealItemIds}
+            data={combinedItems}
             renderItem={renderItem}
             scrollEnabled={false}
+            ListEmptyComponent={renderEmptyList}
+            keyExtractor={item => `${item.type}-${item.id}`}
           />
         )}
       </Surface>

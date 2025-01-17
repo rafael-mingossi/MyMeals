@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.mymeals"
+    namespace "com.mingossi.mymealsapp"
     defaultConfig {
-        applicationId "com.mymeals"
+        applicationId "com.mingossi.mymealsapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -92,6 +92,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('upload.jks')
+            storePassword System.getenv('MYMEALS_STORE_PASSWORD')
+            keyAlias System.getenv('MYMEALS_ALIAS_PASSWORD')
+            keyPassword System.getenv('MYMEALS_KEY_PASSWORD')
+        }
     }
     buildTypes {
         debug {
@@ -100,7 +106,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

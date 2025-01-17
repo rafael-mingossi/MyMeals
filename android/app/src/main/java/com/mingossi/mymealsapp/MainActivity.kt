@@ -1,4 +1,4 @@
-package com.mymeals
+package com.mingossi.mymealsapp
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

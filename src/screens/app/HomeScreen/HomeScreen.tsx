@@ -3,7 +3,7 @@ import {ScrollView} from 'react-native';
 
 import {useGetMealsByUserAndDate} from '@domain';
 import {useAuthCredentials, useCalendar} from '@services';
-import {macrosCalculations} from '@utils';
+import {calcMealTotals} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {
@@ -61,15 +61,13 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
               <Box justifyContent={'space-between'} flexDirection={'row'}>
                 <Text>Total Protein:</Text>
                 <Text>
-                  {macrosCalculations.calculateMealTotals(meals).totalProtein}{' '}
-                  grams
+                  {calcMealTotals.calculateMealTotals(meals).totalProtein} grams
                 </Text>
               </Box>
               <Box justifyContent={'space-between'} flexDirection={'row'}>
                 <Text>Total Carbs:</Text>
                 <Text>
-                  {macrosCalculations.calculateMealTotals(meals).totalCarbs}{' '}
-                  grams
+                  {calcMealTotals.calculateMealTotals(meals).totalCarbs} grams
                 </Text>
               </Box>
             </Surface>

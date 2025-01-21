@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useMealItems} from '@services';
-import {macrosCalculations} from '@utils';
+import {calcRecipeMacros} from '@utils';
 import {useForm, useWatch} from 'react-hook-form';
 
 import {
@@ -47,7 +47,7 @@ export function RecipeDetailsScreen({
   });
 
   const calculatedValues = useMemo(
-    () => macrosCalculations.calculateRecipeMacros(item, quantity),
+    () => calcRecipeMacros.calculateRecipeMacros(item, quantity),
     [quantity, item],
   );
 

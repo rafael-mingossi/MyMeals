@@ -8,7 +8,7 @@ import {
   useMealItems,
   useToastService,
 } from '@services';
-import {macrosCalculations} from '@utils';
+import {calculateMealItemTotals} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 export function useCreateMealHook(mealType: MealsTypes) {
@@ -34,7 +34,7 @@ export function useCreateMealHook(mealType: MealsTypes) {
 
   const handleCreateMeal = useCallback(() => {
     const selectedItems = getMealItems();
-    const totals = macrosCalculations.calculateTotals(selectedItems);
+    const totals = calculateMealItemTotals.calculateTotals(selectedItems);
 
     if (!authCredentials) {
       return;

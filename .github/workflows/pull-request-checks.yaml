@@ -33,5 +33,5 @@ jobs:
       - name: Run TS compiler
         run: yarn tsc --noEmit
 
-#      - name: Run test
-#        run: yarn test
+      - name: Run test
+        run: yarn test

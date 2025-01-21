@@ -5,7 +5,7 @@ import {Foods, Recipe} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useNavigation} from '@react-navigation/native';
 import {useRecipeItems, useRecipeListService} from '@services';
-import {macrosCalculations} from '@utils';
+import {calcRecipeTotals} from '@utils';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -83,7 +83,7 @@ export function AddRecipe({
   if (isLoading) {
     return <ActivityIndicator />; // Add your loading component
   }
-
+  console.log({recipeItems});
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Box rowGap="s20">
@@ -151,7 +151,7 @@ export function AddRecipe({
             Recipe Totals
           </Text>
           <NutritionalInfo
-            values={macrosCalculations.recipeTotals(recipeItems)}
+            values={calcRecipeTotals.recipeTotals(recipeItems)}
           />
         </Box>
       </Box>

@@ -1,9 +1,20 @@
 import React from 'react';
 
-import {useAuthSignOut} from '@domain';
-import {useSettingsService, useThemePreference} from '@services';
+import {useAuthSignOut, useGetUserById} from '@domain';
+import {
+  useAuthCredentials,
+  useSettingsService,
+  useThemePreference,
+} from '@services';
 
-import {Button, RadioButtonSelector, ScreenFixedHeader} from '@components';
+import {
+  ActivityIndicator,
+  Box,
+  Button,
+  RadioButtonSelector,
+  ScreenFixedHeader,
+  Text,
+} from '@components';
 
 type ThemePreference = 'light' | 'dark' | 'system';
 
@@ -32,6 +43,13 @@ const items: Option[] = [
 export function MeScreen() {
   const themePreference = useThemePreference();
   const {setThemePreference} = useSettingsService();
+  const {authCredentials} = useAuthCredentials();
+
+  const {user, isLoading: loadingUser} = useGetUserById(
+    authCredentials?.user.id as string,
+  );
+
+  console.log({user});
 
   const selectedItem = items.find(
     item => item.themePreference === themePreference,
@@ -44,6 +62,14 @@ export function MeScreen() {
   const {isLoading, signOut} = useAuthSignOut({
     onSuccess: () => console.log('SIGN OUT COMPLETE'),
   });
+
+  if (loadingUser) {
+    return (
+      <Box flex={1} justifyContent="center" alignItems="center">
+        <ActivityIndicator />
+      </Box>
+    );
+  }
 
   return (
     <ScreenFixedHeader title="Profile" fixedHeader={true}>
@@ -61,6 +87,7 @@ export function MeScreen() {
         onPress={signOut}
         mt="s32"
       />
+      <Text>{user?.carbsGoal}</Text>
     </ScreenFixedHeader>
   );
 }

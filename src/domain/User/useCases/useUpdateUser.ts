@@ -1,13 +1,13 @@
-import {Foods, UpdateFoodParams} from '@domain';
+import {UpdateUserParams, User} from '@domain';
 import {MutationOptions, QueryKeys} from '@infra';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
-import {foodsService} from '../foodsService.ts';
+import {userService} from '../userService.ts';
 
-export function useUpdateFood(options?: MutationOptions<Foods>) {
+export function useUpdateUser(options: MutationOptions<User>) {
   const queryClient = useQueryClient();
-  const {mutate, isPending} = useMutation<Foods, Error, UpdateFoodParams>({
-    mutationFn: params => foodsService.updateFood(params),
+  const {mutate, isPending} = useMutation<User, Error, UpdateUserParams>({
+    mutationFn: params => userService.updateUser(params),
     retry: false,
     onError: error => {
       console.log(error);
@@ -15,12 +15,12 @@ export function useUpdateFood(options?: MutationOptions<Foods>) {
         options.onError(error.message);
       }
     },
-    onSuccess: food => {
+    onSuccess: user => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Foods, {userId: food.userId}],
+        queryKey: [QueryKeys.User, user.id],
       });
       if (options?.onSuccess) {
-        options.onSuccess(food);
+        options.onSuccess(user);
       }
     },
   });

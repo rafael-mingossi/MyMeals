@@ -1,6 +1,6 @@
 // Get user details by user
 import {supabaseClient} from '@api';
-import {UserAPI} from '@domain';
+import {UpdateUserParams, UserAPI} from '@domain';
 
 async function getUserDetailsById(userId: string): Promise<UserAPI> {
   const {data, error} = await supabaseClient
@@ -17,6 +17,36 @@ async function getUserDetailsById(userId: string): Promise<UserAPI> {
 }
 
 // Update user details
+async function updateUser(userData: UpdateUserParams): Promise<UserAPI> {
+  const {data, error} = await supabaseClient
+    .from('profiles')
+    .update({
+      username: userData.username,
+      fullName: userData.full_name,
+      avatarUrl: userData.avatar_url,
+      dob: userData.dob,
+      gender: userData.gender,
+      height: userData.height,
+      weight: userData.weight,
+      calGoal: userData.cal_goal,
+      proteinGoal: userData.protein_goal,
+      carbsGoal: userData.carbs_goal,
+      fatGoal: userData.fat_goal,
+    })
+    .eq('id', userData.id)
+    .select('*')
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to update food: ${error.message}`);
+  }
+
+  if (!data) {
+    throw new Error('Failed to update food: No data returned');
+  }
+
+  return data;
+}
 
 // Delete user account
 async function deleteUserById(userId: string): Promise<void> {
@@ -54,4 +84,5 @@ async function deleteUserById(userId: string): Promise<void> {
 export const userApi = {
   getUserDetailsById,
   deleteUserById,
+  updateUser,
 };

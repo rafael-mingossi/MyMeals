@@ -16,7 +16,6 @@ export function useDeleteUser() {
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.User],
       });
-      // You might want to trigger a sign-out here
     },
   });
 

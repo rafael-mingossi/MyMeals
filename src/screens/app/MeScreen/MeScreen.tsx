@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 
 import {useAuthSignOut, useDeleteUser, useGetUserById} from '@domain';
 import {
@@ -12,8 +13,10 @@ import {
   AlertDialog,
   Box,
   Button,
+  Icon,
   RadioButtonSelector,
   ScreenFixedHeader,
+  Surface,
   Text,
 } from '@components';
 
@@ -93,28 +96,108 @@ export function MeScreen() {
 
   return (
     <ScreenFixedHeader title="Profile" fixedHeader={true}>
-      <RadioButtonSelector
-        items={items}
-        selectedItem={selectedItem}
-        onSelect={setSelectedItem}
-        labelKey="label"
-        valueKey="themePreference"
-        descriptionKey="description"
-      />
-      <Text>{user?.fullName}</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Box
+          alignItems={'center'}
+          justifyContent={'center'}
+          marginVertical={'s32'}>
+          <Box borderWidth={1} borderRadius={'s100'} padding={'s12'}>
+            <Icon name={'avatarFill'} size={60} />
+          </Box>
+          <Text font={'semiBold'} preset={'headingMedium'} marginTop={'s12'}>
+            {user?.fullName}
+          </Text>
+          <Text>{user?.username || 'Username'}</Text>
+          <Button
+            title={'Edit Profile'}
+            onPress={() => {}}
+            mt="s20"
+            preset={'white'}
+          />
+        </Box>
+        <Box
+          borderBottomWidth={1}
+          borderColor={'backgroundContrast'}
+          marginVertical={'s4'}>
+          <Text preset={'headingSmall'} paddingBottom={'s4'}>
+            User Details
+          </Text>
+        </Box>
+        <Surface>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Date of Birth:</Text>
+            <Text>{user?.dob || 'N/A'}</Text>
+          </Box>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Height:</Text>
+            <Text>{user?.height || 'N/A'}</Text>
+          </Box>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Weight:</Text>
+            <Text>{user?.weight || 'N/A'}</Text>
+          </Box>
+        </Surface>
+        <Box
+          borderBottomWidth={1}
+          borderColor={'backgroundContrast'}
+          marginTop={'s24'}
+          marginBottom={'s4'}>
+          <Text preset={'headingSmall'} paddingBottom={'s4'}>
+            User Goals
+          </Text>
+        </Box>
+        <Surface>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Calories:</Text>
+            <Text>{user?.calGoal || 'N/A'}</Text>
+          </Box>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Protein:</Text>
+            <Text>{user?.proteinGoal || 'N/A'}</Text>
+          </Box>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Carbs:</Text>
+            <Text>{user?.carbsGoal || 'N/A'}</Text>
+          </Box>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Text>Fat:</Text>
+            <Text>{user?.fatGoal || 'N/A'}</Text>
+          </Box>
+        </Surface>
+        <Box
+          borderBottomWidth={1}
+          borderColor={'backgroundContrast'}
+          marginTop={'s24'}
+          marginBottom={'s4'}>
+          <Text preset={'headingSmall'} paddingBottom={'s4'}>
+            Dark Mode
+          </Text>
+        </Box>
+        <Surface>
+          <RadioButtonSelector
+            items={items}
+            selectedItem={selectedItem}
+            onSelect={setSelectedItem}
+            labelKey="label"
+            valueKey="themePreference"
+            descriptionKey="description"
+          />
+        </Surface>
 
-      <Button
-        title={'Log out'}
-        disabled={isLoading || isPending}
-        onPress={signOut}
-        mt="s32"
-      />
-      <Button
-        title={'Delete Account'}
-        disabled={isLoading || isPending}
-        onPress={deleteUserDialog}
-        mt="s32"
-      />
+        <Button
+          title={'Log out'}
+          disabled={isLoading || isPending}
+          onPress={signOut}
+          mt="s32"
+        />
+        <Button
+          title={'Delete Account'}
+          backgroundColor={'red'}
+          disabled={isLoading || isPending}
+          onPress={deleteUserDialog}
+          mt="s32"
+        />
+      </ScrollView>
     </ScreenFixedHeader>
   );
 }

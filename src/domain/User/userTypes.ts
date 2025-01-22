@@ -29,3 +29,5 @@ export interface User {
   carbsGoal: number;
   fatGoal: number;
 }
+
+export type UpdateUserParams = Omit<UserAPI, 'updated_at'>;

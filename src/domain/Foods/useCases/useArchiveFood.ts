@@ -7,7 +7,7 @@ import {Foods} from '../foodsTypes.ts';
 export function useArchiveFood(options?: MutationOptions<Foods>) {
   const queryClient = useQueryClient();
 
-  const {mutate: archiveFood, isPending} = useMutation<Foods, unknown, number>({
+  const {mutate: archiveFood, isPending} = useMutation<Foods, Error, number>({
     mutationFn: foodId => foodsService.archiveFood(foodId),
     onSuccess: food => {
       queryClient.invalidateQueries({
@@ -20,7 +20,7 @@ export function useArchiveFood(options?: MutationOptions<Foods>) {
     onError: error => {
       console.log(error);
       if (options?.onError) {
-        //TODO: ERROR
+        options.onError(error.message);
       }
     },
   });

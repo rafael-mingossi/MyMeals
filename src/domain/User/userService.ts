@@ -8,6 +8,11 @@ async function getUserById(userId: string): Promise<User> {
   return userAdapter.toUser(userAPI);
 }
 
+async function deleteUser(userId: string): Promise<void> {
+  return userApi.deleteUserById(userId);
+}
+
 export const userService = {
   getUserById,
+  deleteUser,
 };

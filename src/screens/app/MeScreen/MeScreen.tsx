@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useAuthSignOut, useGetUserById} from '@domain';
+import {useAuthSignOut, useDeleteUser, useGetUserById} from '@domain';
 import {
   useAuthCredentials,
   useSettingsService,
@@ -9,6 +9,7 @@ import {
 
 import {
   ActivityIndicator,
+  AlertDialog,
   Box,
   Button,
   RadioButtonSelector,
@@ -49,8 +50,6 @@ export function MeScreen() {
     authCredentials?.user.id as string,
   );
 
-  console.log({user});
-
   const selectedItem = items.find(
     item => item.themePreference === themePreference,
   );
@@ -59,9 +58,30 @@ export function MeScreen() {
     setThemePreference(item.themePreference);
   }
 
-  const {isLoading, signOut} = useAuthSignOut({
+  const {deleteUser, isPending} = useDeleteUser();
+  const {signOut, isLoading} = useAuthSignOut({
     onSuccess: () => console.log('SIGN OUT COMPLETE'),
   });
+
+  const handleDeleteAccount = () => {
+    if (authCredentials?.user.id) {
+      try {
+        deleteUser(authCredentials.user.id);
+        signOut();
+      } catch (error) {
+        console.error('Failed to delete account:', error);
+      }
+    }
+  };
+
+  const deleteUserDialog = () => {
+    AlertDialog({
+      title: 'Delete your account',
+      message:
+        'This will delete your user permanently, do you want to proceed?',
+      onConfirm: () => handleDeleteAccount(),
+    });
+  };
 
   if (loadingUser) {
     return (
@@ -81,13 +101,20 @@ export function MeScreen() {
         valueKey="themePreference"
         descriptionKey="description"
       />
+      <Text>{user?.fullName}</Text>
+
       <Button
         title={'Log out'}
-        disabled={isLoading}
+        disabled={isLoading || isPending}
         onPress={signOut}
         mt="s32"
       />
-      <Text>{user?.carbsGoal}</Text>
+      <Button
+        title={'Delete Account'}
+        disabled={isLoading || isPending}
+        onPress={deleteUserDialog}
+        mt="s32"
+      />
     </ScreenFixedHeader>
   );
 }

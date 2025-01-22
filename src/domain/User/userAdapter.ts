@@ -11,7 +11,7 @@ function toUser(user: UserAPI): User {
     gender: user.gender,
     height: user.height,
     weight: user.weight,
-    calGol: user.cal_gol,
+    calGoal: user.cal_goal,
     proteinGoal: user.protein_goal,
     carbsGoal: user.carbs_goal,
     fatGoal: user.fat_goal,

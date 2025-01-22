@@ -8,7 +8,7 @@ export interface UserAPI {
   gender: string;
   height: number;
   weight: number;
-  cal_gol: number;
+  cal_goal: number;
   protein_goal: number;
   carbs_goal: number;
   fat_goal: number;
@@ -24,7 +24,7 @@ export interface User {
   gender: string;
   height: number;
   weight: number;
-  calGol: number;
+  calGoal: number;
   proteinGoal: number;
   carbsGoal: number;
   fatGoal: number;

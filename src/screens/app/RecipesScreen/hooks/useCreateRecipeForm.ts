@@ -1,12 +1,22 @@
 import {useEffect, useMemo} from 'react';
 
-// eslint-disable-next-line import/order
 import {
   Recipe,
   useCreateRecipe,
   useGetFoodsByIds,
   useUpdateRecipe,
 } from '@domain';
+import {useNavigation} from '@react-navigation/native';
+import {
+  useAuthCredentials,
+  useRecipeItems,
+  useRecipeListService,
+  useToastService,
+} from '@services';
+import {calcRecipeTotals} from '@utils';
+
+import {AddRecipeForm} from '../tabs/AddRecipe.tsx';
+
 
 export function useCreateRecipeForm(
   isUpdatingItem = false,
@@ -77,7 +87,7 @@ export function useCreateRecipeForm(
       return;
     }
 
-    const totals = macrosCalculations.recipeTotals(recipeItems);
+    const totals = calcRecipeTotals.recipeTotals(recipeItems);
 
     const recipeItemsList = Array.from(recipeItems.values()).map(item => ({
       food_id: item.food.id,
@@ -122,14 +132,3 @@ export function useCreateRecipeForm(
     isLoading: isFoodsLoading,
   };
 }
-
-import {useNavigation} from '@react-navigation/native';
-import {
-  useAuthCredentials,
-  useRecipeItems,
-  useRecipeListService,
-  useToastService,
-} from '@services';
-import {macrosCalculations} from '@utils';
-
-import {AddRecipeForm} from '../tabs/AddRecipe.tsx';

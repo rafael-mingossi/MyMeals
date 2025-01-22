@@ -32,7 +32,6 @@ export function RecipeDetailsScreen({
   const mealType = route?.params.mealType;
 
   const {toggleMealItem} = useMealItems();
-
   const {control, formState, handleSubmit} = useForm<RecipeDetailsSchema>({
     resolver: zodResolver(recipeDetailsSchema),
     defaultValues: {

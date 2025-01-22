@@ -83,7 +83,6 @@ export function AddRecipe({
   if (isLoading) {
     return <ActivityIndicator />; // Add your loading component
   }
-  console.log({recipeItems});
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Box rowGap="s20">

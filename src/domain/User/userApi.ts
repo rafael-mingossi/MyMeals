@@ -20,24 +20,34 @@ async function getUserDetailsById(userId: string): Promise<UserAPI> {
 
 // Delete user account
 async function deleteUserById(userId: string): Promise<void> {
-  // Delete from profiles table
-  const {error} = await supabaseClient
-    .from('profiles')
-    .delete()
-    .eq('id', userId);
+  try {
+    console.log('Starting user deletion process for ID:', userId);
 
-  if (error) {
-    throw new Error(`Failed to delete user profile: ${error.message}`);
-  }
+    // Delete profile (this will cascade to all related data)
+    const {error: profileError} = await supabaseClient
+      .from('profiles')
+      .delete()
+      .eq('id', userId);
 
-  // Delete from auth.users (Supabase authentication)
-  const {error: authDeleteError} =
-    await supabaseClient.auth.admin.deleteUser(userId);
+    if (profileError) {
+      console.log('Profile deletion error:', profileError);
+      throw new Error(`Failed to delete user profile: ${profileError.message}`);
+    }
 
-  if (authDeleteError) {
-    throw new Error(
-      `Failed to delete user authentication: ${authDeleteError.message}`,
+    // Delete auth user through Edge Function
+    const {error: authError} = await supabaseClient.functions.invoke(
+      'delete-user',
+      {
+        body: {userId},
+      },
     );
+
+    if (authError) {
+      throw new Error(`Failed to delete user authentication: ${authError}`);
+    }
+  } catch (error) {
+    console.log('Error in deleteUserById:', error);
+    throw error;
   }
 }
 

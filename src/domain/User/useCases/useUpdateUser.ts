@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 import {userService} from '../userService.ts';
 
-export function useUpdateUser(options: MutationOptions<User>) {
+export function useUpdateUser(options?: MutationOptions<User>) {
   const queryClient = useQueryClient();
   const {mutate, isPending} = useMutation<User, Error, UpdateUserParams>({
     mutationFn: params => userService.updateUser(params),

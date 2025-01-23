@@ -1,4 +1,3 @@
-// Get user details by user
 import {supabaseClient} from '@api';
 import {UpdateUserParams, UserAPI} from '@domain';
 
@@ -20,29 +19,17 @@ async function getUserDetailsById(userId: string): Promise<UserAPI> {
 async function updateUser(userData: UpdateUserParams): Promise<UserAPI> {
   const {data, error} = await supabaseClient
     .from('profiles')
-    .update({
-      username: userData.username,
-      fullName: userData.full_name,
-      avatarUrl: userData.avatar_url,
-      dob: userData.dob,
-      gender: userData.gender,
-      height: userData.height,
-      weight: userData.weight,
-      calGoal: userData.cal_goal,
-      proteinGoal: userData.protein_goal,
-      carbsGoal: userData.carbs_goal,
-      fatGoal: userData.fat_goal,
-    })
+    .update(userData)
     .eq('id', userData.id)
     .select('*')
     .single();
 
   if (error) {
-    throw new Error(`Failed to update food: ${error.message}`);
+    throw new Error(`Failed to update user: ${error.message}`);
   }
 
   if (!data) {
-    throw new Error('Failed to update food: No data returned');
+    throw new Error('Failed to update user: No data returned');
   }
 
   return data;

@@ -7,6 +7,7 @@ import {
   useSettingsService,
   useThemePreference,
 } from '@services';
+import {format} from 'date-fns';
 
 import {
   ActivityIndicator,
@@ -19,6 +20,7 @@ import {
   Surface,
   Text,
 } from '@components';
+import {AppTabScreenProps} from '@routes';
 
 type ThemePreference = 'light' | 'dark' | 'system';
 
@@ -44,7 +46,7 @@ const items: Option[] = [
   },
 ];
 
-export function MeScreen() {
+export function MeScreen({navigation}: AppTabScreenProps<'MeScreen'>) {
   const themePreference = useThemePreference();
   const {setThemePreference} = useSettingsService();
   const {authCredentials} = useAuthCredentials();
@@ -86,6 +88,15 @@ export function MeScreen() {
     });
   };
 
+  function updateUser() {
+    if (!user) {
+      return;
+    }
+    navigation.navigate('EditUserScreen', {
+      userData: user,
+    });
+  }
+
   if (loadingUser) {
     return (
       <Box flex={1} justifyContent="center" alignItems="center">
@@ -110,7 +121,7 @@ export function MeScreen() {
           <Text>{user?.username || 'Username'}</Text>
           <Button
             title={'Edit Profile'}
-            onPress={() => {}}
+            onPress={updateUser}
             mt="s20"
             preset={'white'}
           />
@@ -126,7 +137,9 @@ export function MeScreen() {
         <Surface>
           <Box flexDirection={'row'} justifyContent={'space-between'}>
             <Text>Date of Birth:</Text>
-            <Text>{user?.dob || 'N/A'}</Text>
+            <Text>
+              {user?.dob ? format(new Date(user.dob), 'dd-MM-yyyy') : 'N/A'}
+            </Text>
           </Box>
           <Box flexDirection={'row'} justifyContent={'space-between'}>
             <Text>Height:</Text>

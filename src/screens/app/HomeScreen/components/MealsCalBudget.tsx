@@ -7,22 +7,23 @@ import {Box, CalorieRing, Surface, Text} from '@components';
 
 interface MealsCalTableProps {
   meals: Meal[];
+  calories_goal: number;
 }
 
-export function MealsCalBudget({meals}: MealsCalTableProps) {
+export function MealsCalBudget({meals, calories_goal}: MealsCalTableProps) {
   return (
     <Surface alignItems={'center'}>
       <Box alignItems={'center'}>
         <Text preset={'paragraphSmall'}>Calorie Budget</Text>
         <Text preset={'headingMedium'} color={'bluePrimary'}>
-          2,000
+          {calories_goal}
         </Text>
       </Box>
       <CalorieRing
         currentCalories={
           calcMealTotals.calculateMealTotals(meals).totalCalories
         }
-        goalCalories={2000}
+        goalCalories={calories_goal}
       />
       <Box position={'absolute'} top={60} left={20} alignItems={'center'}>
         <Text preset={'paragraphSmall'}>Breakfast</Text>

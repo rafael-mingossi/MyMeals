@@ -25,7 +25,7 @@ export function RadioButtonSelector<ItemT extends ItemTConstraint>({
   valueKey,
 }: RadioButtonSelectorProps<ItemT>) {
   return (
-    <Box>
+    <Box marginVertical={'s10n'}>
       {items.map((item, index) => (
         <Box key={item.label}>
           <RadioButtonItem

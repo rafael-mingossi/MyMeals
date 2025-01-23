@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Meal, MealsTypes, useDeleteMealsByTypeAndDate} from '@domain';
 import {useNavigation} from '@react-navigation/native';
-import {macrosCalculations} from '@utils';
+import {calcCalsByMealType} from '@utils';
 
 import {
   ActivityIndicator,
@@ -87,7 +87,7 @@ export function MealLineItem({
         alignItems={'flex-end'}
         justifyContent={'center'}>
         <Text preset={'headingMedium'} color={'greenPrimary'} font={'semiBold'}>
-          {macrosCalculations
+          {calcCalsByMealType
             .calculateCaloriesByMealType(meals)
             [type].toFixed(0)}
         </Text>

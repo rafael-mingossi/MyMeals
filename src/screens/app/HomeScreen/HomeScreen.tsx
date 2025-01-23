@@ -3,7 +3,7 @@ import {ScrollView} from 'react-native';
 
 import {useGetMealsByUserAndDate, useGetUserById} from '@domain';
 import {useAuthCredentials, useCalendar} from '@services';
-import {calcMealTotals} from '@utils';
+// import {calcMealTotals} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {
@@ -14,8 +14,8 @@ import {
   Icon,
   Box,
   ActivityIndicator,
-  Text,
-  Surface,
+  // Text,
+  // Surface,
 } from '@components';
 import {AppTabScreenProps} from '@routes';
 
@@ -64,20 +64,20 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
               meals={meals}
               calories_goal={user?.calGoal || 2000}
             />
-            <Surface>
-              <Box justifyContent={'space-between'} flexDirection={'row'}>
-                <Text>Total Protein:</Text>
-                <Text>
-                  {calcMealTotals.calculateMealTotals(meals).totalProtein} grams
-                </Text>
-              </Box>
-              <Box justifyContent={'space-between'} flexDirection={'row'}>
-                <Text>Total Carbs:</Text>
-                <Text>
-                  {calcMealTotals.calculateMealTotals(meals).totalCarbs} grams
-                </Text>
-              </Box>
-            </Surface>
+            {/*<Surface>*/}
+            {/*  <Box justifyContent={'space-between'} flexDirection={'row'}>*/}
+            {/*    <Text>Total Protein:</Text>*/}
+            {/*    <Text>*/}
+            {/*      {calcMealTotals.calculateMealTotals(meals).totalProtein} grams*/}
+            {/*    </Text>*/}
+            {/*  </Box>*/}
+            {/*  <Box justifyContent={'space-between'} flexDirection={'row'}>*/}
+            {/*    <Text>Total Carbs:</Text>*/}
+            {/*    <Text>*/}
+            {/*      {calcMealTotals.calculateMealTotals(meals).totalCarbs} grams*/}
+            {/*    </Text>*/}
+            {/*  </Box>*/}
+            {/*</Surface>*/}
             <MealsCaloriesTable meals={meals} />
           </ScrollView>
         </Box>

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {Box} from '../Box/Box';
-import {RadioButton, RadioButtonProps} from '../RadioButton/RadioButton';
 import {Text} from '../Text/Text';
+
+import {RadioButton, RadioButtonProps} from './RadioButton.tsx';
 
 export type RadioButtonItemProps = RadioButtonProps & {
   label: string;

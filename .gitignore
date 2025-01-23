@@ -90,3 +90,7 @@ web-build/
 # .yarn/releases/*
 .env
 package-lock.json
+
+# Supabase
+supabase/.temp
+supabase/config.toml

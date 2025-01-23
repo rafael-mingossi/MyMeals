@@ -1,9 +1,9 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 
-import {useGetMealsByUserAndDate} from '@domain';
+import {useGetMealsByUserAndDate, useGetUserById} from '@domain';
 import {useAuthCredentials, useCalendar} from '@services';
-import {calcMealTotals} from '@utils';
+// import {calcMealTotals} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {
@@ -14,8 +14,8 @@ import {
   Icon,
   Box,
   ActivityIndicator,
-  Text,
-  Surface,
+  // Text,
+  // Surface,
 } from '@components';
 import {AppTabScreenProps} from '@routes';
 
@@ -31,6 +31,10 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
     dateSelected.dateString,
   );
 
+  const {user, isLoading: loadingUser} = useGetUserById(
+    authCredentials?.user.id as string,
+  );
+
   function openMenu() {
     SheetManager.show('bs-menu');
   }
@@ -44,7 +48,7 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
         component: <CalendarWidget />,
       }}>
       <CalendarModal />
-      {isLoading ? (
+      {isLoading || loadingUser ? (
         <Box flex={1} justifyContent="center" alignItems="center">
           <ActivityIndicator />
         </Box>
@@ -56,21 +60,24 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
               paddingHorizontal: 10,
               paddingBottom: 10,
             }}>
-            <MealsCalBudget meals={meals} />
-            <Surface>
-              <Box justifyContent={'space-between'} flexDirection={'row'}>
-                <Text>Total Protein:</Text>
-                <Text>
-                  {calcMealTotals.calculateMealTotals(meals).totalProtein} grams
-                </Text>
-              </Box>
-              <Box justifyContent={'space-between'} flexDirection={'row'}>
-                <Text>Total Carbs:</Text>
-                <Text>
-                  {calcMealTotals.calculateMealTotals(meals).totalCarbs} grams
-                </Text>
-              </Box>
-            </Surface>
+            <MealsCalBudget
+              meals={meals}
+              calories_goal={user?.calGoal || 2000}
+            />
+            {/*<Surface>*/}
+            {/*  <Box justifyContent={'space-between'} flexDirection={'row'}>*/}
+            {/*    <Text>Total Protein:</Text>*/}
+            {/*    <Text>*/}
+            {/*      {calcMealTotals.calculateMealTotals(meals).totalProtein} grams*/}
+            {/*    </Text>*/}
+            {/*  </Box>*/}
+            {/*  <Box justifyContent={'space-between'} flexDirection={'row'}>*/}
+            {/*    <Text>Total Carbs:</Text>*/}
+            {/*    <Text>*/}
+            {/*      {calcMealTotals.calculateMealTotals(meals).totalCarbs} grams*/}
+            {/*    </Text>*/}
+            {/*  </Box>*/}
+            {/*</Surface>*/}
             <MealsCaloriesTable meals={meals} />
           </ScrollView>
         </Box>

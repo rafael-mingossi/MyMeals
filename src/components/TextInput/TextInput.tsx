@@ -20,7 +20,7 @@ export interface TextInputProps extends RNTextInputProps {
   LeftComponent?: ReactElement;
   boxProps?: BoxProps;
   containerProps?: BoxProps;
-  fieldUnit?: 'g' | 'cals' | 'mg' | '';
+  fieldUnit?: 'g' | 'cals' | 'mg' | 'cm' | 'm' | 'kg' | '';
 }
 
 export function TextInput({
@@ -53,7 +53,7 @@ export function TextInput({
   const $inputLine: BoxProps = {
     borderBottomWidth: errorMessage ? 2 : 1,
     borderColor: errorMessage ? 'error' : 'backgroundContrast',
-    width: 80,
+    width: 90,
   };
 
   return (

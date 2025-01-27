@@ -159,7 +159,7 @@ export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
       <Box
         flexDirection="row"
         columnGap="s10"
-        paddingTop={'s14'}
+        paddingVertical={'s14'}
         justifyContent={'flex-end'}>
         <ButtonText title={'Reset'} onPress={() => reset()} />
         <ButtonText

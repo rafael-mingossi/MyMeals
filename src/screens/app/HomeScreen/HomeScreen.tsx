@@ -3,7 +3,6 @@ import {ScrollView} from 'react-native';
 
 import {useGetMealsByUserAndDate, useGetUserById} from '@domain';
 import {useAuthCredentials, useCalendar} from '@services';
-// import {calcMealTotals} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {
@@ -14,11 +13,10 @@ import {
   Icon,
   Box,
   ActivityIndicator,
-  // Text,
-  // Surface,
 } from '@components';
 import {AppTabScreenProps} from '@routes';
 
+import {DailyMacros} from './components/DailyMacros.tsx';
 import {MealsCalBudget} from './components/MealsCalBudget.tsx';
 import {MealsCaloriesTable} from './components/MealsCalTable.tsx';
 
@@ -53,36 +51,20 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
           <ActivityIndicator />
         </Box>
       ) : (
-        <Box flex={1}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{
-              paddingHorizontal: 10,
-              paddingBottom: 10,
-            }}>
-            <MealsCalBudget
-              meals={meals}
-              calories_goal={user?.calGoal || 2000}
-            />
-            {/*<Surface>*/}
-            {/*  <Box justifyContent={'space-between'} flexDirection={'row'}>*/}
-            {/*    <Text>Total Protein:</Text>*/}
-            {/*    <Text>*/}
-            {/*      {calcMealTotals.calculateMealTotals(meals).totalProtein} grams*/}
-            {/*    </Text>*/}
-            {/*  </Box>*/}
-            {/*  <Box justifyContent={'space-between'} flexDirection={'row'}>*/}
-            {/*    <Text>Total Carbs:</Text>*/}
-            {/*    <Text>*/}
-            {/*      {calcMealTotals.calculateMealTotals(meals).totalCarbs} grams*/}
-            {/*    </Text>*/}
-            {/*  </Box>*/}
-            {/*</Surface>*/}
-            <MealsCaloriesTable meals={meals} />
-          </ScrollView>
-        </Box>
+        <ScrollView
+          contentContainerStyle={{
+            paddingBottom: 95,
+          }}
+          showsVerticalScrollIndicator={false}
+          style={{
+            paddingHorizontal: 10,
+          }}>
+          <MealsCalBudget meals={meals} calories_goal={user?.calGoal || 2000} />
+          <MealsCaloriesTable meals={meals} />
+          {user && <DailyMacros meals={meals} user={user} />}
+        </ScrollView>
       )}
-      <ButtonFloat onPress={openMenu}>
+      <ButtonFloat onPress={openMenu} preset={'icon'}>
         <Icon name={'plus'} size={30} color={'white'} />
       </ButtonFloat>
     </ScreenFixedHeader>

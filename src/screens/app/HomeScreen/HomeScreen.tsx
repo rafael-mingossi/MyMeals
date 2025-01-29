@@ -1,7 +1,11 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 
-import {useGetMealsByUserAndDate, useGetUserById} from '@domain';
+import {
+  useGetMealsByUserAndDate,
+  useGetUserById,
+  // useGetFoodByBarCode,
+} from '@domain';
 import {useAuthCredentials, useCalendar} from '@services';
 import {SheetManager} from 'react-native-actions-sheet';
 
@@ -23,6 +27,18 @@ import {MealsCaloriesTable} from './components/MealsCalTable.tsx';
 export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
   const {authCredentials} = useAuthCredentials();
   const {dateSelected} = useCalendar();
+
+  // const barcode = '3017620429484';
+  //
+  // const {barcodeFood, error, isLoading: barLoad} = useGetFoodByBarCode(barcode);
+  //
+  // if (error) {
+  //   console.log(error.message);
+  // }
+  //
+  // if (barcodeFood) {
+  //   console.log(barcodeFood);
+  // }
 
   const {meals, isLoading} = useGetMealsByUserAndDate(
     authCredentials?.user.id as string,

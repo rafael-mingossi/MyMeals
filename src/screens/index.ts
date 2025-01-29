@@ -1,4 +1,5 @@
 //APP
+export * from './app/BarCodeScreen/BarCodeScreen';
 export * from './app/EditUserScreen/EditUserScreen';
 export * from './app/FoodDetailsScreen/FoodDetailsScreen';
 export * from './app/FoodsScreen/FoodsScreen';

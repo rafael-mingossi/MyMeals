@@ -21,6 +21,11 @@ export function BottomSheetMenu(props: SheetProps) {
     navigation.navigate('MealsSelectionScreen', {mealType: mealType});
   }
 
+  function navigateToBarCode() {
+    SheetManager.hide('bs-menu');
+    navigation.navigate('BarCodeScreen');
+  }
+
   return (
     <ActionSheet
       {...props}
@@ -108,7 +113,7 @@ export function BottomSheetMenu(props: SheetProps) {
             borderRadius={'s100'}
             padding={'s12'}
             borderColor={'borderGray'}>
-            <Icon name={'barCode'} size={33} />
+            <Icon name={'barCode'} size={33} onPress={navigateToBarCode} />
           </Box>
           <Text>Bar Code</Text>
         </Box>

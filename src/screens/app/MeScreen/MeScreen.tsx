@@ -112,7 +112,11 @@ export function MeScreen({navigation}: AppTabScreenProps<'MeScreen'>) {
           alignItems={'center'}
           justifyContent={'center'}
           marginVertical={'s32'}>
-          <Box borderWidth={1} borderRadius={'s100'} padding={'s12'}>
+          <Box
+            borderWidth={1}
+            borderRadius={'s100'}
+            padding={'s12'}
+            borderColor={'backgroundContrast'}>
             <Icon name={'avatarFill'} size={60} />
           </Box>
           <Text font={'semiBold'} preset={'headingMedium'} marginTop={'s12'}>
@@ -208,6 +212,7 @@ export function MeScreen({navigation}: AppTabScreenProps<'MeScreen'>) {
           backgroundColor={'red'}
           disabled={isLoading || isPending}
           onPress={deleteUserDialog}
+          mb={'s32'}
           mt="s32"
         />
       </ScrollView>

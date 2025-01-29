@@ -156,7 +156,10 @@ export function AddRecipe({
       </Box>
       <Box mt={'s24'}>
         <SeparatorBox />
-        <Box flexDirection="row" paddingTop={'s14'} justifyContent={'flex-end'}>
+        <Box
+          flexDirection="row"
+          paddingVertical={'s14'}
+          justifyContent={'flex-end'}>
           <ButtonText
             title={'Save Recipe'}
             disabled={!formState.isValid || isPending}

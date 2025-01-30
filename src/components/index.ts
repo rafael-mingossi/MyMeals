@@ -24,6 +24,7 @@ export * from './Form/FormTextInput';
 export * from './Modal/Modal';
 export * from './OptionsDropdown/OptionsDropdown';
 export * from './PasswordInput/PasswordInput';
+export * from './PermissionManager/PermissionManager';
 export * from './RadioButton';
 export * from './Screen/Screen';
 export * from './Screen/ScreenFixedHeader';

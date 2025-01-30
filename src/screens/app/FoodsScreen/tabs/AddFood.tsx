@@ -21,6 +21,7 @@ import {addFoodSchema} from './addFoodSchema.ts';
 type AddFoodProps = {
   isUpdatingItem?: boolean;
   foodToUpdate?: Foods;
+  isFoodFromBarCode?: boolean;
 };
 
 export type FormInputValues = {
@@ -36,7 +37,11 @@ export type FormInputValues = {
   serv_unit: string;
 };
 
-export function AddFood({isUpdatingItem = false, foodToUpdate}: AddFoodProps) {
+export function AddFood({
+  isUpdatingItem = false,
+  foodToUpdate,
+  // isFoodFromBarCode = false,
+}: AddFoodProps) {
   const {control, formState, handleSubmit, setValue, watch, reset} =
     useForm<FormInputValues>({
       resolver: zodResolver(addFoodSchema),

@@ -4,7 +4,7 @@ import {useQuery} from '@tanstack/react-query';
 import {barCodeService} from '../barCodeService.ts';
 import {BarCode} from '../barCodeTypes.ts';
 
-export function useGetFoodByBarCode(barcode: string) {
+export function useGetFoodByBarCode(barcode: string | null) {
   const {
     data: barcodeFood,
     isLoading,

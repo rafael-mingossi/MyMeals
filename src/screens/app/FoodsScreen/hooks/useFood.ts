@@ -1,5 +1,6 @@
 import {
   AddFoodParams,
+  FoodMode,
   UpdateFoodParams,
   useAddFood,
   useUpdateFood,
@@ -12,7 +13,7 @@ import {FormInputValues} from '../tabs/AddFood.tsx';
 
 export function useFood(
   foodId: number,
-  isUpdatingItem: boolean,
+  mode: FoodMode,
   reset?: UseFormReset<FormInputValues>,
 ) {
   const {authCredentials} = useAuthCredentials();
@@ -24,6 +25,7 @@ export function useFood(
       showToast({
         message: 'Food was added!',
       });
+      navigation.goBack();
       reset?.();
     },
     onError: () => {
@@ -40,6 +42,7 @@ export function useFood(
         message: 'Food was updated!',
       });
       navigation.goBack();
+      reset?.();
     },
     onError: () => {
       showToast({
@@ -73,18 +76,23 @@ export function useFood(
       is_archived: false,
     };
 
-    if (isUpdatingItem) {
-      const updateParams: UpdateFoodParams = {
-        id: foodId,
-        ...baseFood,
-      };
-      updateFood(updateParams);
-    } else {
-      const addParams: AddFoodParams = {
-        user_id: authCredentials.session.user.id,
-        ...baseFood,
-      };
-      addFood(addParams);
+    switch (mode) {
+      case 'update':
+        const updateParams: UpdateFoodParams = {
+          id: foodId,
+          ...baseFood,
+        };
+        updateFood(updateParams);
+        break;
+
+      case 'create':
+      case 'barcode':
+        const addParams: AddFoodParams = {
+          user_id: authCredentials.session.user.id,
+          ...baseFood,
+        };
+        addFood(addParams);
+        break;
     }
   };
 

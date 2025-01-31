@@ -19,10 +19,7 @@ export function UpdateEntryScreen({
     switch (updating) {
       case 'food':
         return (
-          <AddFood
-            isUpdatingItem={isUpdatingItem}
-            foodToUpdate={item as FoodNavigationParams}
-          />
+          <AddFood mode="update" existingFood={item as FoodNavigationParams} />
         );
       case 'recipe':
         return (

@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		292C90675E2D6A003E01A656 /* libPods-MyMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 600DC2A4DE46FED803AF4589 /* libPods-MyMeals.a */; };
 		4A7344B4F27C4D93840E4519 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 186B55708B4141409F52BB46 /* Colors.xcassets */; };
 		5365E5C62CEAF75100778407 /* Switzer-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5365E5BE2CEAF75100778407 /* Switzer-LightItalic.otf */; };
 		5365E5C72CEAF75100778407 /* Switzer-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5365E5C02CEAF75100778407 /* Switzer-MediumItalic.otf */; };
@@ -31,10 +32,9 @@
 		5365E5D52CEAF75100778407 /* Switzer-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5365E5BD2CEAF75100778407 /* Switzer-Light.otf */; };
 		5365E5D62CEAF75100778407 /* Switzer-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5365E5C12CEAF75100778407 /* Switzer-Regular.otf */; };
 		5365E5D72CEAF75100778407 /* Switzer-Extralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5365E5BA2CEAF75100778407 /* Switzer-Extralight.otf */; };
-		7850C1AB3CECF12158A5A1F6 /* libPods-MyMeals-MyMealsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F1A1D73D7DCCFD440F07BCB /* libPods-MyMeals-MyMealsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8DB5DA3D43F67EF0CC5BF964 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
-		C3C4DC5BD1325585234E19E1 /* libPods-MyMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E725FFCD356012111C2DEB9C /* libPods-MyMeals.a */; };
+		DEABE28389E370F3F7C01950 /* libPods-MyMeals-MyMealsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417E1AB6CDF03CB5D306155 /* libPods-MyMeals-MyMealsTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +51,7 @@
 		00E356EE1AD99517003FC87E /* MyMealsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyMealsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* MyMealsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyMealsTests.m; sourceTree = "<group>"; };
+		016EB489B49BDCB758AE976E /* Pods-MyMeals.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals.debug.xcconfig"; path = "Target Support Files/Pods-MyMeals/Pods-MyMeals.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MyMeals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMeals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MyMeals/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = MyMeals/AppDelegate.mm; sourceTree = "<group>"; };
@@ -59,6 +60,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MyMeals/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = MyMeals/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		186B55708B4141409F52BB46 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = MyMeals/Colors.xcassets; sourceTree = "<group>"; };
+		1886692B1A6C45BB51747AF9 /* Pods-MyMeals.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals.release.xcconfig"; path = "Target Support Files/Pods-MyMeals/Pods-MyMeals.release.xcconfig"; sourceTree = "<group>"; };
 		5365E5B42CEAF75100778407 /* Switzer-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-Black.otf"; sourceTree = "<group>"; };
 		5365E5B52CEAF75100778407 /* Switzer-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-BlackItalic.otf"; sourceTree = "<group>"; };
 		5365E5B62CEAF75100778407 /* Switzer-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-Bold.otf"; sourceTree = "<group>"; };
@@ -77,15 +79,13 @@
 		5365E5C32CEAF75100778407 /* Switzer-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		5365E5C42CEAF75100778407 /* Switzer-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-Thin.otf"; sourceTree = "<group>"; };
 		5365E5C52CEAF75100778407 /* Switzer-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-ThinItalic.otf"; sourceTree = "<group>"; };
-		61AA46081875A3AE64492410 /* Pods-MyMeals-MyMealsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals-MyMealsTests.release.xcconfig"; path = "Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests.release.xcconfig"; sourceTree = "<group>"; };
-		6BA5BA0F696679738AB69891 /* Pods-MyMeals.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals.release.xcconfig"; path = "Target Support Files/Pods-MyMeals/Pods-MyMeals.release.xcconfig"; sourceTree = "<group>"; };
-		7F1A1D73D7DCCFD440F07BCB /* libPods-MyMeals-MyMealsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMeals-MyMealsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		600DC2A4DE46FED803AF4589 /* libPods-MyMeals.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMeals.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7417E1AB6CDF03CB5D306155 /* libPods-MyMeals-MyMealsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMeals-MyMealsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MyMeals/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C7A712919B2DD0D91A07B1B4 /* Pods-MyMeals.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals.debug.xcconfig"; path = "Target Support Files/Pods-MyMeals/Pods-MyMeals.debug.xcconfig"; sourceTree = "<group>"; };
+		886A7B168106EC6094A66C67 /* Pods-MyMeals-MyMealsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals-MyMealsTests.release.xcconfig"; path = "Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests.release.xcconfig"; sourceTree = "<group>"; };
 		D28780A01D614B27B8CC24ED /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = MyMeals/BootSplash.storyboard; sourceTree = "<group>"; };
-		E725FFCD356012111C2DEB9C /* libPods-MyMeals.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyMeals.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F08025CFD29D4FE17FC338DC /* Pods-MyMeals-MyMealsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals-MyMealsTests.debug.xcconfig"; path = "Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EEDE4AD2A86ED0CF34160775 /* Pods-MyMeals-MyMealsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals-MyMealsTests.debug.xcconfig"; path = "Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7850C1AB3CECF12158A5A1F6 /* libPods-MyMeals-MyMealsTests.a in Frameworks */,
+				DEABE28389E370F3F7C01950 /* libPods-MyMeals-MyMealsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3C4DC5BD1325585234E19E1 /* libPods-MyMeals.a in Frameworks */,
+				292C90675E2D6A003E01A656 /* libPods-MyMeals.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,8 +146,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E725FFCD356012111C2DEB9C /* libPods-MyMeals.a */,
-				7F1A1D73D7DCCFD440F07BCB /* libPods-MyMeals-MyMealsTests.a */,
+				600DC2A4DE46FED803AF4589 /* libPods-MyMeals.a */,
+				7417E1AB6CDF03CB5D306155 /* libPods-MyMeals-MyMealsTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -211,10 +211,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C7A712919B2DD0D91A07B1B4 /* Pods-MyMeals.debug.xcconfig */,
-				6BA5BA0F696679738AB69891 /* Pods-MyMeals.release.xcconfig */,
-				F08025CFD29D4FE17FC338DC /* Pods-MyMeals-MyMealsTests.debug.xcconfig */,
-				61AA46081875A3AE64492410 /* Pods-MyMeals-MyMealsTests.release.xcconfig */,
+				016EB489B49BDCB758AE976E /* Pods-MyMeals.debug.xcconfig */,
+				1886692B1A6C45BB51747AF9 /* Pods-MyMeals.release.xcconfig */,
+				EEDE4AD2A86ED0CF34160775 /* Pods-MyMeals-MyMealsTests.debug.xcconfig */,
+				886A7B168106EC6094A66C67 /* Pods-MyMeals-MyMealsTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -226,12 +226,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MyMealsTests" */;
 			buildPhases = (
-				2737526E3695A1D50512CC97 /* [CP] Check Pods Manifest.lock */,
+				FF24677C590BFEAFDF556F87 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				8ACA1A82327DABBAE18507F0 /* [CP] Embed Pods Frameworks */,
-				7C647B87BCE8FDA1220C88C6 /* [CP] Copy Pods Resources */,
+				58C6FB53A066B194830EEF4E /* [CP] Embed Pods Frameworks */,
+				5F111A6BAC3618380C93C233 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,13 +247,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MyMeals" */;
 			buildPhases = (
-				F325A8B6211CB9F56FC33E6C /* [CP] Check Pods Manifest.lock */,
+				249E0993005493C5140D6C14 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				713C6EB6902C9293C6BB5E13 /* [CP] Embed Pods Frameworks */,
-				A83CAAAA65AF9A6FE8DC131B /* [CP] Copy Pods Resources */,
+				6399218DE3D1DA392F990341 /* [CP] Embed Pods Frameworks */,
+				A9C33BA01B2161EF8B904E91 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -357,7 +357,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		2737526E3695A1D50512CC97 /* [CP] Check Pods Manifest.lock */ = {
+		249E0993005493C5140D6C14 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -372,48 +372,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MyMeals-MyMealsTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MyMeals-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		713C6EB6902C9293C6BB5E13 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7C647B87BCE8FDA1220C88C6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8ACA1A82327DABBAE18507F0 /* [CP] Embed Pods Frameworks */ = {
+		58C6FB53A066B194830EEF4E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -430,7 +396,41 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A83CAAAA65AF9A6FE8DC131B /* [CP] Copy Pods Resources */ = {
+		5F111A6BAC3618380C93C233 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6399218DE3D1DA392F990341 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9C33BA01B2161EF8B904E91 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -447,7 +447,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMeals/Pods-MyMeals-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F325A8B6211CB9F56FC33E6C /* [CP] Check Pods Manifest.lock */ = {
+		FF24677C590BFEAFDF556F87 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -462,7 +462,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MyMeals-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MyMeals-MyMealsTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -502,9 +502,10 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F08025CFD29D4FE17FC338DC /* Pods-MyMeals-MyMealsTests.debug.xcconfig */;
+			baseConfigurationReference = EEDE4AD2A86ED0CF34160775 /* Pods-MyMeals-MyMealsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 282SPF8V93;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -521,7 +522,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mingossi.mymealsapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyMeals.app/MyMeals";
 			};
@@ -529,10 +530,11 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61AA46081875A3AE64492410 /* Pods-MyMeals-MyMealsTests.release.xcconfig */;
+			baseConfigurationReference = 886A7B168106EC6094A66C67 /* Pods-MyMeals-MyMealsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 282SPF8V93;
 				INFOPLIST_FILE = MyMealsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -545,7 +547,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mingossi.mymealsapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyMeals.app/MyMeals";
 			};
@@ -553,7 +555,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7A712919B2DD0D91A07B1B4 /* Pods-MyMeals.debug.xcconfig */;
+			baseConfigurationReference = 016EB489B49BDCB758AE976E /* Pods-MyMeals.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -590,7 +592,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BA5BA0F696679738AB69891 /* Pods-MyMeals.release.xcconfig */;
+			baseConfigurationReference = 1886692B1A6C45BB51747AF9 /* Pods-MyMeals.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

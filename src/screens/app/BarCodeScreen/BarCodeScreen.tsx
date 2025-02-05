@@ -46,14 +46,14 @@ export function BarCodeScreen({navigation}: AppScreenProps<'BarCodeScreen'>) {
   const [scannedItem, setScannedItem] = useState<string | undefined>('');
   const [foodParams, setFoodParams] = useState<FoodParams>();
 
-  const device = useCameraDevice('back', {
-    physicalDevices: [
-      'ultra-wide-angle-camera',
-      'wide-angle-camera',
-      'telephoto-camera',
-    ],
-  });
-
+  // const device = useCameraDevice('back', {
+  //   physicalDevices: [
+  //     'ultra-wide-angle-camera',
+  //     'wide-angle-camera',
+  //     'telephoto-camera',
+  //   ],
+  // });
+  const device = useCameraDevice('back');
   const {barcodeFood, error, isLoading} = useGetFoodByBarCode(
     scannedItem ? scannedItem : null,
   );

@@ -84,7 +84,7 @@ export function Ingredient<T extends BaseItem>({
       columnGap={'s10'}
       paddingVertical={'s4'}
       justifyContent={'space-between'}>
-      <Box flexDirection="row" alignItems={'center'} columnGap={'s10'}>
+      <Box flexDirection="row" alignItems={'center'} columnGap={'s10'} flex={1}>
         {!isEditing && onSelect && (
           <CheckBox isChecked={isSelected} onChange={handlePress} />
         )}
@@ -93,15 +93,8 @@ export function Ingredient<T extends BaseItem>({
         ) : (
           <Icon name={'recipes'} size={30} />
         )}
-        <Box>
-          <Box flexDirection="row" alignItems="center" columnGap="s4">
-            <Text font={'bold'}>{item.label}</Text>
-            {/*{item.isArchived && (*/}
-            {/*  <Text color="gray4" preset="paragraphSmall">*/}
-            {/*    (Archived)*/}
-            {/*  </Text>*/}
-            {/*)}*/}
-          </Box>
+        <Box flex={1}>
+          <Text font={'bold'}>{item.label}</Text>
           <Box flexDirection="row">
             <Text
               font={'semiBold'}

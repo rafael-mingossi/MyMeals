@@ -50,6 +50,9 @@ import {
   LunchIcon,
   SnacksIcon,
   BarCodeIcon,
+  CameraClick,
+  FlashOnIcon,
+  FlashOffIcon,
 } from '@assets';
 
 import {useAppTheme} from '@hooks';
@@ -77,6 +80,7 @@ const iconRegistry = {
   avatarFill: AvatarFillIcon,
   bag: BagIcon,
   calendar: CalendarIcon,
+  cameraClick: CameraClick,
   check: CheckIcon,
   checkRound: CheckRoundIcon,
   chevronleft: ChevronLeftIcon,
@@ -87,6 +91,8 @@ const iconRegistry = {
   errorRound: ErrorRoundIcon,
   eyeOn: EyeOnIcon,
   eyeOff: EyeOffIcon,
+  flashOn: FlashOnIcon,
+  flashOff: FlashOffIcon,
   food: FoodIcon,
   foodFill: FoodFillIcon,
   more: MoreIcon,

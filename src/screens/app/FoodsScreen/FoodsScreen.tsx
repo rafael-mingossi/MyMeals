@@ -86,13 +86,13 @@ export function FoodsScreen({navigation}: AppTabScreenProps<'FoodsScreen'>) {
   const renderContent = (): React.ReactElement => {
     switch (activeTabIndex) {
       case TabScreens.ADD_FOOD:
-        return <AddFood />;
+        return <AddFood mode="create" />;
       case TabScreens.MY_FOODS:
         return <FoodsList isEditing createOptions={foodOptions} />;
       case TabScreens.FAVOURITE_FOODS:
         return <FavouriteFoods />;
       default:
-        return <AddFood />;
+        return <AddFood mode="create" />;
     }
   };
 

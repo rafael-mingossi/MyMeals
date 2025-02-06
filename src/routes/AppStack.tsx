@@ -12,6 +12,7 @@ import {
   UpdateEntryScreen,
   UpdateMealsScreen,
   EditUserScreen,
+  BarCodeScreen,
 } from '@screens';
 
 import {AppTabBottomTabParamList, AppTabNavigator} from './AppTabNavigator.tsx';
@@ -33,6 +34,7 @@ export type AppStackParamsList = {
   >;
   UpdateMealsScreen: {mealType: MealsTypes};
   EditUserScreen: {userData: User};
+  BarCodeScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamsList>();
@@ -66,6 +68,7 @@ export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
       <Stack.Screen name="UpdateEntryScreen" component={UpdateEntryScreen} />
       <Stack.Screen name="UpdateMealsScreen" component={UpdateMealsScreen} />
       <Stack.Screen name="EditUserScreen" component={EditUserScreen} />
+      <Stack.Screen name="BarCodeScreen" component={BarCodeScreen} />
     </Stack.Navigator>
   );
 }

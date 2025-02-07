@@ -186,7 +186,7 @@ export function MealsSelectionScreen({
           </Box>
         </ButtonFloat>
       )}
-      <Box justifyContent={'space-between'} flexDirection={'row'}>
+      <Box justifyContent={'space-between'} flexDirection={'row'} mb={'s40'}>
         <ButtonText title={'Cancel & Go Back'} onPress={handleBackPress} />
         <Box width={1} height={1} />
       </Box>

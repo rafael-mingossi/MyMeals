@@ -14,6 +14,7 @@ export const palette = {
   gray: '#9e9e9e',
   gray2: '#8E8E8E',
   gray4: '#E1E1E1',
+  black60: 'rgba(0,0,0,0.6)',
 
   /// BORDER
   borderGrayLight: '#c5c5c5',

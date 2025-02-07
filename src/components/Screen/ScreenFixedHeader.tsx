@@ -41,7 +41,7 @@ export function ScreenFixedHeader({
   fixedCalendar,
   ...boxProps
 }: ScreenWithFixedProps) {
-  const {top, bottom} = useAppSafeArea();
+  const {top} = useAppSafeArea();
 
   // Refs for measuring component heights
   const headerRef = useRef<View>(null);
@@ -168,13 +168,8 @@ export function ScreenFixedHeader({
         <Box
           style={{
             marginTop: totalFixedHeight,
-            paddingBottom: bottom,
             flexGrow: 1,
-          }}
-          // contentContainerStyle={{
-          //   flexGrow: 1, // This allows content to grow but still be scrollable
-          // }}
-        >
+          }}>
           <Box
             flex={1}
             paddingHorizontal={noPaddingHorizontal ? undefined : 's10'}

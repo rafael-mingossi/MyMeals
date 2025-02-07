@@ -6,6 +6,7 @@ export enum QueryKeys {
   FavouriteFoods = 'FavouriteFoods',
   FavouriteRecipes = 'FavouriteRecipes',
   User = 'User',
+  BarCode = 'BarCode',
 }
 
 export interface MutationOptions<TData> {

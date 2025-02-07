@@ -4,7 +4,7 @@ import {TouchableOpacityBox, TouchableOpacityBoxProps} from '@components';
 
 import {buttonFloatPresets} from './buttonFloatPresets.ts';
 
-export type ButtonFloatPreset = 'main' | 'secondary';
+export type ButtonFloatPreset = 'main' | 'secondary' | 'icon';
 
 export interface ButtonFloatProps extends TouchableOpacityBoxProps {
   children: ReactElement;

@@ -17,6 +17,28 @@ export const buttonFloatPresets: Record<
     disabled: ButtonFloatUI;
   }
 > = {
+  icon: {
+    default: {
+      container: {
+        backgroundColor: 'bluePrimary',
+        padding: 's16',
+        style: {
+          position: 'absolute',
+          bottom: 20,
+          right: 10,
+        },
+      },
+      content: {
+        colour: 'red',
+      },
+    },
+    disabled: {
+      container: {
+        backgroundColor: 'gray4',
+      },
+      content: {colour: 'gray2'},
+    },
+  },
   main: {
     default: {
       container: {
@@ -24,7 +46,7 @@ export const buttonFloatPresets: Record<
         padding: 's16',
         style: {
           position: 'absolute',
-          bottom: 15,
+          bottom: 45,
           right: 20,
         },
       },
@@ -46,7 +68,7 @@ export const buttonFloatPresets: Record<
         padding: 's8',
         style: {
           position: 'absolute',
-          bottom: 75,
+          bottom: 105,
           right: 20,
         },
       },

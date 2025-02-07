@@ -34,6 +34,8 @@ export interface Foods {
   isArchived: boolean;
 }
 
+export type FoodMode = 'create' | 'update' | 'barcode';
+
 export type AddFoodParams = Omit<FoodsAPI, 'id' | 'created_at'> & {
   is_archived?: boolean;
 };

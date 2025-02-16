@@ -42,12 +42,19 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Create .env file
+        run: |
+          echo "SUPABASE_URL=${{secrets.SUPABASE_URL}}" > ../.env
+          echo "SUPABASE_ANON_KEY=${{secrets.SUPABASE_ANON_KEY}}" >> ../.env
+
       - name: Build AAB
         run: ./gradlew bundleRelease
         env:
           MYMEALS_STORE_PASSWORD: ${{secrets.ANDROID_STORE_PASSWORD}}
           MYMEALS_ALIAS_PASSWORD: ${{secrets.ANDROID_KEY_ALIAS}}
           MYMEALS_KEY_PASSWORD: ${{secrets.ANDROID_KEY_PASSWORD}}
+          SUPABASE_URL: ${{secrets.SUPABASE_URL}}
+          SUPABASE_ANON_KEY: ${{secrets.SUPABASE_ANON_KEY}}
 
       - name: Decode Google Service Account
         run: echo ${{secrets.ANDROID_SERVICE_ACCOUNT_BASE64}} | base64 -d > google-service-account.json
@@ -91,6 +98,12 @@ jobs:
 
       - name: Install IOS dependencies
         run: pod install
+
+      - name: Debug Key Format
+        run: |
+          echo "Key starts with: $(echo ${{ secrets.APPLE_KEY_CONTENT }} | head -n 1)"
+          echo "Number of lines: $(echo "${{ secrets.APPLE_KEY_CONTENT }}" | wc -l)"
+          echo "Contains literal \n?: $(echo "${{ secrets.APPLE_KEY_CONTENT }}" | grep -c '\\n' || echo 'No')"
 
       - name: Build and Upload to TestFlight
         run: fastlane beta

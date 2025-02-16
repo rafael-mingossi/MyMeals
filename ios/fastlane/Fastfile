@@ -29,7 +29,6 @@ platform :ios do
        key_content: ENV["APPLE_KEY_CONTENT"],
        duration: 1200,
        in_house: false,
-       is_key_content_base64: true
     )
 
     match(type: "appstore", readonly: true)
@@ -40,9 +39,9 @@ platform :ios do
       export_options: {
         provisioningProfiles: {
            "com.mingossi.mymealsapp" => "match AppStore com.mingossi.mymealsapp"
-          }
         }
-      )
+      }
+    )
     upload_to_testflight(api_key: api_key, skip_waiting_for_build_processing: true)
   end
 end

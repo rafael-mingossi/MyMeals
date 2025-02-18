@@ -71,7 +71,8 @@ jobs:
 
   build-ios:
     needs: run-checks
-    runs-on: macos-latest
+    #    runs-on: macos-latest
+    runs-on: macos-13
     timeout-minutes: 35
     defaults:
       run:
@@ -86,7 +87,7 @@ jobs:
           ssh-private-key: ${{secrets.CERT_REPO_SSH_KEY}}
 
       - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.0.app
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app
 
       - name: Set up Node
         uses: actions/setup-node@v4

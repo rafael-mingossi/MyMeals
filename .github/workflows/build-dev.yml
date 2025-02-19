@@ -13,7 +13,7 @@ jobs:
   build-android:
     needs: run-checks
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     defaults:
       run:
         shell: bash
@@ -71,8 +71,8 @@ jobs:
 
   build-ios:
     needs: run-checks
-    #    runs-on: macos-latest
-    runs-on: macos-13
+    runs-on: macos-latest
+    #    runs-on: macos-13
     timeout-minutes: 35
     defaults:
       run:

@@ -41,11 +41,12 @@ platform :ios do
       export_options: {
         provisioningProfiles: {
           "com.mingossi.mymealsapp" => "match AppStore com.mingossi.mymealsapp"
-        }
+        },
+        teamID: ENV["TEAM_ID"],
+        signingStyle: "manual",
+        method: "app-store"
       },
-      buildlog_path: "fastlane/logs",
-      xcargs: "-allowProvisioningUpdates EXPANDED_CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO",
-      verbose: true
+      xcargs: "DEVELOPMENT_TEAM='#{ENV["TEAM_ID"]}'"
     )
     upload_to_testflight(api_key: api_key, skip_waiting_for_build_processing: true)
   end

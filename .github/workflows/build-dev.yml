@@ -115,3 +115,4 @@ jobs:
           APPLE_KEY_ID: ${{secrets.APPLE_KEY_ID}}
           APPLE_KEY_ISSUER_ID: ${{secrets.APPLE_KEY_ISSUER_ID}}
           APPLE_KEY_CONTENT: ${{secrets.APPLE_KEY_CONTENT}}
+          TEAM_ID: ${{secrets.TEAM_ID}}

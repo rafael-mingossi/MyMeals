@@ -3,6 +3,7 @@ import {ScrollView} from 'react-native';
 
 import {FoodMode, Foods} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useAppColor} from '@services';
 import {useForm} from 'react-hook-form';
 
 import {
@@ -13,6 +14,7 @@ import {
   SeparatorBox,
   Text,
 } from '@components';
+import {colours} from '@theme';
 
 import {useFood} from '../hooks/useFood.ts';
 
@@ -101,6 +103,8 @@ export function AddFood({
       mode: 'onChange',
     });
 
+  const appColor = useAppColor();
+
   const {isPendingUpdate, isPendingAdd, onSubmit} = useFood(
     existingFood?.id ?? 0,
     mode,
@@ -111,7 +115,14 @@ export function AddFood({
 
   return (
     <ScrollView
-      style={{marginTop: 10, paddingHorizontal: 16}}
+      style={{
+        paddingTop: 10,
+        paddingHorizontal: 16,
+        backgroundColor:
+          appColor === 'dark'
+            ? colours.palette.backgroundInnerDark
+            : colours.palette.backgroundInnerLight,
+      }}
       showsVerticalScrollIndicator={false}>
       <Box rowGap="s20">
         <CategoryDropdown

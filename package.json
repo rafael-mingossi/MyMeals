@@ -1,6 +1,6 @@
 {
   "name": "MyMeals",
-  "version": "0.0.1",
+  "version": "2.0.6",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

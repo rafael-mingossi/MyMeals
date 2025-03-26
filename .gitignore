@@ -40,6 +40,9 @@ google-service-account.json
 android/app/google-services.json
 google-services.json
 
+ios/GoogleService-Info.plist
+GoogleService-Info.plist
+
 # node.js
 #
 node_modules/

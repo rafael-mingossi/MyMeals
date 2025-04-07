@@ -82,6 +82,7 @@
 		5365E5C42CEAF75100778407 /* Switzer-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-Thin.otf"; sourceTree = "<group>"; };
 		5365E5C52CEAF75100778407 /* Switzer-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Switzer-ThinItalic.otf"; sourceTree = "<group>"; };
 		53ABA5C52D944DD40043C869 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		53F3424A2D946589002F740E /* MyMeals.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MyMeals.entitlements; path = MyMeals/MyMeals.entitlements; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MyMeals/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		886A7B168106EC6094A66C67 /* Pods-MyMeals-MyMealsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMeals-MyMealsTests.release.xcconfig"; path = "Target Support Files/Pods-MyMeals-MyMealsTests/Pods-MyMeals-MyMealsTests.release.xcconfig"; sourceTree = "<group>"; };
 		A61D6E359A9E87CFAA0E9490 /* Pods_MyMeals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyMeals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +131,7 @@
 		13B07FAE1A68108700A75B9A /* MyMeals */ = {
 			isa = PBXGroup;
 			children = (
+				53F3424A2D946589002F740E /* MyMeals.entitlements */,
 				5365E5B32CEAF70900778407 /* fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -577,6 +579,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyMeals/MyMeals.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -617,6 +620,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MyMeals/MyMeals.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;

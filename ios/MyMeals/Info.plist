@@ -34,7 +34,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-    <string>MyMeals needs access to your camera to scan barcodes of food items</string>
+	<string>MyMeals needs access to your camera to scan barcodes of food items</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
@@ -57,6 +57,11 @@
 		<string>Switzer-SemiboldItalic.otf</string>
 		<string>Switzer-Thin.otf</string>
 		<string>Switzer-ThinItalic.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>processing</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>

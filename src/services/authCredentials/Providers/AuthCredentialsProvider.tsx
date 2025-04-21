@@ -5,10 +5,11 @@ import React, {
   useState,
 } from 'react';
 
-import {AuthCredentials} from '@domain';
+import {registerInterceptor} from '@api';
+import {AuthCredentials, User} from '@domain';
+import {authService} from '@domain';
 import {AuthCredentialsService} from '@services';
 
-// import {authService} from '../../../domain/Auth/authService';
 import {authCredentialsStorage} from '../authCredentialsStorage.ts';
 
 export const AuthCredentialsContext = createContext<AuthCredentialsService>({
@@ -17,7 +18,7 @@ export const AuthCredentialsContext = createContext<AuthCredentialsService>({
   userId: null,
   saveCredentials: async () => {},
   removeCredentials: async () => {},
-  // updateUser: () => {},
+  updateUser: () => {},
 });
 
 export function AuthCredentialsProvider({children}: PropsWithChildren<{}>) {
@@ -29,23 +30,23 @@ export function AuthCredentialsProvider({children}: PropsWithChildren<{}>) {
     startAuthCredentials();
   }, []);
 
-  // useEffect(() => {
-  //   const interceptor = registerInterceptor({
-  //     authCredentials,
-  //     removeCredentials,
-  //     saveCredentials,
-  //   });
-  //
-  //   // remove listener when component unmount
-  //   return interceptor;
-  // }, [authCredentials]);
+  useEffect(() => {
+    const interceptor = registerInterceptor({
+      authCredentials,
+      removeCredentials,
+      saveCredentials,
+    });
+
+    // remove listener when component unmount
+    return interceptor;
+  }, [authCredentials]);
 
   async function startAuthCredentials() {
     try {
       // await new Promise(resolve => setTimeout(resolve, 2000, ''));
       const ac = await authCredentialsStorage.get();
       if (ac) {
-        // authService.updateToken(ac.token);
+        authService.updateToken(ac.token);
         setAuthCredentials(ac);
       }
     } catch (e) {
@@ -56,19 +57,19 @@ export function AuthCredentialsProvider({children}: PropsWithChildren<{}>) {
   }
 
   async function saveCredentials(ac: AuthCredentials): Promise<void> {
-    // authService.updateToken(ac.token);
+    authService.updateToken(ac.token);
     await authCredentialsStorage.set(ac);
     setAuthCredentials(ac);
   }
 
-  // function updateUser(user: User) {
-  //   if (authCredentials) {
-  //     saveCredentials({...authCredentials, user});
-  //   }
-  // }
+  function updateUser(user: User) {
+    if (authCredentials) {
+      saveCredentials({...authCredentials, user});
+    }
+  }
 
   async function removeCredentials() {
-    // authService.removeToken();
+    authService.removeToken();
     await authCredentialsStorage.remove();
     setAuthCredentials(null);
   }
@@ -82,7 +83,7 @@ export function AuthCredentialsProvider({children}: PropsWithChildren<{}>) {
         isLoading,
         saveCredentials,
         removeCredentials,
-        // updateUser,
+        updateUser,
         userId,
       }}>
       {children}

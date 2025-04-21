@@ -6,18 +6,18 @@ import {foodsService} from '../foodsService.ts';
 
 export function useAddFood(options?: MutationOptions<Foods>) {
   const queryClient = useQueryClient();
-  const {mutate, isPending} = useMutation<Foods, unknown, AddFoodParams>({
+  const {mutate, isPending} = useMutation<Foods, Error, AddFoodParams>({
     mutationFn: params => foodsService.addFood(params),
     retry: false,
     onError: error => {
       console.log(error);
       if (options?.onError) {
-        //TODO: ERROR
+        options.onError(error.message);
       }
     },
     onSuccess: food => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Foods, food.userId],
+        queryKey: [QueryKeys.Foods, 'user', food.userId],
       });
       if (options?.onSuccess) {
         options.onSuccess(food);

@@ -1,4 +1,5 @@
 import React from 'react';
+import {ActivityIndicator} from 'react-native';
 
 import {useAuthSignUp} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -17,18 +18,25 @@ import {
 import {AuthScreenProps} from '@routes';
 
 import {signUpSchema, SignUpSchema} from './signUpSchema.ts';
+import {useAsyncValidation} from './useAsyncValidation.ts';
 
 export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
   const {showToast} = useToastService();
-  const {control, formState, handleSubmit, reset} = useForm<SignUpSchema>({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      username: '',
-      full_name: '',
-    },
-    mode: 'onChange',
+  const {control, formState, handleSubmit, reset, getFieldState, watch} =
+    useForm<SignUpSchema>({
+      resolver: zodResolver(signUpSchema),
+      defaultValues: {
+        email: '',
+        password: '',
+        username: '',
+        full_name: '',
+      },
+      mode: 'onChange',
+    });
+
+  const {usernameValidation, emailValidation} = useAsyncValidation({
+    watch,
+    getFieldState,
   });
 
   function onSuccessCall() {
@@ -55,9 +63,15 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
           placeholder="E-mail"
           label=""
           boxProps={{marginBottom: 's20'}}
+          errorMessage={emailValidation.errorMessage}
           name="email"
           control={control}
           LeftComponent={<Icon color="grayPrimary" name="envelope" />}
+          RightComponent={
+            emailValidation.isFetching ? (
+              <ActivityIndicator size="small" />
+            ) : undefined
+          }
         />
         <FormTextInput
           isUnderlinedVersion
@@ -73,9 +87,15 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
           placeholder="Username"
           label=""
           boxProps={{marginBottom: 's20'}}
+          errorMessage={usernameValidation.errorMessage}
           name="username"
           control={control}
           LeftComponent={<Icon color="grayPrimary" name="envelope" />}
+          RightComponent={
+            usernameValidation.isFetching ? (
+              <ActivityIndicator size="small" />
+            ) : undefined
+          }
         />
         <FormPasswordInput
           isUnderlinedVersion
@@ -91,7 +111,11 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
           mt="s48"
           width="90%"
           alignSelf={'center'}
-          disabled={!formState.isValid}
+          disabled={
+            !formState.isValid ||
+            usernameValidation.notReady ||
+            emailValidation.notReady
+          }
           onPress={handleSubmit(submitForm)}
         />
       </Box>

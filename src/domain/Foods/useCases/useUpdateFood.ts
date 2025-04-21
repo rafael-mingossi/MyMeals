@@ -7,7 +7,7 @@ import {foodsService} from '../foodsService.ts';
 export function useUpdateFood(options?: MutationOptions<Foods>) {
   const queryClient = useQueryClient();
   const {mutate, isPending} = useMutation<Foods, Error, UpdateFoodParams>({
-    mutationFn: params => foodsService.updateFood(params),
+    mutationFn: params => foodsService.updateFood(params, params.id),
     retry: false,
     onError: error => {
       console.log(error);
@@ -17,7 +17,7 @@ export function useUpdateFood(options?: MutationOptions<Foods>) {
     },
     onSuccess: food => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Foods, {userId: food.userId}],
+        queryKey: [QueryKeys.Foods, 'user', food.userId],
       });
       if (options?.onSuccess) {
         options.onSuccess(food);

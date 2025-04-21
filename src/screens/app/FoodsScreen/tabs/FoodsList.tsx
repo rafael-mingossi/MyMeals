@@ -32,13 +32,10 @@ export function FoodsList({
   hasHorizontalPadding = true,
   createOptions,
 }: FoodsListProps) {
-  const {authCredentials} = useAuthCredentials();
   const navigation = useNavigation();
   const [search, setSearch] = useState('');
-
-  const {foods, isLoading} = useGetFoodsByUser(
-    authCredentials?.session.user.id as string,
-  );
+  const {authCredentials} = useAuthCredentials();
+  const {foods, isLoading} = useGetFoodsByUser(authCredentials?.user.id!);
 
   function renderItem({item}: ListRenderItemInfo<Foods>) {
     const handlePress = () => {

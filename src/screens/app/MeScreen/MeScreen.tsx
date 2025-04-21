@@ -7,7 +7,6 @@ import {
   useSettingsService,
   useThemePreference,
 } from '@services';
-import {format} from 'date-fns';
 
 import {
   ActivityIndicator,
@@ -139,12 +138,12 @@ export function MeScreen({navigation}: AppTabScreenProps<'MeScreen'>) {
           </Text>
         </Box>
         <Surface>
-          <Box flexDirection={'row'} justifyContent={'space-between'}>
-            <Text>Date of Birth:</Text>
-            <Text>
-              {user?.dob ? format(new Date(user.dob), 'dd-MM-yyyy') : 'N/A'}
-            </Text>
-          </Box>
+          {/*<Box flexDirection={'row'} justifyContent={'space-between'}>*/}
+          {/*  <Text>Date of Birth:</Text>*/}
+          {/*  <Text>*/}
+          {/*    {user?.dob ? format(new Date(user.dob), 'dd-MM-yyyy') : 'N/A'}*/}
+          {/*  </Text>*/}
+          {/*</Box>*/}
           <Box flexDirection={'row'} justifyContent={'space-between'}>
             <Text>Height:</Text>
             <Text>{user?.height || 'N/A'}</Text>

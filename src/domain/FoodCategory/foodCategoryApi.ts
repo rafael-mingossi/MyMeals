@@ -1,22 +1,11 @@
-import {supabaseClient} from '@api';
+import {api} from '@api';
 
 import {FoodCategoryAPI} from './foodCategoryTypes';
 
 async function getAllCategories(): Promise<FoodCategoryAPI[]> {
-  const {data, error} = await supabaseClient
-    .from('food_categories')
-    .select('*')
-    .order('display_order');
+  const response = await api.get<FoodCategoryAPI[]>('/categories');
 
-  if (error) {
-    throw new Error(`Failed to fetch food categories: ${error.message}`);
-  }
-
-  if (!data) {
-    return [];
-  }
-
-  return data;
+  return response.data;
 }
 
 export const foodCategoryApi = {

@@ -20,7 +20,7 @@ import {
 export function FavouriteFoods() {
   const {authCredentials} = useAuthCredentials();
   const {favouriteFoods} = useGetFavouriteFoodsByUser(
-    authCredentials?.session.user.id as string,
+    authCredentials?.user.id as string,
   );
   const {toggleFavourite, isPending} = useToggleFavourite();
 

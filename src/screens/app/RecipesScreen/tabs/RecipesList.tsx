@@ -35,7 +35,7 @@ export function RecipesList({
   const [search, setSearch] = useState('');
 
   const {recipes, isLoading} = useGetRecipesByUser(
-    authCredentials?.session.user.id as string,
+    authCredentials?.user.id as string,
   );
 
   if (isLoading) {

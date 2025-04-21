@@ -11,7 +11,7 @@ export function useArchiveFood(options?: MutationOptions<Foods>) {
     mutationFn: foodId => foodsService.archiveFood(foodId),
     onSuccess: food => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Foods, {userId: food.userId, showArchived: false}],
+        queryKey: [QueryKeys.Foods, 'user', food.userId],
       });
       if (options?.onSuccess) {
         options.onSuccess(food);

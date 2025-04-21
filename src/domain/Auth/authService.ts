@@ -1,28 +1,69 @@
+import {api} from '@api';
+
+import {authAdapter} from './authAdapter';
 import {authApi} from './authApi';
-import {SignInData, SignUpData, AuthCredentials} from './authTypes';
+import {AuthCredentials, SignUpData} from './authTypes';
 
-async function signIn(signInData: SignInData): Promise<AuthCredentials> {
+async function signIn(
+  email: string,
+  password: string,
+): Promise<AuthCredentials> {
   try {
-    const response = await authApi.signIn(signInData);
-    return {
-      session: response.session,
-      user: response.user,
-    };
+    const authCredentialsAPI = await authApi.signIn(email, password);
+    return authAdapter.toAuthCredentials(authCredentialsAPI);
   } catch (error) {
-    throw new Error('Invalid email or password');
+    console.log('ERROR AUTH SERVICE DOMAIN =>', error);
+    throw new Error('email or password invalid');
   }
-}
-
-async function signUp(signUpData: SignUpData): Promise<void> {
-  await authApi.signUp(signUpData);
 }
 
 async function signOut(): Promise<string> {
   return await authApi.signOut();
 }
 
+async function signUp(signUpData: SignUpData): Promise<void> {
+  await authApi.signUp(signUpData);
+}
+
+async function isUserNameAvailable(username: string): Promise<boolean> {
+  const {isAvailable} = await authApi.isUserNameAvailable({username});
+  return isAvailable;
+}
+
+async function isEmailAvailable(email: string): Promise<boolean> {
+  const {isAvailable} = await authApi.isEmailAvailable({email});
+  return isAvailable;
+}
+
+function updateToken(token: string) {
+  api.defaults.headers.common.Authorization = `Bearer ${token}`;
+}
+
+function removeToken() {
+  api.defaults.headers.common.Authorization = null;
+}
+
+async function requestNewPassword(email: string): Promise<string> {
+  const {message} = await authApi.forgotPassword({email});
+  return message;
+}
+
+async function authenticateByRefreshToken(
+  refreshToken: string,
+): Promise<AuthCredentials> {
+  const acAPI = await authApi.refreshToken(refreshToken);
+  return authAdapter.toAuthCredentials(acAPI);
+}
+
 export const authService = {
   signIn,
-  signUp,
   signOut,
+  signUp,
+  updateToken,
+  removeToken,
+  isUserNameAvailable,
+  isEmailAvailable,
+  requestNewPassword,
+  authenticateByRefreshToken,
+  isRefreshTokenRequest: authApi.isRefreshTokenRequest,
 };

@@ -2,9 +2,9 @@ import {schemaTypes} from '@form';
 import {z} from 'zod';
 
 export const editUserSchema = z.object({
-  username: z.string(),
+  // username: z.string(),
   full_name: z.string(),
-  dob: z.string(),
+  // dob: z.string(),
   // avatarUrl: z.string(),
   // gender: z.string(),
   height: schemaTypes.requiredPositiveNumber,

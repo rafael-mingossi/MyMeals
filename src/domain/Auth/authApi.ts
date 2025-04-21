@@ -1,51 +1,93 @@
-import {supabaseClient} from '@api';
+import {api} from '@api';
+import {AxiosRequestConfig} from 'axios';
 
-import {SignInData, SignUpData} from './authTypes';
+import {UserAPI} from '../User';
 
-async function signIn({email, password}: SignInData) {
-  const {data, error} = await supabaseClient.auth.signInWithPassword({
+import {
+  AuthCredentialsAPI,
+  FieldIsAvailableAPI,
+  ForgotPasswordParam,
+  SignUpDataAPI,
+} from './authTypes';
+
+const REFRESH_TOKEN_URL = '/auth/refresh-token';
+
+async function signIn(
+  email: string,
+  password: string,
+): Promise<AuthCredentialsAPI> {
+  const response = await api.post<AuthCredentialsAPI>('/auth/login', {
     email,
     password,
   });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return data;
-}
-
-async function signUp({email, password, username, full_name}: SignUpData) {
-  const {data, error} = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        username,
-        full_name,
-      },
-    },
-  });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return data;
+  return response.data;
 }
 
 async function signOut(): Promise<string> {
-  const {error} = await supabaseClient.auth.signOut();
+  const response = await api.get<string>('/auth/profile/logout');
+  return response.data;
+}
 
-  if (error) {
-    throw new Error(error.message);
-  }
+async function signUp(data: SignUpDataAPI): Promise<UserAPI> {
+  const response = await api.post<UserAPI>('/auth/register', data);
+  return response.data;
+}
 
-  return 'Logged out API';
+async function isUserNameAvailable(params: {
+  username: string;
+}): Promise<FieldIsAvailableAPI> {
+  const response = await api.get<FieldIsAvailableAPI>('auth/check-username', {
+    params,
+  });
+
+  return response.data;
+}
+
+async function isEmailAvailable(params: {
+  email: string;
+}): Promise<FieldIsAvailableAPI> {
+  const response = await api.get<FieldIsAvailableAPI>('auth/check-email', {
+    params,
+  });
+
+  return response.data;
+}
+
+async function forgotPassword(
+  params: ForgotPasswordParam,
+): Promise<{message: string}> {
+  const response = await api.post<{message: string}>(
+    'auth/forgot-password',
+    params,
+  );
+
+  return response.data;
+}
+
+async function refreshToken(token: string): Promise<AuthCredentialsAPI> {
+  const response = await api.post<AuthCredentialsAPI>(REFRESH_TOKEN_URL, {
+    refreshToken: token,
+  });
+
+  return response.data;
+}
+
+/**
+ * @returns  Check the config URL property to returns if is a refresh token request
+ * @param request
+ */
+function isRefreshTokenRequest(request: AxiosRequestConfig): boolean {
+  const url = request.url;
+  return url === REFRESH_TOKEN_URL;
 }
 
 export const authApi = {
   signIn,
-  signUp,
   signOut,
+  signUp,
+  isUserNameAvailable,
+  isEmailAvailable,
+  forgotPassword,
+  refreshToken,
+  isRefreshTokenRequest,
 };

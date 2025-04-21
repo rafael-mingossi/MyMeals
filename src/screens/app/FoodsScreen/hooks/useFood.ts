@@ -25,7 +25,7 @@ export function useFood(
       showToast({
         message: 'Food was added!',
       });
-      navigation.goBack();
+      // navigation.goBack();
       reset?.();
     },
     onError: () => {
@@ -53,14 +53,6 @@ export function useFood(
   });
 
   const onSubmit = (data: FormInputValues) => {
-    if (!authCredentials?.session.user.id) {
-      showToast({
-        message: 'User not authenticated',
-        type: 'error',
-      });
-      return;
-    }
-
     const baseFood = {
       label: data.label,
       category_id: Number(data.category_id),
@@ -88,7 +80,7 @@ export function useFood(
       case 'create':
       case 'barcode':
         const addParams: AddFoodParams = {
-          user_id: authCredentials.session.user.id,
+          user_id: authCredentials?.user.id!,
           ...baseFood,
         };
         addFood(addParams);

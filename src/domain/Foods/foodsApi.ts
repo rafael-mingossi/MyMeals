@@ -1,104 +1,39 @@
-import {supabaseClient} from '@api';
+import {api} from '@api';
 
 import {AddFoodParams, FoodsAPI, UpdateFoodParams} from './foodsTypes.ts';
 
-async function getFoodsByUser(
-  userId: string,
-  showArchived: boolean = false,
-): Promise<FoodsAPI[]> {
-  const {data, error} = await supabaseClient
-    .from('foods')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('is_archived', showArchived)
-    .order('created_at', {ascending: false});
+export const FOOD_PATH = '/foods';
 
-  if (error) {
-    throw new Error(`Failed to fetch foods: ${error.message}`);
-  }
+async function getFoodsByUser(): Promise<FoodsAPI[]> {
+  const response = await api.get<FoodsAPI[]>(FOOD_PATH);
 
-  return data || [];
+  return response.data;
 }
 
 async function getFoodsByIds(foodIds: number[]): Promise<FoodsAPI[]> {
-  const {data, error} = await supabaseClient
-    .from('foods')
-    .select('*')
-    .in('id', foodIds);
-
-  if (error) {
-    throw new Error(`Failed to fetch foods: ${error.message}`);
-  }
-
-  return data || [];
+  const response = await api.post<FoodsAPI[]>(`${FOOD_PATH}/byIds`, foodIds);
+  return response.data;
 }
 
 async function addFood(foodData: AddFoodParams): Promise<FoodsAPI> {
-  const {data, error} = await supabaseClient
-    .from('foods')
-    .insert(foodData)
-    .select('*') ///// This requests the created record to be returned
-    .single(); ////// This ensures a single record is returned
-
-  if (error) {
-    throw new Error(`Failed to add food: ${error.message}`);
-  }
-
-  if (!data) {
-    throw new Error('Failed to add food: No data returned');
-  }
-
-  return data;
+  const response = await api.post<FoodsAPI>(FOOD_PATH, foodData);
+  return response.data;
 }
 
-async function updateFood(foodData: UpdateFoodParams): Promise<FoodsAPI> {
-  const {data, error} = await supabaseClient
-    .from('foods')
-    .update({
-      label: foodData.label,
-      protein: foodData.protein,
-      carbs: foodData.carbs,
-      fat: foodData.fat,
-      calories: foodData.calories,
-      fibre: foodData.fibre,
-      sodium: foodData.sodium,
-      serv_size: foodData.serv_size,
-      serv_unit: foodData.serv_unit,
-      food_img: foodData.food_img,
-      category_id: foodData.category_id,
-    })
-    .eq('id', foodData.id)
-    .select('*')
-    .single();
+async function updateFood(
+  foodData: UpdateFoodParams,
+  foodId: number,
+): Promise<FoodsAPI> {
+  const response = await api.put<FoodsAPI>(`${FOOD_PATH}/${foodId}`, foodData);
 
-  if (error) {
-    throw new Error(`Failed to update food: ${error.message}`);
-  }
-
-  if (!data) {
-    throw new Error('Failed to update food: No data returned');
-  }
-
-  return data;
+  return response.data;
 }
 
 async function archiveFood(foodId: number): Promise<FoodsAPI> {
-  const {data, error} = await supabaseClient
-    .from('foods')
-    .update({is_archived: true})
-    .eq('id', foodId)
-    .select('*')
-    .single();
-
-  if (error) {
-    throw new Error(`Failed to archive food: ${error.message}`);
-  }
-
-  if (!data) {
-    throw new Error('Failed to archive food: No data returned');
-  }
-
-  return data;
+  const response = await api.put<{message: string; food: FoodsAPI}>(
+    `${FOOD_PATH}/${foodId}/archive`,
+  );
+  return response.data.food;
 }
 
 export const foodsApi = {

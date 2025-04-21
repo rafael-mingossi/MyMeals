@@ -3,29 +3,34 @@ import {useAuthCredentials} from '@services';
 import {useMutation} from '@tanstack/react-query';
 
 import {authService} from '../authService';
-import {AuthCredentials, SignInData} from '../authTypes';
+import {AuthCredentials} from '../authTypes';
+
+interface Variables {
+  email: string;
+  password: string;
+}
 
 export function useAuthSignIn(options?: MutationOptions<AuthCredentials>) {
   const {saveCredentials} = useAuthCredentials();
-  const mutation = useMutation<AuthCredentials, Error, SignInData>({
-    mutationFn: data => authService.signIn(data),
-    onSuccess: authCredentials => {
-      if (options?.onSuccess) {
-        options.onSuccess(authCredentials);
-        console.log('authCredentials =>>>', authCredentials);
-        saveCredentials(authCredentials);
-      }
-    },
+  const mutation = useMutation<AuthCredentials, Error, Variables>({
+    mutationFn: ({email, password}) => authService.signIn(email, password),
+    retry: false,
     onError: error => {
       if (options?.onError) {
         options.onError(error.message);
       }
     },
+    onSuccess: authCredentials => {
+      if (options?.onSuccess) {
+        options.onSuccess(authCredentials);
+      }
+      saveCredentials(authCredentials);
+    },
   });
 
   return {
     isLoading: mutation.isPending,
-    signIn: (data: SignInData) => mutation.mutate(data),
+    signIn: (variables: Variables) => mutation.mutate(variables),
     isSuccess: mutation.isSuccess,
     isError: mutation.isError,
   };

@@ -7,9 +7,10 @@ import {AuthCredentials, SignUpData} from '../authTypes';
 export function useAuthSignUp(options?: MutationOptions<AuthCredentials>) {
   const mutation = useMutation<void, Error, SignUpData>({
     mutationFn: data => authService.signUp(data),
+    retry: false,
     onSuccess: () => {
       if (options?.onSuccess) {
-        options.onSuccess({} as AuthCredentials); // We pass empty credentials since SignUp returns void
+        options.onSuccess({} as AuthCredentials);
       }
     },
     onError: error => {
@@ -20,8 +21,12 @@ export function useAuthSignUp(options?: MutationOptions<AuthCredentials>) {
     },
   });
 
+  function signUp(signUpData: SignUpData) {
+    mutation.mutate(signUpData);
+  }
+
   return {
     isLoading: mutation.isPending,
-    signUp: (data: SignUpData) => mutation.mutate(data),
+    signUp,
   };
 }

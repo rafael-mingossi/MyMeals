@@ -7,18 +7,18 @@ import {CreateRecipeParams, Recipe} from '../recipesTypes';
 export function useCreateRecipe(options?: MutationOptions<Recipe>) {
   const queryClient = useQueryClient();
 
-  const {mutate, isPending} = useMutation<Recipe, unknown, CreateRecipeParams>({
+  const {mutate, isPending} = useMutation<Recipe, Error, CreateRecipeParams>({
     mutationFn: params => recipesService.createRecipe(params),
     retry: false,
     onError: error => {
       console.log(error);
       if (options?.onError) {
-        //TODO: ERROR
+        options.onError(error.message);
       }
     },
     onSuccess: recipe => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Recipes, {userId: recipe.userId}],
+        queryKey: [QueryKeys.Recipes, 'user', recipe.userId],
       });
       if (options?.onSuccess) {
         options.onSuccess(recipe);

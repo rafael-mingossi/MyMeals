@@ -33,12 +33,10 @@ function toRecipe(
   };
 }
 
-function toRecipesList(recipesAPI: RecipesAPI[]): Recipe[] {
-  return recipesAPI.map(recipe => toRecipe(recipe));
-}
+// function toRecipesList(recipesAPI: RecipesAPI[]): Recipe[] {
+//   return recipesAPI.map(recipe => toRecipe(recipe));
+// }
 
 export const recipesAdapter = {
   toRecipe,
-  toRecipesList,
-  toRecipeItem,
 };

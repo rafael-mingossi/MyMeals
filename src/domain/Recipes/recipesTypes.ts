@@ -1,3 +1,15 @@
+import {Foods} from '../Foods';
+
+export type RecItemsAPI = {
+  id: number;
+  recipe_id: number;
+  food_id: number;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+  food: Foods;
+};
+
 export interface RecipesAPI {
   id: number;
   created_at: string;
@@ -13,6 +25,7 @@ export interface RecipesAPI {
   serv_unit: string;
   img?: string;
   is_archived: boolean;
+  items: RecItemsAPI[];
 }
 
 export interface RecipeItemsAPI {
@@ -37,8 +50,8 @@ export interface Recipe {
   servSize: number;
   servUnit: string;
   image?: string;
-  recipeItems?: RecipeItem[];
   isArchived: boolean;
+  recipeItems?: RecipeItem[];
 }
 
 export interface RecipeItem {
@@ -53,28 +66,41 @@ export interface RecipeItemNavigation extends Omit<RecipeItem, 'createdAt'> {
   createdAt: string;
 }
 
-export type AddRecipeParams = Omit<RecipesAPI, 'id' | 'created_at'> & {
-  is_archived?: boolean;
-};
-
-export type AddRecipeItemParams = Omit<RecipeItemsAPI, 'id' | 'created_at'>;
-
-export interface CreateRecipeParams extends Omit<AddRecipeParams, 'id'> {
-  items: Omit<AddRecipeItemParams, 'recipe_id'>[];
-}
-
-export type UpdateRecipe = Omit<
+export type AddRecipeParams = Omit<
   RecipesAPI,
-  'created_at' | 'user_id' | 'is_archived'
+  | 'id'
+  | 'created_at'
+  | 'items'
+  | 't_calories'
+  | 't_carbs'
+  | 't_fat'
+  | 't_fibre'
+  | 't_protein'
+  | 't_sodium'
 >;
 
-export type UpdateRecipeItemParams = Omit<
-  RecipeItemsAPI,
-  'id' | 'created_at' | 'recipe_id'
+export type AddRecipeItemParams = Omit<
+  RecItemsAPI,
+  'id' | 'created_at' | 'updated_at' | 'recipe_id' | 'food'
 >;
 
-export interface UpdateRecipePayload extends UpdateRecipe {
-  items: UpdateRecipeItemParams[];
-}
+export type CreateRecipeParams = {
+  items: AddRecipeItemParams[];
+} & AddRecipeParams;
 
-export type UpdateRecipeParams = Omit<UpdateRecipePayload, 'id'>;
+export type UpdateRecipeParams = Omit<
+  RecipesAPI,
+  | 'created_at'
+  | 'is_archived'
+  | 't_calories'
+  | 't_carbs'
+  | 't_fat'
+  | 't_fibre'
+  | 't_protein'
+  | 't_sodium'
+  | 'items'
+>;
+
+export type UpdateRecipeAPI = {
+  items: AddRecipeItemParams[];
+} & UpdateRecipeParams;

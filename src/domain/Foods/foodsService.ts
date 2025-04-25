@@ -7,7 +7,7 @@ async function getFoodsByUser(): Promise<Foods[]> {
   return foodsAdapter.toFoodsList(foodsAPI);
 }
 
-async function getFoodsByIds(foodIds: number[]): Promise<Foods[]> {
+async function getFoodsByIds(foodIds: {foodIds: number[]}): Promise<Foods[]> {
   const foodsAPI = await foodsApi.getFoodsByIds(foodIds);
   return foodsAdapter.toFoodsList(foodsAPI);
 }

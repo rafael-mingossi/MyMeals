@@ -10,7 +10,9 @@ async function getFoodsByUser(): Promise<FoodsAPI[]> {
   return response.data;
 }
 
-async function getFoodsByIds(foodIds: number[]): Promise<FoodsAPI[]> {
+async function getFoodsByIds(foodIds: {
+  foodIds: number[];
+}): Promise<FoodsAPI[]> {
   const response = await api.post<FoodsAPI[]>(`${FOOD_PATH}/byIds`, foodIds);
   return response.data;
 }

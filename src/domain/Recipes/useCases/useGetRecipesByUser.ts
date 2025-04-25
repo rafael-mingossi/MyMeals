@@ -10,8 +10,8 @@ export function useGetRecipesByUser(userId: string) {
     isLoading,
     error,
   } = useQuery<Recipe[], Error>({
-    queryKey: [QueryKeys.Recipes, {userId: userId}],
-    queryFn: () => recipesService.getRecipesByUser(userId),
+    queryKey: [QueryKeys.Recipes, 'user', userId],
+    queryFn: () => recipesService.getRecipesByUser(),
   });
 
   return {

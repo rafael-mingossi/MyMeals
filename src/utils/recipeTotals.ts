@@ -2,15 +2,20 @@ import {Foods} from '@domain';
 
 const recipeTotals = (items: Map<number, {food: Foods; quantity: number}>) => {
   return Array.from(items.values()).reduce(
-    (acc, {food, quantity}) => ({
-      weight: (acc.weight || 0) + food.servSize * quantity,
-      calories: acc.calories + food.calories * quantity,
-      protein: acc.protein + food.protein * quantity,
-      fat: acc.fat + food.fat * quantity,
-      carbs: acc.carbs + food.carbs * quantity,
-      fibre: acc.fibre + (food.fibre || 0) * quantity,
-      sodium: acc.sodium + (food.sodium || 0) * quantity,
-    }),
+    (acc, {food, quantity}) => {
+      // Calculate the same way as backend
+      const factor = quantity / food.servSize;
+
+      return {
+        weight: (acc.weight || 0) + quantity,
+        calories: acc.calories + food.calories * factor,
+        protein: acc.protein + food.protein * factor,
+        fat: acc.fat + food.fat * factor,
+        carbs: acc.carbs + food.carbs * factor,
+        fibre: acc.fibre + (food.fibre || 0) * factor,
+        sodium: acc.sodium + (food.sodium || 0) * factor,
+      };
+    },
     {
       weight: 0,
       calories: 0,

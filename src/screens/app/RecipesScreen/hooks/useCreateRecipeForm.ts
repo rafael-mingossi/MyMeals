@@ -13,10 +13,8 @@ import {
   useRecipeListService,
   useToastService,
 } from '@services';
-import {calcRecipeTotals} from '@utils';
 
 import {AddRecipeForm} from '../tabs/AddRecipe.tsx';
-
 
 export function useCreateRecipeForm(
   isUpdatingItem = false,
@@ -38,7 +36,9 @@ export function useCreateRecipeForm(
   }, [isUpdatingItem, recipeToUpdate]);
 
   // Fetch foods data
-  const {foods, isLoading: isFoodsLoading} = useGetFoodsByIds(foodIds);
+  const {foods, isLoading: isFoodsLoading} = useGetFoodsByIds({
+    foodIds: foodIds,
+  });
 
   // Initialize recipe items when updating
   useEffect(() => {
@@ -47,6 +47,7 @@ export function useCreateRecipeForm(
 
       recipeToUpdate.recipeItems.forEach(item => {
         const food = foods.find(f => f.id === item.foodId);
+        console.log({food});
         if (food) {
           addFoodToRecipe(food, item.quantity);
         }
@@ -82,12 +83,24 @@ export function useCreateRecipeForm(
     },
   });
 
+  // const recipeItemsListX = Array.from(recipeItems.values()).map(item => ({
+  //   food_id: item.food.id,
+  //   quantity: item.quantity,
+  // }));
+
+  // const recipeItemsListX = recipeToUpdate?.recipeItems?.map(val => ({
+  //   food_id: val.id,
+  //   quantity: val.quantity,
+  // }));
+  //
+  // console.log('XXXXX= >>>', recipeItemsListX);
+  // XXXXX= >>> [{"food_id": 2, "quantity": 1}]
+  // XXXXX= >>> [{"food_id": 4, "quantity": 1}, {"food_id": 5, "quantity": 1}]
+
   const handleCreateRecipe = (formData: AddRecipeForm) => {
     if (!user?.id) {
       return;
     }
-
-    const totals = calcRecipeTotals.recipeTotals(recipeItems);
 
     const recipeItemsList = Array.from(recipeItems.values()).map(item => ({
       food_id: item.food.id,
@@ -97,15 +110,10 @@ export function useCreateRecipeForm(
     if (isUpdatingItem && recipeToUpdate?.id) {
       updateRecipe({
         id: recipeToUpdate?.id,
+        user_id: user.id,
         name: formData.name,
         serving: Number(formData.serving),
         serv_unit: formData.servingUnit,
-        t_calories: totals.calories,
-        t_carbs: totals.carbs,
-        t_fat: totals.fat,
-        t_protein: totals.protein,
-        t_fibre: totals.fibre,
-        t_sodium: totals.sodium,
         items: recipeItemsList,
       });
     } else {
@@ -114,12 +122,6 @@ export function useCreateRecipeForm(
         name: formData.name,
         serving: Number(formData.serving),
         serv_unit: formData.servingUnit,
-        t_calories: totals.calories,
-        t_carbs: totals.carbs,
-        t_fat: totals.fat,
-        t_protein: totals.protein,
-        t_fibre: totals.fibre,
-        t_sodium: totals.sodium,
         items: recipeItemsList,
         is_archived: false,
       });

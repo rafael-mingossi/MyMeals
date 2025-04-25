@@ -24,7 +24,9 @@ export function FavouriteFoods() {
   );
   const {toggleFavourite, isPending} = useToggleFavourite();
 
-  const {foods, isLoading} = useGetFoodsByIds(favouriteFoods);
+  const {foods, isLoading} = useGetFoodsByIds({
+    foodIds: favouriteFoods,
+  });
 
   const handleToggleFavorite = (userId: string, foodId: number) => {
     if (!userId) {

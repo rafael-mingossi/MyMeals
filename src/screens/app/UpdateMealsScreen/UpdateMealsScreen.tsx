@@ -79,7 +79,9 @@ export function UpdateMealsScreen({
   const {recipes} = useGetRecipesById(
     recipeIdsByMealType[route.params.mealType],
   );
-  const {foods} = useGetFoodsByIds(foodIdsByMealType[route.params.mealType]);
+  const {foods} = useGetFoodsByIds({
+    foodIds: foodIdsByMealType[route.params.mealType],
+  });
 
   const {mutate: deleteMealItem, isPending: isDeleting} = useDeleteMealItem({
     onSuccess: () => {

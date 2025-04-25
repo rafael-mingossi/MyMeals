@@ -81,7 +81,7 @@ export function AddRecipe({
   };
 
   if (isLoading) {
-    return <ActivityIndicator />; // Add your loading component
+    return <ActivityIndicator />;
   }
   return (
     <ScrollView showsVerticalScrollIndicator={false}>

@@ -15,13 +15,13 @@ describe('calcRecipeTotals', () => {
           }),
         ),
       ).toStrictEqual({
-        weight: 30,
-        calories: 30,
-        protein: 30,
-        fat: 30,
-        carbs: 30,
-        fibre: 30,
-        sodium: 30,
+        weight: 3,
+        calories: 3,
+        protein: 3,
+        fat: 3,
+        carbs: 3,
+        fibre: 3,
+        sodium: 3,
       });
 
       expect(
@@ -32,13 +32,13 @@ describe('calcRecipeTotals', () => {
           }),
         ),
       ).toStrictEqual({
-        weight: 10,
-        calories: 10,
-        protein: 10,
-        fat: 10,
-        carbs: 10,
-        fibre: 10,
-        sodium: 10,
+        weight: 1,
+        calories: 1,
+        protein: 1,
+        fat: 1,
+        carbs: 1,
+        fibre: 1,
+        sodium: 1,
       });
     });
   });

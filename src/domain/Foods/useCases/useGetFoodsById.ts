@@ -4,7 +4,7 @@ import {useQuery} from '@tanstack/react-query';
 
 import {foodsService} from '../foodsService.ts';
 
-export function useGetFoodsByIds(foodIds: number[]) {
+export function useGetFoodsByIds(foodIds: {foodIds: number[]}) {
   const {
     data: foods,
     isLoading,
@@ -12,7 +12,7 @@ export function useGetFoodsByIds(foodIds: number[]) {
   } = useQuery<Foods[], Error>({
     queryKey: [QueryKeys.Foods, {foodIds}],
     queryFn: () => foodsService.getFoodsByIds(foodIds),
-    enabled: foodIds.length > 0,
+    enabled: foodIds.foodIds.length > 0,
   });
 
   return {

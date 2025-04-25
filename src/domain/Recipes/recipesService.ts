@@ -1,15 +1,12 @@
-import {Recipe, CreateRecipeParams, UpdateRecipeParams} from '@domain';
+import {Recipe, CreateRecipeParams, UpdateRecipeAPI} from '@domain';
 
 import {recipesAdapter} from './recipesAdapter';
 import {recipesApi} from './recipesApi';
 
-async function getRecipesByUser(userId: string): Promise<Recipe[]> {
-  const {recipes, recipeItems} = await recipesApi.getRecipesByUser(userId);
+async function getRecipesByUser(): Promise<Recipe[]> {
+  const recipes = await recipesApi.getRecipesByUser();
   return recipes.map(recipe => {
-    const recipeItemsList = recipeItems.filter(
-      item => item.recipe_id === recipe.id,
-    );
-    return recipesAdapter.toRecipe(recipe, recipeItemsList);
+    return recipesAdapter.toRecipe(recipe, recipe.items);
   });
 }
 
@@ -21,16 +18,16 @@ async function getRecipesById(recipeIds: number[]): Promise<Recipe[]> {
 }
 
 async function createRecipe(params: CreateRecipeParams): Promise<Recipe> {
-  const {recipe, recipeItems} = await recipesApi.createRecipe(params);
-  return recipesAdapter.toRecipe(recipe, recipeItems);
+  const recipe = await recipesApi.createRecipe(params);
+  return recipesAdapter.toRecipe(recipe, recipe.items);
 }
 
 async function updateRecipe(
+  params: UpdateRecipeAPI,
   recipeId: number,
-  params: UpdateRecipeParams,
 ): Promise<Recipe> {
-  const {recipe, recipeItems} = await recipesApi.updateRecipe(recipeId, params);
-  return recipesAdapter.toRecipe(recipe, recipeItems);
+  const recipe = await recipesApi.updateRecipe(params, recipeId);
+  return recipesAdapter.toRecipe(recipe, recipe.items);
 }
 
 async function archiveRecipe(recipeId: number): Promise<Recipe> {

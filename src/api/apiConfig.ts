@@ -14,10 +14,6 @@ type InterceptorProps = {
 export const BASE_URL = 'http://127.0.0.1:3333/api';
 export const api = axios.create({
   baseURL: BASE_URL,
-  // headers: {
-  //   Authorization:
-  //     'Bearer eyJhbGciOiJSUzI1NiJ9.eyJkYXRhIjp7InVzZXJJZCI6ImI0YjBhZDU1LTkzMjUtNDZiZi1iYTA1LTg5Y2Q1NGYxZTNmNyIsInVzZXIiOnsiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIn19LCJpYXQiOjE3NDQwNjI4MjksImV4cCI6MTc0NDA2NDYyOX0.KNMBcge-_l0s4Vn1I6oL0GKVir9iaDTxv5rNPuGJ8lTPlk34u_y50lrss0MFMo3BqpdvpP__lNlWAKKOE8ssKd31YHwFKAM5oEWo8qfRvdzvAiC0p87T-LPCdutnF3MHQbmAJAnkdF0fsuJk08AZoqqRoDg1qncjq_I3JymTIFqwXfIC7fb6CEjlPbys7dcXkZfO9zwcQ99vHm5r6a4AYYAGnDcMfXnYrGVnsC7K5MxK8Vf5XQIwcKcE6pLY58iULomNHOUYPyhgQWecYccb4CEHtaF5xWxXctLG14vZZ-MZiW7M--9wn1oYdO6_I45U_ttwKMeABRBqMQGgM1hpRw',
-  // },
 });
 
 export function registerInterceptor({

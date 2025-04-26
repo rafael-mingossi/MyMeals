@@ -25,7 +25,7 @@ export function FavouriteRecipes() {
 
   const {toggleFavourite, isPending} = useToggleFavourite();
 
-  const {recipes, isLoading} = useGetRecipesById(favouriteRecipes);
+  const {recipes, isLoading} = useGetRecipesById({recipeIds: favouriteRecipes});
 
   const handleToggleFavorite = (userId: string, recipeId: number) => {
     if (!userId) {

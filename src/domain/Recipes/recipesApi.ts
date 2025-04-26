@@ -1,4 +1,4 @@
-import {api, supabaseClient} from '@api';
+import {api} from '@api';
 
 import {RecipesAPI, CreateRecipeParams, UpdateRecipeAPI} from './recipesTypes';
 
@@ -10,21 +10,11 @@ async function getRecipesByUser(): Promise<RecipesAPI[]> {
   return response.data;
 }
 
-async function getRecipesById(
-  recipeIds: number[],
-): Promise<{recipes: RecipesAPI[]}> {
-  const {data, error} = await supabaseClient
-    .from('recipes')
-    .select('*')
-    .in('id', recipeIds);
-
-  if (error) {
-    throw new Error(`Failed to fetch recipes: ${error.message}`);
-  }
-
-  return {
-    recipes: data || [],
-  };
+async function getRecipesById(recipeIds: {
+  recipeIds: number[];
+}): Promise<RecipesAPI[]> {
+  const response = await api.post(`${RECIPES_PATH}/byIds`, recipeIds);
+  return response.data;
 }
 
 async function createRecipe(
@@ -39,24 +29,19 @@ async function updateRecipe(
   recipeData: UpdateRecipeAPI,
   recipeId: number,
 ): Promise<RecipesAPI> {
-  const response = await api.put(`${RECIPES_PATH}/${recipeId}`, recipeData);
+  const response = await api.put<RecipesAPI>(
+    `${RECIPES_PATH}/${recipeId}`,
+    recipeData,
+  );
 
   return response.data;
 }
 
 async function archiveRecipe(recipeId: number): Promise<RecipesAPI> {
-  const {data, error} = await supabaseClient
-    .from('recipes')
-    .update({is_archived: true})
-    .eq('id', recipeId)
-    .select('*')
-    .single();
-
-  if (error) {
-    throw new Error(`Failed to archive recipe: ${error.message}`);
-  }
-
-  return data;
+  const response = await api.put<{message: string; recipe: RecipesAPI}>(
+    `${RECIPES_PATH}/${recipeId}/archive`,
+  );
+  return response.data.recipe;
 }
 
 export const recipesApi = {

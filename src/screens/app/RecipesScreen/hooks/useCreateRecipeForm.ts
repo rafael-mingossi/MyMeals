@@ -83,20 +83,6 @@ export function useCreateRecipeForm(
     },
   });
 
-  // const recipeItemsListX = Array.from(recipeItems.values()).map(item => ({
-  //   food_id: item.food.id,
-  //   quantity: item.quantity,
-  // }));
-
-  // const recipeItemsListX = recipeToUpdate?.recipeItems?.map(val => ({
-  //   food_id: val.id,
-  //   quantity: val.quantity,
-  // }));
-  //
-  // console.log('XXXXX= >>>', recipeItemsListX);
-  // XXXXX= >>> [{"food_id": 2, "quantity": 1}]
-  // XXXXX= >>> [{"food_id": 4, "quantity": 1}, {"food_id": 5, "quantity": 1}]
-
   const handleCreateRecipe = (formData: AddRecipeForm) => {
     if (!user?.id) {
       return;

@@ -6,23 +6,25 @@ import {recipesService} from '../recipesService';
 
 export function useArchiveRecipe(options?: MutationOptions<Recipe>) {
   const queryClient = useQueryClient();
-  const {mutate: archiveRecipe, isPending} = useMutation({
-    mutationFn: recipesService.archiveRecipe,
-    onSuccess: recipe => {
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Recipes, {userId: recipe.userId}],
-      });
-      if (options?.onSuccess) {
-        options.onSuccess(recipe);
-      }
+  const {mutate: archiveRecipe, isPending} = useMutation<Recipe, Error, number>(
+    {
+      mutationFn: recipesService.archiveRecipe,
+      onSuccess: recipe => {
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.Recipes, 'user', recipe.userId],
+        });
+        if (options?.onSuccess) {
+          options.onSuccess(recipe);
+        }
+      },
+      onError: error => {
+        console.log(error);
+        if (options?.onError) {
+          options.onError(error.message);
+        }
+      },
     },
-    onError: error => {
-      console.log(error);
-      if (options?.onError) {
-        //TODO: ERROR
-      }
-    },
-  });
+  );
 
   return {
     archiveRecipe,

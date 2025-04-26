@@ -4,7 +4,7 @@ import {useQuery} from '@tanstack/react-query';
 
 import {recipesService} from '../recipesService.ts';
 
-export function useGetRecipesById(recipeIds: number[]) {
+export function useGetRecipesById(recipeIds: {recipeIds: number[]}) {
   const {
     data: recipes,
     isLoading,
@@ -12,7 +12,7 @@ export function useGetRecipesById(recipeIds: number[]) {
   } = useQuery<Recipe[], Error>({
     queryKey: [QueryKeys.Recipes, {recipeIds}],
     queryFn: () => recipesService.getRecipesById(recipeIds),
-    enabled: recipeIds.length > 0,
+    enabled: recipeIds.recipeIds.length > 0,
   });
 
   return {

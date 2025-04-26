@@ -76,9 +76,9 @@ export function UpdateMealsScreen({
 
   const foodIdsByMealType = extractIdsByMealType(currentMeals, 'foodId');
   const recipeIdsByMealType = extractIdsByMealType(currentMeals, 'recipeId');
-  const {recipes} = useGetRecipesById(
-    recipeIdsByMealType[route.params.mealType],
-  );
+  const {recipes} = useGetRecipesById({
+    recipeIds: recipeIdsByMealType[route.params.mealType],
+  });
   const {foods} = useGetFoodsByIds({
     foodIds: foodIdsByMealType[route.params.mealType],
   });

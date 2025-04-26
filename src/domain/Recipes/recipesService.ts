@@ -10,9 +10,11 @@ async function getRecipesByUser(): Promise<Recipe[]> {
   });
 }
 
-async function getRecipesById(recipeIds: number[]): Promise<Recipe[]> {
-  const {recipes} = await recipesApi.getRecipesById(recipeIds);
-  return recipes.map(recipe => {
+async function getRecipesById(recipeIds: {
+  recipeIds: number[];
+}): Promise<Recipe[]> {
+  const recipesAPI = await recipesApi.getRecipesById(recipeIds);
+  return recipesAPI.map(recipe => {
     return recipesAdapter.toRecipe(recipe);
   });
 }

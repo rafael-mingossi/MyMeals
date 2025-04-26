@@ -4,6 +4,7 @@ import {Recipe, useToggleFavourite} from '@domain';
 import {useToastService} from '@services';
 
 import {
+  ActivityIndicator,
   AlertDialog,
   CustomTabMenu,
   OptionItem,
@@ -32,7 +33,7 @@ export function RecipesScreen({
 
   const {showToast} = useToastService();
   const {toggleFavourite, isPending: isLoadingFav} = useToggleFavourite();
-  const {archiveRecipe} = useArchiveRecipe({
+  const {archiveRecipe, isPending} = useArchiveRecipe({
     onSuccess: () => {
       showToast({message: 'Recipe archived!', type: 'success'});
     },
@@ -98,6 +99,10 @@ export function RecipesScreen({
         return <AddRecipe />;
     }
   };
+
+  if (isPending) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <ScreenFixedHeader

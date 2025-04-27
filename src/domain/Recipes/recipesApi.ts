@@ -13,7 +13,10 @@ async function getRecipesByUser(): Promise<RecipesAPI[]> {
 async function getRecipesById(recipeIds: {
   recipeIds: number[];
 }): Promise<RecipesAPI[]> {
-  const response = await api.post(`${RECIPES_PATH}/byIds`, recipeIds);
+  const response = await api.post<RecipesAPI[]>(
+    `${RECIPES_PATH}/byIds`,
+    recipeIds,
+  );
   return response.data;
 }
 

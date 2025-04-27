@@ -10,7 +10,7 @@ import {
   useGetMealsByUserAndDate,
   useGetRecipesById,
 } from '@domain';
-import {useAuthCredentials, useCalendar, useToastService} from '@services';
+import {useCalendar, useToastService} from '@services';
 
 import {
   ActivityIndicator,
@@ -34,13 +34,9 @@ export function UpdateMealsScreen({
   route,
 }: AppScreenProps<'UpdateMealsScreen'>) {
   const {showToast} = useToastService();
-  const {authCredentials} = useAuthCredentials();
   const {dateSelected} = useCalendar();
 
-  const {meals, isLoading} = useGetMealsByUserAndDate(
-    authCredentials?.user.id as string,
-    dateSelected.dateString,
-  );
+  const {meals, isLoading} = useGetMealsByUserAndDate(dateSelected.dateString);
 
   const currentMeals = meals.filter(
     meal => meal.mealType === route.params.mealType,

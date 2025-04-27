@@ -24,10 +24,7 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
   const {authCredentials} = useAuthCredentials();
   const {dateSelected} = useCalendar();
 
-  const {meals, isLoading} = useGetMealsByUserAndDate(
-    authCredentials?.user.id as string,
-    dateSelected.dateString,
-  );
+  const {meals, isLoading} = useGetMealsByUserAndDate(dateSelected.dateString);
 
   const {user, isLoading: loadingUser} = useGetUserById(
     authCredentials?.user.id as string,
@@ -35,6 +32,7 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
 
   function openMenu() {
     SheetManager.show('bs-menu');
+    // navigation.navigate('MealsSelectionScreen', {mealType: 'lunch'});
   }
 
   return (

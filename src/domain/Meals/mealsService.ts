@@ -1,21 +1,17 @@
 import {mealsAdapter} from './mealsAdapter';
 import {mealsApi} from './mealsApi';
-import {Meal, CreateMealParams, MealsTypes} from './mealsTypes';
+import {Meal, MealsTypes, CreateMeal} from './mealsTypes';
 
-async function getMealsByUserAndDate(
-  userId: string,
-  date: string,
-): Promise<Meal[]> {
-  const {meals, mealItems} = await mealsApi.getMealsByUserAndDate(userId, date);
-  return meals.map(meal => {
-    const mealItemsList = mealItems.filter(item => item.meal_id === meal.id);
-    return mealsAdapter.toMeal(meal, mealItemsList);
+async function getMealsByUserAndDate(date: string): Promise<Meal[]> {
+  const meals = await mealsApi.getMealsByUserAndDate(date);
+  return meals.map(item => {
+    return mealsAdapter.toMeal(item);
   });
 }
 
-async function createMeal(params: CreateMealParams): Promise<Meal> {
-  const {meal, mealItems} = await mealsApi.createMeal(params);
-  return mealsAdapter.toMeal(meal, mealItems);
+async function createMeal(params: CreateMeal): Promise<Meal> {
+  const meal = await mealsApi.createMeal(params);
+  return mealsAdapter.toMeal(meal);
 }
 
 async function deleteMealsByTypeAndDate(
@@ -32,7 +28,6 @@ async function deleteMealItem(
   return mealsApi.deleteMealItem(mealItemId);
 }
 
-// Update the mealsService export
 export const mealsService = {
   getMealsByUserAndDate,
   createMeal,

@@ -1,4 +1,4 @@
-import {Foods, MealsTypes, Recipe} from '@domain';
+import {Foods, Meal, MealItem, MealsTypes, Recipe} from '@domain';
 import {MealItemType} from '@services';
 
 const food = {
@@ -47,23 +47,67 @@ const recipe = {
   isArchived: false,
 };
 
-const mealItem = [
+const mealItem: MealItem[] = [
   {
     createdAt: '2025-01-17T13:02:26.797366+00:00',
+    updatedAt: '2025-01-17T13:02:26.797366+00:00',
     foodId: 9,
     foodQuantity: 2,
     id: 92,
     mealId: 52,
     recipeId: undefined,
     recipeQuantity: undefined,
+    food: {
+      calories: 100,
+      carbs: 50,
+      categoryId: 17,
+      createdAt: '2025-04-21T06:06:47.693+10:00',
+      fat: 50,
+      fibre: 10,
+      foodImg: '',
+      id: 6,
+      isArchived: false,
+      label: 'Chocolate Bar',
+      protein: 10,
+      servSize: 10,
+      servUnit: 'grams',
+      sodium: 40,
+      userId: 'b4b0ad55-9325-46bf-ba05-89cd54f1e3f7',
+    },
+    recipe: {
+      createdAt: '2025-04-25T09:43:42.614+10:00',
+      id: 3,
+      image: '',
+      isArchived: false,
+      label: 'Noddles',
+      recipeItems: [
+        {
+          createdAt: '2025-04-21T06:06:47.693+10:00',
+          id: 6,
+          foodId: 6,
+          quantity: 1,
+          recipeId: 1,
+        },
+      ],
+      servSize: 1,
+      servUnit: 'bowl',
+      totalCalories: 150,
+      totalCarbs: 22,
+      totalFat: 25,
+      totalFibre: 9,
+      totalProtein: 27,
+      totalSodium: 11,
+      userId: 'b4b0ad55-9325-46bf-ba05-89cd54f1e3f7',
+    },
   },
 ];
 
 const mealType: MealsTypes = 'breakfast';
 
-const meal = [
+const meal: Meal[] = [
   {
     createdAt: '2025-01-17T13:02:26.714983+00:00',
+    updatedAt: '2025-01-17T13:02:26.714983+00:00',
     dateAdded: '2025-01-18',
     id: 52,
     mealItems: mealItem,
@@ -78,6 +122,7 @@ const meal = [
   },
   {
     createdAt: '2025-01-17T13:02:26.714983+00:00',
+    updatedAt: '2025-01-17T13:02:26.714983+00:00',
     dateAdded: '2025-01-18',
     id: 52,
     mealItems: mealItem,

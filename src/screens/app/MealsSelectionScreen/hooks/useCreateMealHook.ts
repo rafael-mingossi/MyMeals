@@ -8,7 +8,6 @@ import {
   useMealItems,
   useToastService,
 } from '@services';
-import {calculateMealItemTotals} from '@utils';
 import {SheetManager} from 'react-native-actions-sheet';
 
 export function useCreateMealHook(mealType: MealsTypes) {
@@ -17,6 +16,7 @@ export function useCreateMealHook(mealType: MealsTypes) {
   const navigation = useNavigation();
   const {showToast} = useToastService();
   const {authCredentials} = useAuthCredentials();
+
   const {mutate: createMeal, isPending} = useCreateMeal({
     onSuccess: () => {
       SheetManager.hide('bs-cart');
@@ -34,29 +34,30 @@ export function useCreateMealHook(mealType: MealsTypes) {
 
   const handleCreateMeal = useCallback(() => {
     const selectedItems = getMealItems();
-    const totals = calculateMealItemTotals.calculateTotals(selectedItems);
 
     if (!authCredentials) {
       return;
     }
 
-    const mealItemsProps = selectedItems.map(item => ({
-      foodId: item.type === 'food' ? item.id : undefined,
-      foodQuantity: item.type === 'food' ? item.quantity : undefined,
-      recipeId: item.type === 'recipe' ? item.id : undefined,
-      recipeQuantity: item.type === 'recipe' ? item.quantity : undefined,
-    }));
+    const mealItemsProps = selectedItems.map(item => {
+      return item.type === 'food'
+        ? {
+            food_item: {
+              food_id: item.id,
+              quantity: item.quantity,
+            },
+          }
+        : {
+            recipe_item: {
+              recipe_id: item.id,
+              quantity: item.quantity,
+            },
+          };
+    });
 
     createMeal({
-      user_id: authCredentials?.user.id,
       meal_type: mealType,
       date_added: dateSelected.dateString,
-      t_calories: totals.calories,
-      t_carbs: totals.carbs,
-      t_fat: totals.fat,
-      t_protein: totals.protein,
-      t_fibre: totals.fibre,
-      t_sodium: totals.sodium,
       items: mealItemsProps,
     });
   }, [

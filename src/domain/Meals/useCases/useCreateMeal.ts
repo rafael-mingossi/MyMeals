@@ -2,18 +2,18 @@ import {MutationOptions, QueryKeys} from '@infra';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 import {mealsService} from '../mealsService';
-import {CreateMealParams, Meal} from '../mealsTypes';
+import {CreateMeal, Meal} from '../mealsTypes';
 
 export function useCreateMeal(options?: MutationOptions<Meal>) {
   const queryClient = useQueryClient();
 
-  const {mutate, isPending} = useMutation<Meal, unknown, CreateMealParams>({
+  const {mutate, isPending} = useMutation<Meal, Error, CreateMeal>({
     mutationFn: params => mealsService.createMeal(params),
     retry: false,
     onError: error => {
       console.log(error);
       if (options?.onError) {
-        // TODO: Handle error
+        options.onError(error.message);
       }
     },
     onSuccess: meal => {

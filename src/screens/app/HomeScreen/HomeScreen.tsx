@@ -32,7 +32,6 @@ export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
 
   function openMenu() {
     SheetManager.show('bs-menu');
-    // navigation.navigate('MealsSelectionScreen', {mealType: 'lunch'});
   }
 
   return (

@@ -15,11 +15,10 @@ async function createMeal(params: CreateMeal): Promise<Meal> {
 }
 
 async function deleteMealsByTypeAndDate(
-  userId: string,
   date: string,
   mealType: MealsTypes,
 ): Promise<void> {
-  return mealsApi.deleteMealsByTypeAndDate(userId, date, mealType);
+  return mealsApi.deleteMealsByTypeAndDate(date, mealType);
 }
 
 async function deleteMealItem(

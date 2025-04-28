@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Meal, MealsTypes, useDeleteMealsByTypeAndDate} from '@domain';
 import {useNavigation} from '@react-navigation/native';
+import {useToastService} from '@services';
 import {calcCalsByMealType} from '@utils';
 
 import {
@@ -31,14 +32,22 @@ export function MealLineItem({
   showOptions = true,
 }: MealLineItemProps) {
   const navigation = useNavigation();
+  const {showToast} = useToastService();
 
   const {mutate: deleteMealsByType, isPending: isDeletingAll} =
     useDeleteMealsByTypeAndDate({
       onSuccess: () => {
-        console.log('DELETED');
+        showToast({
+          message: 'Meals deleted successfully',
+          type: 'success',
+        });
       },
-      onError: () => {
-        console.log('DELETE ALL FAIL');
+      onError: error => {
+        showToast({
+          message: error || 'Failed to delete item',
+          type: 'error',
+        });
+        console.error('Failed to delete meals:', error);
       },
     });
 
@@ -50,7 +59,6 @@ export function MealLineItem({
     }
 
     deleteMealsByType({
-      userId: mealOfThisType.userId,
       date: mealOfThisType.dateAdded,
       mealType: type,
     });

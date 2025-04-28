@@ -9,7 +9,8 @@
     "start": "react-native start",
     "pre-commit": "yarn lint && yarn tsc --noEmit && yarn test",
     "test": "jest --verbose",
-    "art:3333": "adb reverse tcp:3333 tcp:3333"
+    "art:3333": "adb reverse tcp:3333 tcp:3333",
+    "art:3333physical": "adb -d reverse tcp:3333 tcp:3333"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

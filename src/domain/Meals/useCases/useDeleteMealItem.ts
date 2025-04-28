@@ -24,7 +24,7 @@ export function useDeleteMealItem(
     },
     onSuccess: result => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Meals, result.userId, result.dateAdded],
+        queryKey: [QueryKeys.Meals, 'user', result.dateAdded],
       });
       if (options?.onSuccess) {
         options.onSuccess(result);

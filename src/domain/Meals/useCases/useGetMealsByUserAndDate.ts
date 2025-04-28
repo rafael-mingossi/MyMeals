@@ -10,7 +10,7 @@ export function useGetMealsByUserAndDate(date: string) {
     isLoading,
     error,
   } = useQuery<Meal[], Error>({
-    queryKey: [QueryKeys.Meals, date],
+    queryKey: [QueryKeys.Meals, 'user', date],
     queryFn: () => mealsService.getMealsByUserAndDate(date),
   });
 

@@ -18,7 +18,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {Toast} from '@components';
 import {useAppColorScheme} from '@hooks';
 import {darkTheme, theme} from '@theme';
-// import '@types/sheets';
+import '@types/sheets';
 
 import {Router} from './src/routes/Routes.tsx';
 import {settingsService} from './src/services/settings/settingsService.ts';

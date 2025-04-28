@@ -18,7 +18,7 @@ export function useCreateMeal(options?: MutationOptions<Meal>) {
     },
     onSuccess: meal => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Meals, meal.userId, meal.dateAdded],
+        queryKey: [QueryKeys.Meals, 'user', meal.dateAdded],
       });
       if (options?.onSuccess) {
         options.onSuccess(meal);

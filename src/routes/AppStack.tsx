@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {MealsTypes, User} from '@domain';
+import {MealsTypes, User, useSaveNotificationToken} from '@domain';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useNotificationAction, usePermission} from '@services';
 
 import {
   FoodsSelectionScreen,
@@ -44,6 +45,10 @@ interface Props {
 }
 
 export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
+  useSaveNotificationToken();
+  useNotificationAction();
+  usePermission('notification');
+
   return (
     <Stack.Navigator
       initialRouteName={initialRouteName}

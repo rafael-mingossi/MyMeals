@@ -6,8 +6,7 @@ import React, {
 } from 'react';
 
 import {registerInterceptor} from '@api';
-import {AuthCredentials, User} from '@domain';
-import {authService} from '@domain';
+import {AuthCredentials, User, authService, userService} from '@domain';
 import {AuthCredentialsService} from '@services';
 
 import {authCredentialsStorage} from '../authCredentialsStorage.ts';
@@ -69,6 +68,7 @@ export function AuthCredentialsProvider({children}: PropsWithChildren<{}>) {
   }
 
   async function removeCredentials() {
+    userService.deleteNotificationToken();
     authService.removeToken();
     await authCredentialsStorage.remove();
     setAuthCredentials(null);

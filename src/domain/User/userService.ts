@@ -15,12 +15,21 @@ async function updateUser(userData: UpdateUserParams): Promise<User> {
 }
 
 async function deleteUser(userId: string): Promise<string> {
-  const deletedUser = await userApi.deleteUser(userId);
-  return deletedUser;
+  return await userApi.deleteUser(userId);
+}
+
+async function addNotificationToken(token: string): Promise<string> {
+  return userApi.addNotificationToken(token);
+}
+
+async function deleteNotificationToken(): Promise<string> {
+  return userApi.deleteNotificationToken();
 }
 
 export const userService = {
   getUserById,
   updateUser,
   deleteUser,
+  addNotificationToken,
+  deleteNotificationToken,
 };

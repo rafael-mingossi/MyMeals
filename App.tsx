@@ -1,14 +1,15 @@
 import React, {useEffect} from 'react';
-import {PermissionsAndroid} from 'react-native';
-import {Platform} from 'react-native';
 
-import {getApp} from '@react-native-firebase/app';
-import {
-  getMessaging,
-  getToken,
-  requestPermission,
-  AuthorizationStatus,
-} from '@react-native-firebase/messaging';
+// import {PermissionsAndroid} from 'react-native';
+// import {Platform} from 'react-native';
+//
+// import {getApp} from '@react-native-firebase/app';
+// import {
+//   getMessaging,
+//   getToken,
+//   requestPermission,
+//   AuthorizationStatus,
+// } from '@react-native-firebase/messaging';
 import {AuthCredentialsProvider} from '@services';
 import {initialiseStorage, MMKVStorage} from '@services';
 import {useAppColor} from '@services';
@@ -27,29 +28,29 @@ initialiseStorage(MMKVStorage);
 
 const queryClient = new QueryClient();
 
-// Get the messaging instance using getApp()
-const messaging = getMessaging(getApp());
-
-async function requestUserPermission() {
-  // Get token using the messaging instance
-  const token = await getToken(messaging);
-  console.log({tokenXXX: token});
-
-  if (Platform.OS === 'ios') {
-    const authStatus = await requestPermission(messaging);
-    const enabled =
-      authStatus === AuthorizationStatus.AUTHORIZED ||
-      authStatus === AuthorizationStatus.PROVISIONAL;
-
-    if (enabled) {
-      console.log('Authorization status:', authStatus);
-    }
-  } else {
-    await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-    );
-  }
-}
+// // Get the messaging instance using getApp()
+// const messaging = getMessaging(getApp());
+//
+// async function requestUserPermission() {
+//   // Get token using the messaging instance
+//   const token = await getToken(messaging);
+//   console.log({tokenXXX: token});
+//
+//   if (Platform.OS === 'ios') {
+//     const authStatus = await requestPermission(messaging);
+//     const enabled =
+//       authStatus === AuthorizationStatus.AUTHORIZED ||
+//       authStatus === AuthorizationStatus.PROVISIONAL;
+//
+//     if (enabled) {
+//       console.log('Authorization status:', authStatus);
+//     }
+//   } else {
+//     await PermissionsAndroid.request(
+//       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+//     );
+//   }
+// }
 
 function App(): React.JSX.Element {
   useAppColorScheme();
@@ -58,10 +59,6 @@ function App(): React.JSX.Element {
   useEffect(() => {
     settingsService.handleStatusBar(appColor);
   }, [appColor]);
-
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
 
   return (
     <AuthCredentialsProvider>
